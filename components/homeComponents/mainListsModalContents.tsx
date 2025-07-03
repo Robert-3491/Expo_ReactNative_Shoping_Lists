@@ -6,19 +6,52 @@ import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
+import { useState } from "react";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
+  setActiveList: (mainListTitle: string) => void; // Optional prop to set the active list
 }
 
-export default function MainListsModalContents({ setModalVisible }: IProps) {
-  const data = MainListsContainer.getMainLists();
+export default function MainListsModalContents({
+  setModalVisible,
+  setActiveList,
+}: IProps) {
+  // State to hold the main lists
+  const [mainLists, setMainLists] = useState<MainList[]>(
+    MainListsContainer.getMainLists()
+  );
 
+  // Function to handle reloading the main lists
+  const handleReloadMainList = () => {
+    setMainLists(MainListsContainer.getMainLists()); // Reload the main lists
+    setModalVisible(false); // Close the modal after reloading
+  };
+
+  const handleMainListPress = (item: MainList) => () => {
+    MainListsContainer.SetInactiveLists(); // Set all lists to inactive
+    item.isActive = true; // Set the pressed list as active
+    setActiveList(item.title); // Set the active list title
+    setModalVisible(false); // Close the modal after selecting a list
+  };
+
+  // Render function for each main list item
   const renderMainList = ({ item }: { item: MainList }) => {
     return (
-      <View style={styles.item}>
-        <Text style={styles.itemText}>{item.title}</Text>
-      </View>
+      <Pressable onPress={handleMainListPress(item)}>
+        <Text
+          style={[
+            styles.itemText,
+            {
+              backgroundColor: item.isActive
+                ? colors.primaryLight
+                : colors.borderLight,
+            },
+          ]}
+        >
+          {item.title}
+        </Text>
+      </Pressable>
     );
   };
 
@@ -42,9 +75,14 @@ export default function MainListsModalContents({ setModalVisible }: IProps) {
 
   return (
     <View style={styles.container}>
-      <AddMainList />
+      {/* Fixed element for adding a new list */}
+      <AddMainList
+        reloadMainList={handleReloadMainList}
+        setActiveList={setActiveList}
+      />
+      {/* Swipeable FlatList for main lists */}
       <SwipeableFlatList
-        data={data}
+        data={mainLists}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderMainList}
         renderLeftActions={renderLeftActions}
@@ -58,18 +96,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  item: {
-    paddingLeft: 10,
-    paddingVertical: 15,
-    marginVertical: 5,
-    backgroundColor: colors.borderLight,
-    width: "100%",
-    color: colors.text,
-    borderRadius: 5,
-  },
   itemText: {
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     color: colors.text,
     fontSize: 18,
+    backgroundColor: colors.borderLight,
+    marginVertical: 5,
+    width: "100%",
+    borderRadius: 5,
   },
   leftAction: {
     backgroundColor: "#007AFF",

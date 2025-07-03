@@ -3,15 +3,33 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
+import * as MainListsContainer from "@/containers/mainListsContainer";
+import { MainList } from "@/data/models/mainList";
 
-export default function AddMainList() {
+interface IProps {
+  reloadMainList: () => void;
+  setActiveList: (mainListTitle: string) => void;
+}
+
+export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   const [title, setTitle] = useState("");
   const [isInputFocus, setisInputFocus] = useState(false);
 
+  // Reference for handleIconPress focusing
   const textInputRef = useRef<TextInput>(null);
 
-  function handleIconPress(): void {
-    title.length > 0 ? console.log("test") : textInputRef.current?.focus();
+  // Function to add a new main list. To be called by icon and keyboard submit
+  const addMainList = () => {
+    if (title.length > 0) {
+      MainListsContainer.addMainList(new MainList(title));
+      reloadMainList();
+      setActiveList(title); // Set the active list Title
+    }
+  };
+  // Function to handle ADD icon press
+  function handleIconPress() {
+    addMainList();
+    textInputRef.current?.focus();
   }
 
   return (
@@ -33,7 +51,9 @@ export default function AddMainList() {
         onBlur={() => setisInputFocus(false)}
         value={title}
         onChangeText={(text) => setTitle(text)}
+        onSubmitEditing={() => addMainList()}
       />
+      {/* Pressable icon that adds the new list or focus on TextInput */}
       <Pressable style={styles.container} onPress={() => handleIconPress()}>
         <Ionicons
           style={styles.addIcon}
