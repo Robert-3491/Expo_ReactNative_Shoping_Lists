@@ -8,9 +8,10 @@ import {
   LayoutChangeEvent,
   useWindowDimensions,
 } from "react-native";
-import { colors } from "../../../assets/colors";
+import { colors } from "../../assets/colors";
 import { useState } from "react";
-import TopSectionAllLists from "./topSectionAllList";
+import MainListsModalContents from "./mainListsModalContents";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function TopSection() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,25 +49,27 @@ export default function TopSection() {
           setModalVisible(!modalVisible);
         }}
       >
-        <Pressable
-          style={StyleSheet.absoluteFill}
-          onPress={() => setModalVisible(!modalVisible)}
-        />
+        <GestureHandlerRootView>
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={() => setModalVisible(!modalVisible)}
+          />
 
-        <View style={styles.centeredView}>
-          <View
-            style={[
-              styles.modalView,
-              {
-                marginTop: pressableHeight + 2,
-                height: modalHeight,
-              },
-            ]}
-          >
-            {/* THE LISTS COMPONENT*/}
-            <TopSectionAllLists setModalVisible={setModalVisible} />
+          <View style={styles.modalPosition}>
+            <View
+              style={[
+                styles.modalView,
+                {
+                  marginTop: pressableHeight + 4,
+                  height: modalHeight,
+                },
+              ]}
+            >
+              {/* THE MAIN LISTS COMPONENT + ADD MAIN LIST*/}
+              <MainListsModalContents setModalVisible={setModalVisible} />
+            </View>
           </View>
-        </View>
+        </GestureHandlerRootView>
       </Modal>
     </View>
   );
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
   },
 
   // Modal Styling
-  centeredView: {
+  modalPosition: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-start",
@@ -110,5 +113,6 @@ const styles = StyleSheet.create({
     padding: 5,
     borderColor: colors.borderLight,
     borderWidth: 2,
+    borderTopWidth: 0,
   },
 });

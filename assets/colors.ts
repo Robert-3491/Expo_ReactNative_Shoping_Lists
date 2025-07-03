@@ -1,5 +1,7 @@
 export const colors = {
   primary: "#0D47A1", // Blue 500
+  primaryLight: "#1976D2", // Blue 500
+  primaryVariant: "#1565C0",
   background: "#111827", // Gray 900
   card: "#1F2937", // Gray 800
   text: "#E6E9F0", // Gray 50

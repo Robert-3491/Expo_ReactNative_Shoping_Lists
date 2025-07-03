@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, StatusBar, SafeAreaView } from "react-native";
 
-import TopSection from "./components/homeComponents/topSection";
+import TopSection from "../components/homeComponents/topSection";
 import { colors } from "../assets/colors";
 
 export default function Index() {
