@@ -6,18 +6,42 @@ import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
+import { useState } from "react";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
+  setActiveList: (mainListTitle: string) => void; // Optional prop to set the active list
 }
 
-export default function MainListsModalContents({ setModalVisible }: IProps) {
-  const data = MainListsContainer.getMainLists();
-
+export default function MainListsModalContents({
+  setModalVisible,
+  setActiveList,
+}: IProps) {
+  // State to hold the main lists
+  const [mainLists, setMainLists] = useState<MainList[]>(
+    MainListsContainer.getMainLists()
+  );
+  // Function to handle reloading the main lists
+  const handleReloadMainList = () => {
+    setMainLists(MainListsContainer.getMainLists()); // Reload the main lists
+    setModalVisible(false); // Close the modal after reloading
+  };
+  // Render function for each main list item
   const renderMainList = ({ item }: { item: MainList }) => {
     return (
       <View style={styles.item}>
-        <Text style={styles.itemText}>{item.title}</Text>
+        <Text
+          style={[
+            styles.itemText,
+            {
+              backgroundColor: item.isActive
+                ? colors.primaryLight
+                : colors.borderLight,
+            },
+          ]}
+        >
+          {item.title}
+        </Text>
       </View>
     );
   };
@@ -42,9 +66,14 @@ export default function MainListsModalContents({ setModalVisible }: IProps) {
 
   return (
     <View style={styles.container}>
-      <AddMainList />
+      {/* Fixed element for adding a new list */}
+      <AddMainList
+        reloadMainList={handleReloadMainList}
+        setActiveList={setActiveList}
+      />
+      {/* Swipeable FlatList for main lists */}
       <SwipeableFlatList
-        data={data}
+        data={mainLists}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderMainList}
         renderLeftActions={renderLeftActions}
@@ -59,17 +88,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    paddingLeft: 10,
-    paddingVertical: 15,
     marginVertical: 5,
-    backgroundColor: colors.borderLight,
     width: "100%",
-    color: colors.text,
-    borderRadius: 5,
   },
   itemText: {
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     color: colors.text,
     fontSize: 18,
+    backgroundColor: colors.borderLight,
+    borderRadius: 5,
   },
   leftAction: {
     backgroundColor: "#007AFF",

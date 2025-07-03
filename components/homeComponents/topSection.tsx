@@ -14,19 +14,22 @@ import MainListsModalContents from "./mainListsModalContents";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function TopSection() {
+  const [activeList, setActiveList] = useState("No list created yet");
   const [modalVisible, setModalVisible] = useState(false);
   const [pressableHeight, setPressableHeight] = useState(0);
   const { height: screenHeight } = useWindowDimensions();
 
+  // Function to get the HEIGHT of the Pressable component - to be used for modal top margin
   const handlePressableLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
     setPressableHeight(height);
   };
-
-  const modalHeight = screenHeight - pressableHeight - 4;
+  // Calculate the height of the modal based on screen height and pressable height
+  const modalHeight = screenHeight - pressableHeight;
 
   return (
     <View style={styles.container}>
+      {/* Pressable section that toggles the modal */}
       <Pressable
         onPress={() => setModalVisible(!modalVisible)}
         style={styles.pressSection}
@@ -37,10 +40,11 @@ export default function TopSection() {
           style={[styles.dropdownIcon, styles.pressSectionElements]}
         />
         <Text style={[styles.activeListsText, styles.pressSectionElements]}>
-          Active List
+          {activeList}
         </Text>
       </Pressable>
 
+      {/* The modal that contains the main lists */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -49,24 +53,29 @@ export default function TopSection() {
           setModalVisible(!modalVisible);
         }}
       >
+        {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
         <GestureHandlerRootView>
+          {/* Close the modal when tapping outside the modal content */}
           <Pressable
             style={StyleSheet.absoluteFill}
             onPress={() => setModalVisible(!modalVisible)}
           />
-
+          {/* The modal content */}
           <View style={styles.modalPosition}>
             <View
               style={[
                 styles.modalView,
                 {
                   marginTop: pressableHeight + 4,
-                  height: modalHeight,
+                  height: modalHeight - 4,
                 },
               ]}
             >
-              {/* THE MAIN LISTS COMPONENT + ADD MAIN LIST*/}
-              <MainListsModalContents setModalVisible={setModalVisible} />
+              {/* MainListsModalContents => the component that renders the lists */}
+              <MainListsModalContents
+                setModalVisible={setModalVisible}
+                setActiveList={setActiveList}
+              />
             </View>
           </View>
         </GestureHandlerRootView>

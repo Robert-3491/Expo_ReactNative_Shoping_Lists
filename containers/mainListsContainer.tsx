@@ -1,15 +1,19 @@
 import { MainList } from "@/data/models/mainList";
 
-let mainLists: MainList[] = [
-  new MainList("New List"),
-  new MainList("New List1"),
-  new MainList("New List2"),
-];
+let mainLists: MainList[] = [];
 
-export const setMainLists = (newMainLists: MainList[]) => {
-  mainLists = newMainLists;
-  const newList = new MainList("New List");
-  mainLists.push(newList);
+// export const setMainLists = (newMainLists: MainList[]) => {
+// };
+
+function SetInactiveLists() {
+  mainLists.forEach((list) => {
+    list.isActive = false; // Set all existing lists to inactive
+  });
+}
+
+export const addMainList = (newMainList: MainList) => {
+  SetInactiveLists();
+  mainLists = [...mainLists, newMainList]; //This will make the update reactive
 };
 
 export const getMainLists = (): MainList[] => {
