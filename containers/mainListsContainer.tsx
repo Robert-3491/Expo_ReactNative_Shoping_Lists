@@ -5,7 +5,7 @@ let mainLists: MainList[] = [];
 // export const setMainLists = (newMainLists: MainList[]) => {
 // };
 
-function SetInactiveLists() {
+export function SetInactiveLists() {
   mainLists.forEach((list) => {
     list.isActive = false; // Set all existing lists to inactive
   });

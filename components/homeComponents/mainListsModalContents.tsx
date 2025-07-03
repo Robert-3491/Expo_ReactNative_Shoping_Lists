@@ -21,15 +21,24 @@ export default function MainListsModalContents({
   const [mainLists, setMainLists] = useState<MainList[]>(
     MainListsContainer.getMainLists()
   );
+
   // Function to handle reloading the main lists
   const handleReloadMainList = () => {
     setMainLists(MainListsContainer.getMainLists()); // Reload the main lists
     setModalVisible(false); // Close the modal after reloading
   };
+
+  const handleMainListPress = (item: MainList) => () => {
+    MainListsContainer.SetInactiveLists(); // Set all lists to inactive
+    item.isActive = true; // Set the pressed list as active
+    setActiveList(item.title); // Set the active list title
+    setModalVisible(false); // Close the modal after selecting a list
+  };
+
   // Render function for each main list item
   const renderMainList = ({ item }: { item: MainList }) => {
     return (
-      <View style={styles.item}>
+      <Pressable onPress={handleMainListPress(item)}>
         <Text
           style={[
             styles.itemText,
@@ -42,7 +51,7 @@ export default function MainListsModalContents({
         >
           {item.title}
         </Text>
-      </View>
+      </Pressable>
     );
   };
 
@@ -87,16 +96,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  item: {
-    marginVertical: 5,
-    width: "100%",
-  },
   itemText: {
     paddingHorizontal: 10,
     paddingVertical: 15,
     color: colors.text,
     fontSize: 18,
     backgroundColor: colors.borderLight,
+    marginVertical: 5,
+    width: "100%",
     borderRadius: 5,
   },
   leftAction: {
