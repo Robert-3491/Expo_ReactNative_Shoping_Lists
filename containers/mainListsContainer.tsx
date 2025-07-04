@@ -1,4 +1,10 @@
 import { MainList } from "@/data/models/mainList";
+import { useEffect } from "react";
+import * as dbRepo from "@/data/db/dbRepo";
+
+useEffect(() => {
+  initializeMainLists();
+}, []);
 
 let mainLists: MainList[] = [];
 
@@ -19,3 +25,9 @@ export const addMainList = (newMainList: MainList) => {
 export const getMainLists = (): MainList[] => {
   return mainLists;
 };
+
+async function initializeMainLists() {
+  mainLists = (await dbRepo.getAllMainLists()).map(
+    (list) => new MainList(list.title, list.isActive, list.id)
+  );
+}

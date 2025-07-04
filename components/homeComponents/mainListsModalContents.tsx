@@ -4,6 +4,7 @@ import "react-native-gesture-handler";
 import { Pressable } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
+import * as dbRepo from "@/data/db/dbRepo";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import { useState } from "react";
@@ -30,7 +31,9 @@ export default function MainListsModalContents({
 
   const handleMainListPress = (item: MainList) => () => {
     MainListsContainer.SetInactiveLists(); // Set all lists to inactive
+    dbRepo.setAllInactive(); // Ensure the database reflects this change
     item.isActive = true; // Set the pressed list as active
+    dbRepo.setActiveMainList(item.id); // Update the database to set this list as active
     setActiveList(item.title); // Set the active list title
     setModalVisible(false); // Close the modal after selecting a list
   };
@@ -65,7 +68,7 @@ export default function MainListsModalContents({
 
   const renderRightActions = (item: MainList) => {
     return (
-      <Pressable onPress={() => console.log("Delete action pressed: ", item)}>
+      <Pressable onPress={() => dbRepo.deleteMainList(item.id)}>
         <View style={styles.rightAction}>
           <Text>Delete</Text>
         </View>
@@ -83,7 +86,7 @@ export default function MainListsModalContents({
       {/* Swipeable FlatList for main lists */}
       <SwipeableFlatList
         data={mainLists}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderMainList}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
