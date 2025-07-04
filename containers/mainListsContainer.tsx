@@ -1,6 +1,6 @@
 import { MainList } from "@/data/models/mainList";
 import { useEffect } from "react";
-import * as dbRepo from "@/data/db/dbRepo";
+import * as dbRepo from "@/data/db/dbRepoList";
 
 useEffect(() => {
   initializeMainLists();
@@ -20,6 +20,11 @@ export function SetInactiveLists() {
 export const addMainList = (newMainList: MainList) => {
   SetInactiveLists();
   mainLists = [...mainLists, newMainList]; //This will make the update reactive
+};
+
+export const deleteMainList = (id: number) => {
+  mainLists = mainLists.filter((list) => list.id !== id);
+  console.log("MainList deleted:", id);
 };
 
 export const getMainLists = (): MainList[] => {

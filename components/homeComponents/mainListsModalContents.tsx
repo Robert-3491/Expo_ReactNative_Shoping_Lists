@@ -4,7 +4,7 @@ import "react-native-gesture-handler";
 import { Pressable } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
-import * as dbRepo from "@/data/db/dbRepo";
+import * as dbRepoList from "@/data/db/dbRepoList";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import { useState } from "react";
@@ -29,11 +29,12 @@ export default function MainListsModalContents({
     setModalVisible(false); // Close the modal after reloading
   };
 
+  //Change the active list when a main list is pressed
   const handleMainListPress = (item: MainList) => () => {
     MainListsContainer.SetInactiveLists(); // Set all lists to inactive
-    dbRepo.setAllInactive(); // Ensure the database reflects this change
+    dbRepoList.setAllInactive(); // Ensure the database reflects this change
     item.isActive = true; // Set the pressed list as active
-    dbRepo.setActiveMainList(item.id); // Update the database to set this list as active
+    dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
     setActiveList(item.title); // Set the active list title
     setModalVisible(false); // Close the modal after selecting a list
   };
@@ -66,9 +67,27 @@ export default function MainListsModalContents({
     );
   };
 
+  // Function to handle deleting a main list - From swipe Right action
+  function handleDeleteList(item: MainList): void {
+    dbRepoList.deleteMainList(item.id); // Remove from database
+    MainListsContainer.deleteMainList(item.id); // Remove from local state
+    const updatedLists = MainListsContainer.getMainLists(); // Get updated lists from local state
+    setMainLists(updatedLists); // Refresh local state with updated lists from database - state available on next render
+
+    if (item.isActive) {
+      if (updatedLists.length > 0) {
+        updatedLists[0].isActive = true; // Set the first list as active if available
+        setActiveList(updatedLists[0].title); // Update the active list title
+        dbRepoList.setActiveMainList(updatedLists[0].id); // Update the database with the new active list
+      } else {
+        setActiveList("No list created yet"); // Set a default message if no lists are left
+      } // Clear active list if no lists are left
+    }
+  }
+
   const renderRightActions = (item: MainList) => {
     return (
-      <Pressable onPress={() => dbRepo.deleteMainList(item.id)}>
+      <Pressable onPress={() => handleDeleteList(item)}>
         <View style={styles.rightAction}>
           <Text>Delete</Text>
         </View>

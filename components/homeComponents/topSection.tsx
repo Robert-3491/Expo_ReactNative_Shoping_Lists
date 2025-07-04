@@ -12,7 +12,7 @@ import { colors } from "../../assets/colors";
 import { useState, useEffect } from "react";
 import MainListsModalContents from "./mainListsModalContents";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import * as dbRepo from "@/data/db/dbRepo";
+import * as dbRepoList from "@/data/db/dbRepoList";
 
 export default function TopSection() {
   const [activeList, setActiveList] = useState("Loading...");
@@ -24,7 +24,7 @@ export default function TopSection() {
   useEffect(() => {
     const loadActiveList = async () => {
       try {
-        const activeMainList = await dbRepo.getActiveMainList();
+        const activeMainList = await dbRepoList.getActiveMainList();
         if (activeMainList) {
           setActiveList(activeMainList.title);
         } else {

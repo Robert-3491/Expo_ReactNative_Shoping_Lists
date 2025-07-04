@@ -53,7 +53,7 @@ export const updateMainList = async (
 export const deleteMainList = async (id: number): Promise<void> => {
   try {
     db.runSync("DELETE FROM mainlists WHERE id = ?", [id]);
-    console.log("MainList deleted:", id);
+    console.log("MainList deleted from db:", id);
   } catch (error) {
     console.error("Error deleting MainList:", error);
     throw error;
@@ -84,9 +84,6 @@ export const setAllInactive = async (): Promise<void> => {
 
 export const setActiveMainList = async (id: number): Promise<void> => {
   try {
-    // First set all to inactive
-    await setAllInactive();
-    // Then set the selected one as active
     db.runSync("UPDATE mainlists SET isActive = 1 WHERE id = ?", [id]);
     console.log("MainList set as active:", id);
   } catch (error) {
