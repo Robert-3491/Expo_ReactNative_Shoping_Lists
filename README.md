@@ -1,3 +1,4 @@
+markdown```
 RootLayout (\_layout.tsx)
 └── Stack (Expo Router)
 └── Index (index.tsx)
@@ -25,3 +26,7 @@ RootLayout (\_layout.tsx)
 └── RightAction (Delete)
 └── Pressable
 └── Text ("Delete")
+
+```
+
+```
