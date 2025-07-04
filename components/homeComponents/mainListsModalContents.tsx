@@ -10,21 +10,21 @@ import { useState } from "react";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
-  setActiveList: (mainListTitle: string) => void; // Optional prop to set the active list
+  setActiveList: (mainListTitle: string) => void; // Prop to set thea active Main List Title
 }
 
 export default function MainListsModalContents({
   setModalVisible,
   setActiveList,
 }: IProps) {
-  // State to hold the main lists
+  // State to hold the Main Lists
   const [mainLists, setMainLists] = useState<MainList[]>(
     MainListsContainer.getMainLists()
   );
 
-  // Function to handle reloading the main lists
+  // Function to handle reloading the Main Lists
   const handleReloadMainList = () => {
-    setMainLists(MainListsContainer.getMainLists()); // Reload the main lists
+    setMainLists(MainListsContainer.getMainLists()); // Reload the Main Lists
     setModalVisible(false); // Close the modal after reloading
   };
 
