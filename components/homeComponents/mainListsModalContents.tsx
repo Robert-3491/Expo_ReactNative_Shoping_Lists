@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import "react-native-gesture-handler";
-import { Pressable } from "react-native-gesture-handler";
+import { Pressable, TextInput } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import { useState } from "react";
+import { useRef } from "react";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
@@ -22,6 +23,14 @@ export default function MainListsModalContents({
   const [mainLists, setMainLists] = useState<MainList[]>(
     MainListsContainer.getMainLists()
   );
+  // State to manage the editing mode of the Main Lists - blocks selection of lists on edit
+  const [isMainListEditing, setIsMainListEditing] = useState(false);
+
+  // State to manage the text input for editing main list titles
+  const [editText, setEditText] = useState("");
+
+  // Ref to hold the SwipeableFlatList instance for closing the open rows on edit
+  const swipeListRef = useRef<any>(null);
 
   // Function to handle reloading the Main Lists
   const handleReloadMainList = () => {
@@ -31,6 +40,9 @@ export default function MainListsModalContents({
 
   //Change the active list when a main list is pressed
   const handleMainListPress = (item: MainList) => () => {
+    if (isMainListEditing) {
+      return;
+    }
     MainListsContainer.SetInactiveLists(); // Set all lists to inactive
     dbRepoList.setAllInactive(); // Ensure the database reflects this change
     item.isActive = true; // Set the pressed list as active
@@ -39,31 +51,76 @@ export default function MainListsModalContents({
     setModalVisible(false); // Close the modal after selecting a list
   };
 
+  function handleTitleChange(id: number, text: string): void {
+    setEditText(text); // Update the text input value
+  }
+
+  // To be used byt text input onBlur and subbmit event
+  const handleSaveEdit = (item: MainList) => {
+    console.log(`Saving edit for list ID: ${item.id}, new title: ${editText}`);
+  };
+
   // Render function for each main list item
   const renderMainList = ({ item }: { item: MainList }) => {
     return (
       <Pressable onPress={handleMainListPress(item)}>
-        <Text
-          style={[
-            styles.itemText,
-            {
-              backgroundColor: item.isActive
-                ? colors.primaryLight
-                : colors.borderLight,
-            },
-          ]}
-        >
-          {item.title}
-        </Text>
+        {item.isEditing ? (
+          // TextInput mounts fresh when editing starts
+          <TextInput
+            autoCorrect={false}
+            cursorColor={colors.text}
+            autoFocus={true}
+            value={editText}
+            onFocus={() => {
+              setEditText(item.title); // Set the text input value to the current title when focused
+            }}
+            onChangeText={(text) => handleTitleChange(item.id, text)}
+            onBlur={() => handleSaveEdit(item)}
+            style={[
+              styles.itemText,
+              styles.itemEdit,
+              {
+                backgroundColor: item.isActive
+                  ? colors.primaryLight
+                  : colors.borderLight,
+              },
+            ]}
+          />
+        ) : (
+          // Regular text when not editing
+          <Text
+            style={[
+              styles.itemText,
+              {
+                backgroundColor: item.isActive
+                  ? colors.primaryLight
+                  : colors.borderLight,
+              },
+            ]}
+          >
+            {item.title}
+          </Text>
+        )}
       </Pressable>
     );
   };
 
+  const handleEditPress = (item: MainList) => {
+    setIsMainListEditing(true); // Set editing mode to true - prevent selection of lists
+    item.isEditing = true; // Set the item to editing mode
+    swipeListRef.current?.closeAnyOpenRows(); // Close any open swipeable items
+  };
+
   const renderLeftActions = (item: MainList) => {
+    if (isMainListEditing) {
+      return; // Do not render left action if in editing mode
+    }
     return (
-      <View style={styles.leftAction}>
-        <Text>Edit</Text>
-      </View>
+      <Pressable onPress={() => handleEditPress(item)}>
+        <View style={styles.leftAction}>
+          <Text>Edit</Text>
+        </View>
+      </Pressable>
     );
   };
 
@@ -86,6 +143,9 @@ export default function MainListsModalContents({
   }
 
   const renderRightActions = (item: MainList) => {
+    if (isMainListEditing) {
+      return; // Do not render right action if in editing mode
+    }
     return (
       <Pressable onPress={() => handleDeleteList(item)}>
         <View style={styles.rightAction}>
@@ -104,6 +164,7 @@ export default function MainListsModalContents({
       />
       {/* Swipeable FlatList for main lists */}
       <SwipeableFlatList
+        ref={swipeListRef}
         data={mainLists}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderMainList}
@@ -127,6 +188,10 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width: "100%",
     borderRadius: 5,
+  },
+  itemEdit: {
+    borderWidth: 1.5,
+    borderColor: colors.edit,
   },
   leftAction: {
     backgroundColor: "#007AFF",

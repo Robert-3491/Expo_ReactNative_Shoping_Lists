@@ -23,15 +23,10 @@ export default function TopSection() {
   // Load active list on component mount
   useEffect(() => {
     const loadActiveList = async () => {
-      try {
-        const activeMainList = await dbRepoList.getActiveMainList();
-        if (activeMainList) {
-          setActiveList(activeMainList.title);
-        } else {
-          setActiveList("No list created yet");
-        }
-      } catch (error) {
-        console.error("Error loading active list:", error);
+      const activeMainList = await dbRepoList.getActiveMainList();
+      if (activeMainList) {
+        setActiveList(activeMainList.title);
+      } else {
         setActiveList("No list created yet");
       }
     };

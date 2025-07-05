@@ -4,6 +4,7 @@ import TopSection from "../components/homeComponents/topSection";
 import { colors } from "../assets/colors";
 import { initializeDatabase } from "@/data/db/databaseService";
 import { useEffect } from "react";
+import { BottomTabView } from "@react-navigation/bottom-tabs";
 
 useEffect(() => {
   initializeDatabase();
