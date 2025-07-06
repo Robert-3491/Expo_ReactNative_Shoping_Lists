@@ -117,6 +117,7 @@ export default function MainListsModalContents({
     swipeListRef.current?.closeAnyOpenRows(); // Close any open swipeable items
   };
 
+  // RENDER LEFT ACTIONS
   const renderLeftActions = (item: MainList) => {
     if (isMainListEditing) {
       return; // Do not render left action if in editing mode
@@ -130,7 +131,7 @@ export default function MainListsModalContents({
     );
   };
 
-  // Function to handle deleting a main list - From swipe Right action
+  // Function to handle deleting a main list - for RIGHT ACTION
   function handleDeleteList(item: MainList): void {
     dbRepoList.deleteMainList(item.id); // Remove from database
     MainListsContainer.deleteMainList(item.id); // Remove from local state
@@ -148,6 +149,7 @@ export default function MainListsModalContents({
     }
   }
 
+  // RENDER RIGHT ACTIONS
   const renderRightActions = (item: MainList) => {
     if (isMainListEditing) {
       return; // Do not render right action if in editing mode
