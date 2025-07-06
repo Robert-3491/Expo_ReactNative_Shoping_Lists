@@ -4,6 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
 import * as MainListsContainer from "@/containers/mainListsContainer";
+import * as dbRepoList from "@/data/db/dbRepoList";
 import { MainList } from "@/data/models/mainList";
 
 interface IProps {
@@ -19,9 +20,12 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   const textInputRef = useRef<TextInput>(null);
 
   // Function to add a new main list. To be called by icon and keyboard submit
-  const addMainList = () => {
+  const addMainList = async () => {
     if (title.length > 0) {
-      MainListsContainer.addMainList(new MainList(title));
+      dbRepoList.setAllInactive(); // Set all existing lists to inactive
+      const newList = new MainList(title, true); // Create a new MainList instance
+      newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
+      MainListsContainer.addMainList(newList);
       reloadMainList();
       setActiveList(title); // Set the active list Title
     }
@@ -37,7 +41,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
       <TextInput
         ref={textInputRef}
         autoCorrect={false}
-        placeholder="Add new list"
+        placeholder="Press to add a new list"
         placeholderTextColor={colors.disabled}
         selectTextOnFocus={true}
         style={[

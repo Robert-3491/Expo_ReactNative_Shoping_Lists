@@ -9,15 +9,30 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { colors } from "../../assets/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainListsModalContents from "./mainListsModalContents";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as dbRepoList from "@/data/db/dbRepoList";
 
 export default function TopSection() {
-  const [activeList, setActiveList] = useState("No list created yet");
+  const [activeList, setActiveList] = useState("Loading...");
   const [modalVisible, setModalVisible] = useState(false);
   const [pressableHeight, setPressableHeight] = useState(0);
   const { height: screenHeight } = useWindowDimensions();
+
+  // Load active list on component mount
+  useEffect(() => {
+    const loadActiveList = async () => {
+      const activeMainList = await dbRepoList.getActiveMainList();
+      if (activeMainList) {
+        setActiveList(activeMainList.title);
+      } else {
+        setActiveList("No list created yet");
+      }
+    };
+
+    loadActiveList();
+  }, []);
 
   // Function to get the HEIGHT of the Pressable component - to be used for modal top margin
   const handlePressableLayout = (event: LayoutChangeEvent) => {
