@@ -40,7 +40,7 @@ export default function MainListsModalContents({
 
   //Change the active list when a main list is pressed
   const handleMainListPress = (item: MainList) => () => {
-    if (isMainListEditing) {
+    if (isMainListEditing || item.isActive) {
       return;
     }
     MainListsContainer.SetInactiveLists(); // Set all lists to inactive
@@ -51,13 +51,18 @@ export default function MainListsModalContents({
     setModalVisible(false); // Close the modal after selecting a list
   };
 
-  function handleTitleChange(id: number, text: string): void {
-    setEditText(text); // Update the text input value
-  }
-
-  // To be used byt text input onBlur and subbmit event
+  // To be used by text input onBlur and subbmit event
   const handleSaveEdit = (item: MainList) => {
-    console.log(`Saving edit for list ID: ${item.id}, new title: ${editText}`);
+    item.isEditing = false; // Exit editing mode for the item
+    setIsMainListEditing(false); // Exit editing mode for the main list
+
+    item.title = editText; // Update the item's title with the edited text
+    dbRepoList.updateMainList(item.id, item); // Update the main list in the database
+    MainListsContainer.updateMainList(item.id, item); // Update the main list in the local state
+
+    if (item.isActive) {
+      setActiveList(editText); // Update the active list title if ACTIVE
+    }
   };
 
   // Render function for each main list item
@@ -68,14 +73,15 @@ export default function MainListsModalContents({
           // TextInput mounts fresh when editing starts
           <TextInput
             autoCorrect={false}
-            cursorColor={colors.text}
+            selectionColor={colors.edit}
             autoFocus={true}
             value={editText}
             onFocus={() => {
               setEditText(item.title); // Set the text input value to the current title when focused
             }}
-            onChangeText={(text) => handleTitleChange(item.id, text)}
+            onChangeText={(text) => setEditText(text)}
             onBlur={() => handleSaveEdit(item)}
+            onSubmitEditing={() => handleSaveEdit(item)}
             style={[
               styles.itemText,
               styles.itemEdit,

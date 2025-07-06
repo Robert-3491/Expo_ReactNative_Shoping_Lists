@@ -41,7 +41,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
       <TextInput
         ref={textInputRef}
         autoCorrect={false}
-        placeholder="Add new list"
+        placeholder="Press to add a new list"
         placeholderTextColor={colors.disabled}
         selectTextOnFocus={true}
         style={[

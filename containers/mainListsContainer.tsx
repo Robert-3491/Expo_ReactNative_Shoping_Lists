@@ -31,6 +31,13 @@ export const getMainLists = (): MainList[] => {
   return mainLists;
 };
 
+export const updateMainList = (id: number, updatedList: MainList) => {
+  const index = mainLists.findIndex((list) => list.id === id);
+  if (index !== -1) {
+    mainLists[index] = updatedList; // Update the list in the local state
+  }
+};
+
 async function initializeMainLists() {
   mainLists = (await dbRepo.getAllMainLists()).map(
     (list) => new MainList(list.title, list.isActive, list.id)
