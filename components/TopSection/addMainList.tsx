@@ -22,12 +22,13 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   // Function to add a new main list. To be called by icon and keyboard submit
   const addMainList = async () => {
     if (title.length > 0) {
+      const titleUpped = MainListsContainer.capitalizeFirst(title);
       dbRepoList.setAllInactive(); // Set all existing lists to inactive
-      const newList = new MainList(title, true); // Create a new MainList instance
+      const newList = new MainList(titleUpped, true); // Create a new MainList instance
       newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
       MainListsContainer.addMainList(newList);
       reloadMainList();
-      setActiveList(title); // Set the active list Title
+      setActiveList(titleUpped); // Set the active list Title
     }
   };
   // Function to handle ADD icon press

@@ -19,7 +19,7 @@ export function SetInactiveLists() {
 
 export const addMainList = (newMainList: MainList) => {
   SetInactiveLists();
-  mainLists = [...mainLists, newMainList]; //This will make the update reactive
+  mainLists = [...mainLists, newMainList]; //This will make the update re-render
 };
 
 export const deleteMainList = (id: number) => {
@@ -42,4 +42,8 @@ async function initializeMainLists() {
   mainLists = (await dbRepo.getAllMainLists()).map(
     (list) => new MainList(list.title, list.isActive, list.id)
   );
+}
+
+export function capitalizeFirst(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

@@ -1,10 +1,10 @@
-import { Text, View, StyleSheet, StatusBar, SafeAreaView } from "react-native";
+import { StyleSheet, StatusBar, SafeAreaView } from "react-native";
 
-import TopSection from "../components/homeComponents/topSection";
+import TopSection from "../components/TopSection/topSection";
 import { colors } from "../assets/colors";
 import { initializeDatabase } from "@/data/db/databaseService";
 import { useEffect } from "react";
-import { BottomTabView } from "@react-navigation/bottom-tabs";
+import BottomSection from "@/components/BottomSection/bottomSection";
 
 useEffect(() => {
   initializeDatabase();
@@ -15,6 +15,7 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={"black"} barStyle={"light-content"} />
       <TopSection />
+      <BottomSection />
     </SafeAreaView>
   );
 }

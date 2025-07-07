@@ -9,6 +9,7 @@ import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import { useState } from "react";
 import { useRef } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
@@ -40,8 +41,11 @@ export default function MainListsModalContents({
 
   //Change the active list when a main list is pressed
   const handleMainListPress = (item: MainList) => () => {
-    if (isMainListEditing || item.isActive) {
+    if (isMainListEditing) {
       return;
+    }
+    if (item.isActive) {
+      setModalVisible(false);
     }
     MainListsContainer.SetInactiveLists(); // Set all lists to inactive
     dbRepoList.setAllInactive(); // Ensure the database reflects this change
@@ -53,15 +57,19 @@ export default function MainListsModalContents({
 
   // To be used by text input onBlur and subbmit event
   const handleSaveEdit = (item: MainList) => {
+    const editTextUpped = MainListsContainer.capitalizeFirst(editText);
+
     item.isEditing = false; // Exit editing mode for the item
     setIsMainListEditing(false); // Exit editing mode for the main list
 
-    item.title = editText; // Update the item's title with the edited text
-    dbRepoList.updateMainList(item.id, item); // Update the main list in the database
-    MainListsContainer.updateMainList(item.id, item); // Update the main list in the local state
+    if (item.title != editTextUpped) {
+      item.title = editTextUpped; // Update the item's title with the edited text
+      dbRepoList.updateMainList(item.id, item); // Update the main list in the database
+      MainListsContainer.updateMainList(item.id, item); // Update the main list in the local state
 
-    if (item.isActive) {
-      setActiveList(editText); // Update the active list title if ACTIVE
+      if (item.isActive) {
+        setActiveList(editTextUpped); // Update the active list title if ACTIVE
+      }
     }
   };
 
@@ -123,11 +131,14 @@ export default function MainListsModalContents({
       return; // Do not render left action if in editing mode
     }
     return (
-      <Pressable onPress={() => handleEditPress(item)}>
-        <View style={styles.leftAction}>
-          <Text>Edit</Text>
-        </View>
-      </Pressable>
+      <View style={styles.leftActionContainer}>
+        <Pressable onPress={() => handleEditPress(item)}>
+          <View style={styles.actionBase}>
+            <Ionicons name="pencil" size={27} color={colors.text} />
+          </View>
+        </Pressable>
+        <View style={{ flex: 1 }} />
+      </View>
     );
   };
 
@@ -155,11 +166,14 @@ export default function MainListsModalContents({
       return; // Do not render right action if in editing mode
     }
     return (
-      <Pressable onPress={() => handleDeleteList(item)}>
-        <View style={styles.rightAction}>
-          <Text>Delete</Text>
-        </View>
-      </Pressable>
+      <View style={styles.rightActionContainer}>
+        <View style={{ flex: 1 }} />
+        <Pressable onPress={() => handleDeleteList(item)}>
+          <View style={styles.actionBase}>
+            <Ionicons name="trash" size={30} color={colors.text} />
+          </View>
+        </Pressable>
+      </View>
     );
   };
 
@@ -178,6 +192,7 @@ export default function MainListsModalContents({
         renderItem={renderMainList}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
     </View>
   );
@@ -193,7 +208,6 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 18,
     backgroundColor: colors.borderLight,
-    marginVertical: 5,
     width: "100%",
     borderRadius: 5,
   },
@@ -201,18 +215,29 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.edit,
   },
-  leftAction: {
-    backgroundColor: "#007AFF",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 80,
-    height: "100%",
+
+  leftActionContainer: {
+    flexDirection: "row",
+    width: "100%",
+    //backgroundColor: colors.edit, // Set background color for the entire container
+    backgroundColor: colors.edit, // Set background color for the entire container
+    marginRight: "-82%",
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
-  rightAction: {
-    backgroundColor: "#FF3B30",
+  rightActionContainer: {
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: colors.delete, // Set background color for the entire container
+    marginLeft: "-82%",
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  // Base style for both left and right actions
+  actionBase: {
     justifyContent: "center",
     alignItems: "center",
-    width: 80,
+    width: 50,
     height: "100%",
   },
 });

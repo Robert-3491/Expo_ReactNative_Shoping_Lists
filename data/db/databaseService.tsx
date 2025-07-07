@@ -19,5 +19,4 @@ export const initializeDatabase = async () => {
       isActive INTEGER DEFAULT 0
     );
   `);
-  console.log("Database initialized");
 };
