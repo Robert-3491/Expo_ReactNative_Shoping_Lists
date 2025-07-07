@@ -9,7 +9,10 @@ export default function SectionsLists() {
     // Component mounted
   }, []);
 
-  let data: SectionList[] = [new SectionList("ffff", true, 0)];
+  let data: SectionList[] = [
+    new SectionList("ffff", true, 0),
+    new SectionList("wafwesatg", true, 1, 2),
+  ];
 
   // Fix: renderItem must receive an object with item property
   const renderItem = ({ item }: { item: SectionList }) => {
@@ -49,6 +52,7 @@ export default function SectionsLists() {
         renderItem={renderItem}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       />
     </View>
   );
