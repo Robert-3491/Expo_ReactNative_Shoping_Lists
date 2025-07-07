@@ -1,14 +1,18 @@
 import { Text, View, StyleSheet, StatusBar } from "react-native";
 import { colors } from "@/assets/colors";
 import { useEffect } from "react";
+import SectionsLists from "./sectionsLists";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 useEffect(() => {}, []);
 
 export default function BottomSection() {
   return (
-    <View style={styles.container}>
-      <Text>egweg</Text>
-    </View>
+    <GestureHandlerRootView>
+      <View style={styles.container}>
+        <SectionsLists />
+      </View>
+    </GestureHandlerRootView>
   );
 }
 

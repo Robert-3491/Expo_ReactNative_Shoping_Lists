@@ -33,6 +33,13 @@ export default function MainListsModalContents({
   // Ref to hold the SwipeableFlatList instance for closing the open rows on edit
   const swipeListRef = useRef<any>(null);
 
+  const exitEditForParent = () => {
+    setIsMainListEditing(false),
+      mainLists.forEach((list) => {
+        list.isEditing = false;
+      });
+  };
+
   // Function to handle reloading the Main Lists
   const handleReloadMainList = () => {
     setMainLists(MainListsContainer.getMainLists()); // Reload the Main Lists
