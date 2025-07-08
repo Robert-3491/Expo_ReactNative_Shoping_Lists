@@ -1,32 +1,34 @@
-import { Text, View, StyleSheet, StatusBar } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { colors } from "@/assets/colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SectionList } from "@/data/models/sectionList";
+import DropdownPressable from "@/components/SharedComponents/dropDownPressable";
+import * as sectionListsContainer from "@/containers/sectionListsContainer";
 
 export default function SectionsLists() {
   useEffect(() => {
     // Component mounted
   }, []);
 
-  let data: SectionList[] = [
-    new SectionList("ffff", true, 0),
-    new SectionList("wafwesatg", true, 1, 2),
-  ];
+  const [data, setdata] = useState(sectionListsContainer.getMainLists());
 
-  // Fix: renderItem must receive an object with item property
+  // Render individual list sectionLists
   const renderItem = ({ item }: { item: SectionList }) => {
-    // Render individual list sectionLists
     return (
       <View style={styles.itemContainer}>
-        <Text>{item.title}</Text>
+        <DropdownPressable
+          text={item.title}
+          isOpen={item.isVisible}
+          onPress={() => console.log("On press")}
+          textStyle={{ fontSize: 22 }}
+        />
       </View>
     );
   };
 
-  // Fix: renderLeftActions must receive an object with item property
+  // Render left swipe actions for each sectionList
   const renderLeftActions = ({ item }: { item: SectionList }) => {
-    // Render left swipe actions for each sectionList
     return (
       <View style={styles.actionContainer}>
         <Text>Left Action</Text>
@@ -34,9 +36,8 @@ export default function SectionsLists() {
     );
   };
 
-  // Fix: renderRightActions must receive an object with item property
+  // Render right swipe actions for each sectionList
   const renderRightActions = ({ item }: { item: SectionList }) => {
-    // Render right swipe actions for each sectionList
     return (
       <View style={styles.actionContainer}>
         <Text>Right Action</Text>
@@ -52,7 +53,11 @@ export default function SectionsLists() {
         renderItem={renderItem}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
+      />
+      <Button
+        title="Add section"
+        onPress={sectionListsContainer.addDummySections}
       />
     </View>
   );
@@ -66,7 +71,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   itemContainer: {
-    padding: 16,
     backgroundColor: colors.surface,
   },
   actionContainer: {

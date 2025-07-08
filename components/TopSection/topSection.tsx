@@ -13,6 +13,7 @@ import { useState, useEffect, useRef } from "react";
 import MainListsModalContents from "./mainListsModalContents";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as dbRepoList from "@/data/db/dbRepoList";
+import DropdownPressable from "../SharedComponents/dropDownPressable";
 
 export default function TopSection() {
   const [activeList, setActiveList] = useState("Loading...");
@@ -47,7 +48,7 @@ export default function TopSection() {
   const modalHeight = screenHeight - pressableHeight;
 
   // Exit edit mode before closing modal
-  const handleCloseModal = () => {
+  const toggleModal = () => {
     modalRef.current?.exitEdit();
     setModalVisible(!modalVisible);
   };
@@ -55,34 +56,24 @@ export default function TopSection() {
   return (
     <View style={styles.container}>
       {/* Pressable section that toggles the modal */}
-      <Pressable
-        onPress={() => handleCloseModal()}
-        style={styles.pressSection}
+      <DropdownPressable
+        text={activeList}
+        isOpen={modalVisible}
+        onPress={toggleModal}
         onLayout={handlePressableLayout}
-      >
-        <Ionicons
-          name={modalVisible ? "caret-up-outline" : "caret-down-outline"}
-          style={[styles.dropdownIcon, styles.pressSectionElements]}
-        />
-        <Text style={[styles.activeListsText, styles.pressSectionElements]}>
-          {activeList}
-        </Text>
-      </Pressable>
+      />
 
       {/* The modal that contains the main lists */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={handleCloseModal}
+        onRequestClose={toggleModal}
       >
         {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
         <GestureHandlerRootView>
           {/* Close the modal when tapping outside the modal content */}
-          <Pressable
-            style={StyleSheet.absoluteFill}
-            onPress={handleCloseModal}
-          />
+          <Pressable style={StyleSheet.absoluteFill} onPress={toggleModal} />
           {/* The modal content */}
           <View style={styles.modalPosition}>
             <View
@@ -97,7 +88,7 @@ export default function TopSection() {
               {/* MainListsModalContents => the component that renders the lists */}
               <MainListsModalContents
                 ref={modalRef}
-                setModalVisible={handleCloseModal}
+                setModalVisible={toggleModal}
                 setActiveList={setActiveList}
               />
             </View>
