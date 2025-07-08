@@ -1,6 +1,6 @@
 import { MainList } from "@/data/models/mainList";
 import { useEffect } from "react";
-import * as dbRepo from "@/data/db/dbRepoList";
+import * as dbRepoList from "@/data/db/dbRepoList";
 
 useEffect(() => {
   initializeMainLists();
@@ -19,7 +19,7 @@ export function SetInactiveLists() {
 
 export const addMainList = (newMainList: MainList) => {
   SetInactiveLists();
-  mainLists = [...mainLists, newMainList]; //This will make the update reactive
+  mainLists = [...mainLists, newMainList]; //This will make the update re-render
 };
 
 export const deleteMainList = (id: number) => {
@@ -39,7 +39,11 @@ export const updateMainList = (id: number, updatedList: MainList) => {
 };
 
 async function initializeMainLists() {
-  mainLists = (await dbRepo.getAllMainLists()).map(
+  mainLists = (await dbRepoList.getAllMainLists()).map(
     (list) => new MainList(list.title, list.isActive, list.id)
   );
+}
+
+export function capitalizeFirst(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

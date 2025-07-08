@@ -17,7 +17,8 @@ export const colors = {
   error: "#EF4444", // Red 500
   disabled: "#6B7280", // Gray 500
   placeholder: "#9CA3AF", // Gray 400
-  edit: "#F59E0B", // Amber 500
+  edit: "#D99900", // Amber 500
+  delete: "#A91B0D", // Red 500
 };
 
 // Theme Option 1: Deep Ocean Blue
