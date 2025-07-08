@@ -19,7 +19,14 @@ export const getMainLists = (): SectionList[] => {
   return sectionLists;
 };
 
+export const toggleItemVisibility = (itemId: number) => {
+  sectionLists = sectionLists.map((item) =>
+    item.id === itemId ? { ...item, isVisible: !item.isVisible } : item
+  );
+  dbRepoSectionLists.toggleSectionListVisibility(itemId);
+};
+
 export const addDummySections = () => {
-  let newSection = new SectionList("Title", true, 101);
+  let newSection = new SectionList("Title", true, 114);
   dbRepoSectionLists.addSectionList(newSection);
 };

@@ -131,14 +131,32 @@ export const setVisibleSectionList = async (id: number): Promise<void> => {
       throw new Error("SectionList not found");
     }
 
-    // First set all section lists for this main list to invisible
-    await setAllSectionListsInvisible(sectionList.mainListId);
-
     // Then set the specific one as visible
     db.runSync("UPDATE sectionlists SET isVisible = 1 WHERE id = ?", [id]);
     console.log("SectionList set as visible:", id);
   } catch (error) {
     console.error("Error setting visible SectionList:", error);
+    throw error;
+  }
+};
+
+export const toggleSectionListVisibility = async (
+  id: number
+): Promise<void> => {
+  try {
+    const sectionList = await getSectionListById(id);
+    if (!sectionList) {
+      throw new Error("SectionList not found");
+    }
+
+    const newVisibility = !sectionList.isVisible;
+    db.runSync("UPDATE sectionlists SET isVisible = ? WHERE id = ?", [
+      newVisibility,
+      id,
+    ]);
+    console.log("SectionList visibility toggled:", id, "to", newVisibility);
+  } catch (error) {
+    console.error("Error toggling SectionList visibility:", error);
     throw error;
   }
 };

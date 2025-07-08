@@ -59,9 +59,8 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         onSubmitEditing={() => addMainList()}
       />
       {/* Pressable icon that adds the new list or focus on TextInput */}
-      <Pressable style={styles.container} onPress={() => handleIconPress()}>
+      <Pressable onPress={() => handleIconPress()}>
         <Ionicons
-          style={styles.addIcon}
           name={title.length > 0 ? "checkmark-circle" : "add-circle"}
           color={title.length > 0 ? colors.success : colors.primaryLight}
           size={45}

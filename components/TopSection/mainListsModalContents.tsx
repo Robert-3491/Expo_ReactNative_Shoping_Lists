@@ -9,6 +9,8 @@ import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
+import RenderEditItem from "../SharedComponents/renderEditItem";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
@@ -145,16 +147,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       if (isMainListEditing) {
         return; // Do not render left action if in editing mode
       }
-      return (
-        <View style={styles.leftActionContainer}>
-          <Pressable onPress={() => handleEditPress(item)}>
-            <View style={styles.actionBase}>
-              <Ionicons name="pencil" size={27} color={colors.text} />
-            </View>
-          </Pressable>
-          <View style={{ flex: 1 }} />
-        </View>
-      );
+      return <RenderEditItem item={item} handleEdit={handleEditPress} />;
     };
 
     // Function to handle deleting a main list - for RIGHT ACTION
@@ -180,21 +173,11 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       if (isMainListEditing) {
         return; // Do not render right action if in editing mode
       }
-      return (
-        <View style={styles.rightActionContainer}>
-          <View style={{ flex: 1 }} />
-          <Pressable onPress={() => handleDeleteList(item)}>
-            <View style={styles.actionBase}>
-              <Ionicons name="trash" size={30} color={colors.text} />
-            </View>
-          </Pressable>
-        </View>
-      );
+      return <RenderDeleteItem item={item} handleDelete={handleDeleteList} />;
     };
 
     return (
       <View style={styles.container}>
-        {/* Fixed element for adding a new list */}
         <AddMainList
           reloadMainList={handleReloadMainList}
           setActiveList={setActiveList}
