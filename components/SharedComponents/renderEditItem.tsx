@@ -1,5 +1,11 @@
-import React from "react";
-import { Pressable, StyleSheet, ViewStyle, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Pressable,
+  StyleSheet,
+  ViewStyle,
+  View,
+  LayoutChangeEvent,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/assets/colors";
 
@@ -15,24 +21,38 @@ const RenderEditItem: React.FC<Props> = ({
   handleEdit,
   style,
   iconSize = 27,
-}) => (
-  <View style={styles.leftActionContainer}>
-    <Pressable onPress={() => handleEdit(item)}>
-      <View style={styles.actionBase}>
-        <Ionicons name="pencil" size={iconSize} color={colors.text} />
-      </View>
-    </Pressable>
-    <View style={{ flex: 1 }} />
-  </View>
-);
+}) => {
+  const [containerWidth, setContainerWidth] = useState(0);
 
+  const handleContainerWidth = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth(width);
+  };
+
+  return (
+    <View
+      onLayout={handleContainerWidth}
+      style={[
+        styles.leftActionContainer,
+        { marginRight: -(containerWidth - 50) },
+        style,
+      ]}
+    >
+      <Pressable onPress={() => handleEdit(item)}>
+        <View style={styles.actionBase}>
+          <Ionicons name="pencil" size={iconSize} color={colors.text} />
+        </View>
+      </Pressable>
+      <View style={{ flex: 1 }} />
+    </View>
+  );
+};
 // Stock styles
 const styles = StyleSheet.create({
   leftActionContainer: {
     flexDirection: "row",
     width: "100%",
     backgroundColor: colors.edit,
-    marginRight: "-82%",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
   },

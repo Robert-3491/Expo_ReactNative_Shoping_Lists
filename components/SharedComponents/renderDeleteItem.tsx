@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Pressable,
   StyleSheet,
   ViewStyle,
   TextStyle,
   View,
+  LayoutChangeEvent,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/assets/colors";
@@ -21,16 +22,32 @@ const RenderDeleteItem: React.FC<Props> = ({
   handleDelete,
   style,
   iconSize = 30,
-}) => (
-  <View style={styles.rightActionContainer}>
-    <View style={{ flex: 1 }} />
-    <Pressable onPress={() => handleDelete(item)}>
-      <View style={styles.actionBase}>
-        <Ionicons name="trash" size={iconSize} color={colors.text} />
-      </View>
-    </Pressable>
-  </View>
-);
+}) => {
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  const handleContainerWidth = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth(width);
+  };
+
+  return (
+    <View
+      style={[
+        styles.rightActionContainer,
+        { marginLeft: -(containerWidth - 50) },
+        style,
+      ]}
+      onLayout={handleContainerWidth}
+    >
+      <View style={{ flex: 1 }} />
+      <Pressable onPress={() => handleDelete(item)}>
+        <View style={styles.actionBase}>
+          <Ionicons name="trash" size={iconSize} color={colors.text} />
+        </View>
+      </Pressable>
+    </View>
+  );
+};
 
 // Stock styles
 const styles = StyleSheet.create({
@@ -38,7 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     backgroundColor: colors.delete,
-    marginLeft: "-82%",
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
   },
