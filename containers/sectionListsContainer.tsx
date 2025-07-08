@@ -1,6 +1,8 @@
 import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
+import * as dbMainList from "@/data/db/dbRepoList";
 import { useEffect } from "react";
+import { MainList } from "@/data/models/mainList";
 
 let sectionLists: SectionList[] = [];
 
@@ -15,7 +17,7 @@ export async function initializeMainLists() {
   );
 }
 
-export const getMainLists = (): SectionList[] => {
+export const getSectionLists = (): SectionList[] => {
   return sectionLists;
 };
 
@@ -26,7 +28,19 @@ export const toggleItemVisibility = (itemId: number) => {
   dbRepoSectionLists.toggleSectionListVisibility(itemId);
 };
 
-export const addDummySections = () => {
-  let newSection = new SectionList("Title", true, 114);
-  dbRepoSectionLists.addSectionList(newSection);
+export const deleteList = (id: number) => {
+  dbRepoSectionLists.deleteSectionList(id);
+  sectionLists = sectionLists.filter((list) => list.id !== id);
+};
+
+export const addDummySections = async () => {
+  const activeMainList = await dbMainList.getActiveMainList();
+  if (!activeMainList) {
+    console.error("No active main list found");
+    return;
+  }
+  let newSection = new SectionList("New Section", true, activeMainList.id);
+  const newSectionid = await dbRepoSectionLists.addSectionList(newSection);
+  newSection.id = newSectionid;
+  sectionLists = [...sectionLists, newSection];
 };

@@ -13,11 +13,11 @@ export default function SectionsLists() {
     // Component mounted
   }, []);
 
-  const [data, setData] = useState(sectionListsContainer.getMainLists());
+  const [data, setData] = useState(sectionListsContainer.getSectionLists());
 
   const toggleItemVisibility = (id: number) => {
     sectionListsContainer.toggleItemVisibility(id);
-    setData(sectionListsContainer.getMainLists);
+    setData(sectionListsContainer.getSectionLists);
   };
 
   // Render individual list sectionLists
@@ -37,17 +37,25 @@ export default function SectionsLists() {
   };
 
   // Render left swipe actions for each sectionList
-  const renderLeftActions = ({ item }: { item: SectionList }) => {
+  const renderLeftActions = (item: SectionList) => {
     return (
       <RenderEditItem item={item} handleEdit={() => console.log("Edit")} />
     );
   };
 
+  const deleteSectionList = (item: SectionList) => {
+    sectionListsContainer.deleteList(item.id);
+    setData(sectionListsContainer.getSectionLists());
+  };
+
   // Render right swipe actions for each sectionList
-  const renderRightActions = ({ item }: { item: SectionList }) => {
-    return (
-      <RenderDeleteItem item={item} handleDelete={() => console.log("Delte")} />
-    );
+  const renderRightActions = (item: SectionList) => {
+    return <RenderDeleteItem item={item} handleDelete={deleteSectionList} />;
+  };
+
+  const addDummySections = async () => {
+    await sectionListsContainer.addDummySections();
+    setData(sectionListsContainer.getSectionLists());
   };
 
   return (
@@ -60,10 +68,7 @@ export default function SectionsLists() {
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
       />
-      <Button
-        title="Add section"
-        onPress={sectionListsContainer.addDummySections}
-      />
+      <Button title="Add section" onPress={addDummySections} />
     </View>
   );
 }
@@ -74,6 +79,7 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     backgroundColor: colors.background,
+    flex: 1,
   },
   itemContainer: {
     backgroundColor: colors.surface,
