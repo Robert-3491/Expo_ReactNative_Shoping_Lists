@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/assets/colors";
 
-interface DropdownPressableProps {
+interface Props {
   text: string;
   isOpen: boolean;
   onPress: () => void;
@@ -20,7 +20,7 @@ interface DropdownPressableProps {
   iconStyle?: TextStyle;
 }
 
-const DropdownPressable: React.FC<DropdownPressableProps> = ({
+const DropdownPressable: React.FC<Props> = ({
   text,
   isOpen,
   onPress,

@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { colors } from "@/assets/colors";
 import { useEffect, useState } from "react";
@@ -7,32 +7,40 @@ import DropdownPressable from "@/components/SharedComponents/dropDownPressable";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
+import ItemsView from "../ItemLists/itemsView";
 
 export default function SectionsLists() {
+  //
   useEffect(() => {
-    // Component mounted
+    const initializeData = async () => {
+      await sectionListsContainer.initializeSectionLists();
+      setData(sectionListsContainer.getSectionLists());
+    };
+    initializeData();
   }, []);
 
-  const [data, setData] = useState(sectionListsContainer.getSectionLists());
+  const [data, setData] = useState<SectionList[]>([]);
 
   const toggleItemVisibility = (id: number) => {
     sectionListsContainer.toggleItemVisibility(id);
-    setData(sectionListsContainer.getSectionLists);
+    setData(sectionListsContainer.getSectionLists());
   };
 
   // Render individual list sectionLists
   const renderItem = ({ item }: { item: SectionList }) => {
     return (
-      <View style={styles.itemContainer}>
-        <DropdownPressable
-          text={item.title}
-          isOpen={item.isVisible}
-          onPress={() => toggleItemVisibility(item.id)}
-          textStyle={{ fontSize: 22 }}
-          style={{ paddingVertical: 11 }}
-        />
+      <View>
+        <View style={styles.dropdownPressable}>
+          <DropdownPressable
+            text={item.title}
+            isOpen={item.isVisible}
+            onPress={() => toggleItemVisibility(item.id)}
+            textStyle={{ fontSize: 22 }}
+            style={{ paddingVertical: 11 }}
+          />
+        </View>
+        {item.isVisible ? <ItemsView sectionId={item.id} /> : null}
       </View>
-      //MODAL ITEMS HERE
     );
   };
 
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
   },
-  itemContainer: {
+  dropdownPressable: {
     backgroundColor: colors.surface,
     borderRadius: 5,
     borderColor: colors.border,

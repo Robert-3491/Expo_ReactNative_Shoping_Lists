@@ -1,16 +1,10 @@
 import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
-import { useEffect } from "react";
-import { MainList } from "@/data/models/mainList";
 
 let sectionLists: SectionList[] = [];
 
-useEffect(() => {
-  initializeMainLists();
-}, []);
-
-export async function initializeMainLists() {
+export async function initializeSectionLists() {
   sectionLists = (await dbRepoSectionLists.getAllSectionLists()).map(
     (list) =>
       new SectionList(list.title, list.isVisible, list.mainListId, list.id)

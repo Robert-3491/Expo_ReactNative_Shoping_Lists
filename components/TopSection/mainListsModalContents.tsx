@@ -1,14 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
-import "react-native-gesture-handler";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as MainListsContainer from "@/containers/mainListsContainer";
-import * as dbRepoList from "@/data/db/dbRepoList";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
-import { useState, useRef, forwardRef, useImperativeHandle } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
 import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
 import RenderEditItem from "../SharedComponents/renderEditItem";
 
@@ -19,10 +22,19 @@ interface IProps {
 
 export default forwardRef<{ exitEdit: () => void }, IProps>(
   function MainListsModalContents({ setModalVisible, setActiveList }, ref) {
+    //
+    useEffect(() => {
+      const initializeData = async () => {
+        await MainListsContainer.initializeMainLists();
+        setMainLists(MainListsContainer.getMainLists());
+      };
+      initializeData();
+    }, []);
+
+    //
     // State to hold the Main Lists
-    const [mainLists, setMainLists] = useState<MainList[]>(
-      MainListsContainer.getMainLists()
-    );
+    const [mainLists, setMainLists] = useState<MainList[]>([]);
+
     // State to manage the editing mode of the Main Lists - blocks selection of lists on edit
     const [isMainListEditing, setIsMainListEditing] = useState(false);
 
@@ -60,29 +72,17 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       if (item.isActive) {
         setModalVisible(false);
       }
-      MainListsContainer.SetInactiveLists(); // Set all lists to inactive
-      dbRepoList.setAllInactive(); // Ensure the database reflects this change
-      item.isActive = true; // Set the pressed list as active
-      dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
+      MainListsContainer.handleMainListPress(item);
       setActiveList(item.title); // Set the active list title
       setModalVisible(false); // Close the modal after selecting a list
     };
 
-    // To be used by text input onBlur and subbmit event
     const handleSaveEdit = (item: MainList) => {
-      const editTextUpped = MainListsContainer.capitalizeFirst(editText);
-
-      item.isEditing = false; // Exit editing mode for the item
       setIsMainListEditing(false); // Exit editing mode for the main list
+      const newTitle = MainListsContainer.handleSaveEdit(item, editText);
 
-      if (item.title != editTextUpped) {
-        item.title = editTextUpped; // Update the item's title with the edited text
-        dbRepoList.updateMainList(item.id, item); // Update the main list in the database
-        MainListsContainer.updateMainList(item.id, item); // Update the main list in the local state
-
-        if (item.isActive) {
-          setActiveList(editTextUpped); // Update the active list title if ACTIVE
-        }
+      if (item.isActive && item.title !== newTitle) {
+        setActiveList(newTitle); // Update the active list title if ACTIVE
       }
     };
 
@@ -152,20 +152,12 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
 
     // Function to handle deleting a main list - for RIGHT ACTION
     function handleDeleteList(item: MainList): void {
-      dbRepoList.deleteMainList(item.id); // Remove from database
-      MainListsContainer.deleteMainList(item.id); // Remove from local state
-      const updatedLists = MainListsContainer.getMainLists(); // Get updated lists from local state
-      setMainLists(updatedLists); // Refresh local state with updated lists from database - state available on next render
-
-      if (item.isActive) {
-        if (updatedLists.length > 0) {
-          updatedLists[0].isActive = true; // Set the first list as active if available
-          setActiveList(updatedLists[0].title); // Update the active list title
-          dbRepoList.setActiveMainList(updatedLists[0].id); // Update the database with the new active list
-        } else {
-          setActiveList("No list created yet"); // Set a default message if no lists are left
-        } // Clear active list if no lists are left
+      setMainLists(MainListsContainer.getMainLists); // Refresh local state with updated lists from database - state available on next render
+      const response = MainListsContainer.handleDeleteList(item);
+      if (response !== undefined) {
+        setActiveList(response);
       }
+      setMainLists(MainListsContainer.getMainLists());
     }
 
     // RENDER RIGHT ACTIONS

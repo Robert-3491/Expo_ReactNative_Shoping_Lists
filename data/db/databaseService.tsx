@@ -35,4 +35,16 @@ export const initializeDatabase = async () => {
       FOREIGN KEY (mainListId) REFERENCES mainlists (id) ON DELETE CASCADE
     );
   `);
+
+  // Create items table
+  db.execSync(`
+    CREATE TABLE IF NOT EXISTS items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      sectionListId INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      link TEXT,
+      isChecked INTEGER,
+      FOREIGN KEY (sectionListId) REFERENCES sectionlists (id) ON DELETE CASCADE
+    );
+  `);
 };
