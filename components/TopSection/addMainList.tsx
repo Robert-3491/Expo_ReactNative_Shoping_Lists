@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import * as MainListsContainer from "@/containers/mainListsContainer";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import { MainList } from "@/data/models/mainList";
+import * as sectionListsContainer from "@/containers/sectionListsContainer";
 
 interface IProps {
   reloadMainList: () => void;
@@ -29,6 +30,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
       MainListsContainer.addMainList(newList);
       reloadMainList();
       setActiveList(titleUpped); // Set the active list Title
+      sectionListsContainer.setActiveMainList(newList.id);
     }
   };
   // Function to handle ADD icon press

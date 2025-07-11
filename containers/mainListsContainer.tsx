@@ -1,5 +1,6 @@
 import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
+import * as sectionListsContainer from "@/containers/sectionListsContainer";
 
 let mainLists: MainList[] = [];
 
@@ -44,6 +45,7 @@ export const handleMainListPress = (item: MainList) => {
   SetInactiveLists(); // Set all lists to inactive
   dbRepoList.setAllInactive(); // Ensure the database reflects this change
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
+  sectionListsContainer.setActiveMainList(item.id);
 };
 
 export const handleSaveEdit = (item: MainList, editText: string): string => {
@@ -67,8 +69,10 @@ export const handleDeleteList = (item: MainList): string | undefined => {
     if (mainLists.length > 0) {
       mainLists[0].isActive = true; // Set the first list as active if available
       dbRepoList.setActiveMainList(mainLists[0].id); // Update the database with the new active list
+      sectionListsContainer.setActiveMainList(mainLists[0].id);
       return mainLists[0].title;
     } else {
+      sectionListsContainer.setActiveMainList(0);
       return "No list created yet";
     } // Clear active list if no lists are left
   }

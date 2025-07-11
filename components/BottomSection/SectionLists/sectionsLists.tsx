@@ -10,20 +10,30 @@ import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 import ItemsView from "../ItemLists/itemsView";
 
 export default function SectionsLists() {
-  //
+  const [data, setData] = useState<SectionList[]>([]);
+
+  // Function to refresh the data
+  const refreshData = () => {
+    setData(sectionListsContainer.getSectionLists());
+  };
+
   useEffect(() => {
     const initializeData = async () => {
       await sectionListsContainer.initializeSectionLists();
-      setData(sectionListsContainer.getSectionLists());
+      refreshData();
     };
+    // Set up the callback for when data changes
+    sectionListsContainer.setOnDataChangeCallback(refreshData);
     initializeData();
+    // Cleanup callback on unmount
+    return () => {
+      sectionListsContainer.setOnDataChangeCallback(() => {});
+    };
   }, []);
-
-  const [data, setData] = useState<SectionList[]>([]);
 
   const toggleItemVisibility = (id: number) => {
     sectionListsContainer.toggleItemVisibility(id);
-    setData(sectionListsContainer.getSectionLists());
+    refreshData();
   };
 
   // Render individual list sectionLists
@@ -53,7 +63,7 @@ export default function SectionsLists() {
 
   const deleteSectionList = (item: SectionList) => {
     sectionListsContainer.deleteList(item.id);
-    setData(sectionListsContainer.getSectionLists());
+    refreshData();
   };
 
   // Render right swipe actions for each sectionList
@@ -63,7 +73,7 @@ export default function SectionsLists() {
 
   const addDummySections = async () => {
     await sectionListsContainer.addDummySections();
-    setData(sectionListsContainer.getSectionLists());
+    refreshData();
   };
 
   return (

@@ -50,7 +50,7 @@ const DropdownPressable: React.FC<Props> = ({
 const styles = StyleSheet.create({
   pressSection: {
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     paddingVertical: 15,
   },
   pressSectionElements: {
