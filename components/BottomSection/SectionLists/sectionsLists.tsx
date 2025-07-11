@@ -47,6 +47,7 @@ export default function SectionsLists() {
             onPress={() => toggleItemVisibility(item.id)}
             textStyle={{ fontSize: 22 }}
             style={{ paddingVertical: 11 }}
+            sectionList={item}
           />
         </View>
         {item.isVisible ? <ItemsView sectionId={item.id} /> : null}

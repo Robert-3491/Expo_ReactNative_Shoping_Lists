@@ -206,29 +206,4 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.edit,
   },
-
-  leftActionContainer: {
-    flexDirection: "row",
-    width: "100%",
-    //backgroundColor: colors.edit, // Set background color for the entire container
-    backgroundColor: colors.edit, // Set background color for the entire container
-    marginRight: "-82%",
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-  },
-  rightActionContainer: {
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: colors.delete, // Set background color for the entire container
-    marginLeft: "-82%",
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-  },
-  // Base style for both left and right actions
-  actionBase: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 50,
-    height: "100%",
-  },
 });
