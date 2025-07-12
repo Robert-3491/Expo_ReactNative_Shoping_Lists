@@ -5,6 +5,7 @@ export const colors = {
   background: "#111827", // Gray 900
   card: "#1F2937", // Gray 800
   text: "#E6E9F0", // Gray 50
+  textSecondary: "#94A3B8",
   border: "#334155", // Gray 700
   borderLight: "#475569", // Gray 700
   notification: "#EF4444", // Red 500

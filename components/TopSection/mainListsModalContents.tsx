@@ -120,7 +120,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
                 styles.itemText,
                 {
                   backgroundColor: item.isActive
-                    ? colors.primaryLight
+                    ? colors.primary
                     : colors.borderLight,
                 },
               ]}

@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
   },
   iconPressable: {
     flex: 1,
-    justifyContent: "center", // vertical position
-    alignItems: "center", // horizontal position
+    justifyContent: "center", // horizontal position
+    alignItems: "center", // Vertical position
   },
   addIcon: {
     fontSize: 42,
