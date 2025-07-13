@@ -28,7 +28,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   const [addLink, setAddLink] = useState("");
 
   const addSection = () => {
-    addModalContainer.addSection(addTitle);
+    addModalContainer.addSection(addTitle, setCurrentSectionList);
   };
 
   return (
@@ -36,11 +36,17 @@ const AddSectionsItemsModal: React.FC<Props> = ({
       animationType="fade"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => setModalVisible(!modalVisible)}
+      onRequestClose={() => [
+        setModalVisible(!modalVisible),
+        setCurrentSectionList(sectionList),
+      ]}
     >
       <Pressable
         style={[StyleSheet.absoluteFill, styles.modalOutside]}
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => [
+          setModalVisible(!modalVisible),
+          setCurrentSectionList(sectionList),
+        ]}
       />
 
       {/* The modal content */}
@@ -50,9 +56,14 @@ const AddSectionsItemsModal: React.FC<Props> = ({
             addingMode={addingMode}
             setAddingMode={setAddingMode}
           />
+
           <AddingBehavior />
+
           {addingMode === "ITEM" && (
-            <AddingDestinationText currentSectionList={currentSectionList} />
+            <AddingDestinationText
+              currentSectionList={currentSectionList}
+              newList={currentSectionList === sectionList}
+            />
           )}
           <TextInputsWrapper
             addingMode={addingMode}

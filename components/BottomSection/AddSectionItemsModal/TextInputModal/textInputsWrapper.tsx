@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import React, { useRef } from "react";
 import TextInputModal from "./textInputModal";
 
@@ -51,5 +51,3 @@ const TextInputsWrapper: React.FC<Props> = ({
 };
 
 export default TextInputsWrapper;
-
-const styles = StyleSheet.create({});

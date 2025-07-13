@@ -5,13 +5,18 @@ import { colors } from "@/assets/colors";
 
 interface Props {
   currentSectionList: SectionList;
+  newList: boolean;
 }
 
-const AddingDestinationText: React.FC<Props> = ({ currentSectionList }) => {
+const AddingDestinationText: React.FC<Props> = ({
+  currentSectionList,
+  newList,
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>
         Adding to: <Text style={styles.title}>{currentSectionList.title}</Text>
+        {newList ? null : <Text style={styles.new}> (new)</Text>}
       </Text>
     </View>
   );
@@ -20,6 +25,7 @@ const AddingDestinationText: React.FC<Props> = ({ currentSectionList }) => {
 const styles = StyleSheet.create({
   label: { fontSize: 18, color: colors.textSecondary },
   title: { fontSize: 18, color: colors.text },
+  new: { fontSize: 18, color: colors.success, fontWeight: "bold" },
   container: { marginBottom: 15 },
 });
 
