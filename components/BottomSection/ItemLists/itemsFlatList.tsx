@@ -53,6 +53,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   return (
     <SwipeableFlatList
+      keyboardShouldPersistTaps="handled"
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}

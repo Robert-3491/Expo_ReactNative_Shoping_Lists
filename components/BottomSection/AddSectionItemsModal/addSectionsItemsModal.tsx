@@ -13,8 +13,9 @@ import ToggleAddingMode from "./toggleAddingMode";
 import { useRef, useState } from "react";
 import AddingBehavior from "./addingBehavior";
 import AddingDestinationText from "./addingDestinationText";
-import TextInputModal from "./textInputModal";
+import TextInputModal from "./TextInputModal/textInputModal";
 import AddModalButton from "./addModalButton";
+import TextInputsWrapper from "./TextInputModal/textInputsWrapper";
 
 interface Props {
   sectionList: SectionList;
@@ -32,15 +33,9 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   const [currentSectionList, setCurrentSectionList] = useState(sectionList);
   const [addingMode, setAddingMode] = useState("ITEM");
 
-  const linkInputRef = useRef<TextInput>(null);
-
-  const focusNextInput = () => {
-    linkInputRef.current?.focus();
-  };
-
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => setModalVisible(!modalVisible)}
@@ -61,18 +56,11 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           {addingMode === "ITEM" && (
             <AddingDestinationText currentSectionList={currentSectionList} />
           )}
-          <TextInputModal
-            placeholder="Item name - required"
-            onSubmitEditing={focusNextInput}
-            style={{ marginBottom: 10 }}
+          <TextInputsWrapper addingMode={addingMode} />
+
+          <AddModalButton
+            buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
           />
-          <TextInputModal
-            placeholder="Link - optional"
-            ref={linkInputRef}
-            selectTextOnFocus={true}
-            onSubmitEditing={() => console.log("not implementd")}
-          />
-          <AddModalButton />
         </View>
       </View>
     </Modal>

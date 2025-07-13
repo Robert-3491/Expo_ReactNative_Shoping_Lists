@@ -15,7 +15,6 @@ const AddingBehavior = () => {
         thumbColor={isEnabled ? colors.primaryLight : "#f4f3f4"}
         onValueChange={toggleSwitch}
         value={isEnabled}
-        //style={{ paddingVertical: 2 }}
       />
     </View>
   );

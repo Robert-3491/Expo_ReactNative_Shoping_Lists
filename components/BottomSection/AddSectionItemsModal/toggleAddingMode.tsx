@@ -11,18 +11,20 @@ const ToggleAddingMode: React.FC<Props> = ({ addingMode, setAddingMode }) => {
   return (
     <View style={styles.container}>
       <Pressable
-        style={[
+        style={({ pressed }) => [
           styles.pressable,
           addingMode === "ITEM" && styles.avtiveBackground,
+          { opacity: pressed ? 0.4 : 1 },
         ]}
         onPress={() => setAddingMode("ITEM")}
       >
         <Text style={styles.label}>Add Item</Text>
       </Pressable>
       <Pressable
-        style={[
+        style={({ pressed }) => [
           styles.pressable,
           addingMode === "SECTION" && styles.avtiveBackground,
+          { opacity: pressed ? 0.4 : 1 },
         ]}
         onPress={() => setAddingMode("SECTION")}
       >

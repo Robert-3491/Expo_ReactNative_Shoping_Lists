@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import SectionsLists from "./sectionsLists";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-useEffect(() => {}, []);
-
 export default function BottomSection() {
   return (
     <GestureHandlerRootView>

@@ -80,6 +80,7 @@ export default function SectionsLists() {
   return (
     <View style={styles.container}>
       <SwipeableFlatList
+        keyboardShouldPersistTaps="handled"
         data={data}
         keyExtractor={(item: SectionList) => item.id.toString()}
         renderItem={renderItem}

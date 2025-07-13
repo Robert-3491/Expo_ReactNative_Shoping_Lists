@@ -4,20 +4,17 @@ import { colors } from "@/assets/colors";
 
 interface Props {
   placeholder: string;
-  style?: ViewStyle;
+
   selectTextOnFocus?: boolean;
   onSubmitEditing: () => void;
 }
 
 const TextInputModal = forwardRef<TextInput, Props>(
-  (
-    { placeholder, onSubmitEditing, selectTextOnFocus = false, style },
-    ref?
-  ) => {
+  ({ placeholder, onSubmitEditing, selectTextOnFocus = false }, ref?) => {
     const [focus, setFocus] = useState(false);
 
     return (
-      <View style={[styles.container, style]}>
+      <View style={[styles.container]}>
         <TextInput
           style={[styles.textInput, focus && styles.activeBorder]}
           onFocus={() => setFocus(true)}
@@ -37,7 +34,7 @@ const TextInputModal = forwardRef<TextInput, Props>(
 TextInputModal.displayName = "TextInputModal";
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { marginBottom: 10 },
   textInput: {
     borderRadius: 5,
     borderWidth: 1,
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 18,
   },
-  activeBorder: { borderColor: colors.primaryLight },
+  activeBorder: { borderColor: colors.primaryLight, borderWidth: 2 },
 });
 
 export default TextInputModal;

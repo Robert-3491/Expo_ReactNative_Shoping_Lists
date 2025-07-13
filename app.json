@@ -17,6 +17,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "pan",
       "package": "com.anonymous.Shoping_Lists_Project"
     },
     "web": {
