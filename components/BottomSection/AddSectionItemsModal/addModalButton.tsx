@@ -4,12 +4,14 @@ import { colors } from "@/assets/colors";
 
 interface Props {
   buttonText: string;
+  onPress: () => void;
 }
 
-const AddModalButton: React.FC<Props> = ({ buttonText }) => {
+const AddModalButton: React.FC<Props> = ({ buttonText, onPress }) => {
   return (
     <View style={styles.container}>
       <Pressable
+        onPress={onPress}
         style={({ pressed }) => [
           styles.buttonStyle,
           { opacity: pressed ? 0.4 : 1 },

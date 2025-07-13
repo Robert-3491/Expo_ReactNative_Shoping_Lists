@@ -1,16 +1,32 @@
-import { StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import React, { forwardRef, useState } from "react";
 import { colors } from "@/assets/colors";
 
 interface Props {
   placeholder: string;
-
+  autofocus?: boolean;
   selectTextOnFocus?: boolean;
   onSubmitEditing: () => void;
+  addTitle?: string;
+  setAddTitle?: (addTitle: string) => void;
+  addLink?: string;
+  setAddLink?: (addLink: string) => void;
 }
 
 const TextInputModal = forwardRef<TextInput, Props>(
-  ({ placeholder, onSubmitEditing, selectTextOnFocus = false }, ref?) => {
+  (
+    {
+      placeholder,
+      onSubmitEditing,
+      selectTextOnFocus = false,
+      autofocus = false,
+      addTitle,
+      addLink,
+      setAddTitle,
+      setAddLink,
+    },
+    ref?
+  ) => {
     const [focus, setFocus] = useState(false);
 
     return (
@@ -26,6 +42,15 @@ const TextInputModal = forwardRef<TextInput, Props>(
           ref={ref}
           onSubmitEditing={onSubmitEditing}
           selectTextOnFocus={selectTextOnFocus}
+          autoFocus={autofocus}
+          value={addTitle ? addTitle : addLink}
+          onChangeText={(text) =>
+            setAddTitle
+              ? setAddTitle(text)
+              : setAddLink
+              ? setAddLink(text)
+              : null
+          }
         />
       </View>
     );

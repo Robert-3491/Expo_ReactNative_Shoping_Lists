@@ -1,21 +1,13 @@
-import {
-  Modal,
-  Pressable,
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-} from "react-native";
-
+import { Modal, Pressable, View, StyleSheet } from "react-native";
 import { SectionList } from "@/data/models/sectionList";
 import { colors } from "@/assets/colors";
 import ToggleAddingMode from "./toggleAddingMode";
-import { useRef, useState } from "react";
 import AddingBehavior from "./addingBehavior";
 import AddingDestinationText from "./addingDestinationText";
-import TextInputModal from "./TextInputModal/textInputModal";
 import AddModalButton from "./addModalButton";
 import TextInputsWrapper from "./TextInputModal/textInputsWrapper";
+import { useState } from "react";
+import * as addModalContainer from "@/containers/addModalContainer";
 
 interface Props {
   sectionList: SectionList;
@@ -32,6 +24,12 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   //
   const [currentSectionList, setCurrentSectionList] = useState(sectionList);
   const [addingMode, setAddingMode] = useState("ITEM");
+  const [addTitle, setAddTitle] = useState("");
+  const [addLink, setAddLink] = useState("");
+
+  const addSection = () => {
+    addModalContainer.addSection(addTitle);
+  };
 
   return (
     <Modal
@@ -56,10 +54,21 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           {addingMode === "ITEM" && (
             <AddingDestinationText currentSectionList={currentSectionList} />
           )}
-          <TextInputsWrapper addingMode={addingMode} />
+          <TextInputsWrapper
+            addingMode={addingMode}
+            addTitle={addTitle}
+            addLink={addLink}
+            setAddTitle={setAddTitle}
+            setAddLink={setAddLink}
+          />
 
           <AddModalButton
             buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
+            onPress={
+              addingMode === "ITEM"
+                ? () => console.log("Not Implem")
+                : addSection
+            }
           />
         </View>
       </View>

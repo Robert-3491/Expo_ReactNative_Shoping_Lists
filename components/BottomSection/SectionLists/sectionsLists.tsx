@@ -72,11 +72,6 @@ export default function SectionsLists() {
     return <RenderDeleteItem item={item} handleDelete={deleteSectionList} />;
   };
 
-  const addDummySections = async () => {
-    await sectionListsContainer.addDummySections();
-    refreshData();
-  };
-
   return (
     <View style={styles.container}>
       <SwipeableFlatList
@@ -88,7 +83,10 @@ export default function SectionsLists() {
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
       />
-      <Button title="Add section" onPress={addDummySections} />
+      <Button
+        title="sec"
+        onPress={() => sectionListsContainer.addSection("dummy")}
+      ></Button>
     </View>
   );
 }

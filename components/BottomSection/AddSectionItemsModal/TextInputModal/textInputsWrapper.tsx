@@ -4,9 +4,19 @@ import TextInputModal from "./textInputModal";
 
 interface Props {
   addingMode: string;
+  addTitle: string;
+  addLink: string;
+  setAddTitle: (addTitle: string) => void;
+  setAddLink: (addLink: string) => void;
 }
 
-const TextInputsWrapper: React.FC<Props> = ({ addingMode }) => {
+const TextInputsWrapper: React.FC<Props> = ({
+  addingMode,
+  addTitle,
+  addLink,
+  setAddTitle,
+  setAddLink,
+}) => {
   const linkInputRef = useRef<TextInput>(null);
 
   const focusNextInput = () => {
@@ -21,6 +31,9 @@ const TextInputsWrapper: React.FC<Props> = ({ addingMode }) => {
             : "Section title - required"
         }
         onSubmitEditing={focusNextInput}
+        autofocus={true}
+        addTitle={addTitle}
+        setAddTitle={setAddTitle}
       />
 
       {addingMode === "ITEM" && (
@@ -29,6 +42,8 @@ const TextInputsWrapper: React.FC<Props> = ({ addingMode }) => {
           ref={linkInputRef}
           selectTextOnFocus={true}
           onSubmitEditing={() => console.log("not implementd")}
+          addLink={addLink}
+          setAddLink={setAddLink}
         />
       )}
     </View>

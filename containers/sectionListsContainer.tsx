@@ -57,9 +57,13 @@ export const deleteList = (id: number) => {
   sectionLists = sectionLists.filter((list) => list.id !== id);
 };
 
-export const addDummySections = async () => {
-  let newSection = new SectionList("New Section", true, activeMainListId);
+export const addSection = async (title: string) => {
+  let newSection = new SectionList(title, true, activeMainListId);
   const newSectionid = await dbRepoSectionLists.addSectionList(newSection);
   newSection.id = newSectionid;
   sectionLists = [...sectionLists, newSection];
+
+  if (onDataChangeCallback) {
+    onDataChangeCallback();
+  }
 };
