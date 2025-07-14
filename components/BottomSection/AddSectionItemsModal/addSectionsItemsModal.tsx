@@ -20,15 +20,30 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   modalVisible,
   setModalVisible,
 }) => {
-  //
-  //
+  // component start
   const [currentSectionList, setCurrentSectionList] = useState(sectionList);
   const [addingMode, setAddingMode] = useState("ITEM");
   const [addTitle, setAddTitle] = useState("");
   const [addLink, setAddLink] = useState("");
 
+  const clearText = () => {
+    setAddTitle("");
+    setAddLink("");
+  };
+
+  const modalClosingBehaviour = () => {
+    setModalVisible(!modalVisible);
+    setCurrentSectionList(sectionList);
+    setAddingMode("ITEM");
+    clearText();
+  };
+
   const addSection = () => {
-    addModalContainer.addSection(addTitle, setCurrentSectionList);
+    addModalContainer.addSection(addTitle, setCurrentSectionList, clearText);
+  };
+
+  const addItem = () => {
+    addModalContainer.addItem(addTitle, currentSectionList.id, addLink);
   };
 
   return (
@@ -36,17 +51,11 @@ const AddSectionsItemsModal: React.FC<Props> = ({
       animationType="fade"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => [
-        setModalVisible(!modalVisible),
-        setCurrentSectionList(sectionList),
-      ]}
+      onRequestClose={() => modalClosingBehaviour()}
     >
       <Pressable
         style={[StyleSheet.absoluteFill, styles.modalOutside]}
-        onPress={() => [
-          setModalVisible(!modalVisible),
-          setCurrentSectionList(sectionList),
-        ]}
+        onPress={() => modalClosingBehaviour()}
       />
 
       {/* The modal content */}
@@ -75,11 +84,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
 
           <AddModalButton
             buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
-            onPress={
-              addingMode === "ITEM"
-                ? () => console.log("Not Implem")
-                : addSection
-            }
+            onPress={addingMode === "ITEM" ? addItem : addSection}
           />
         </View>
       </View>

@@ -25,18 +25,18 @@ export const getSectionLists = (): SectionList[] => {
 
 // for MainList connection
 // Callback system for UI updates
-let onDataChangeCallback: (() => void) | null = null;
+let onRefreshSectionsCallback: (() => void) | null = null;
 
-export const setOnDataChangeCallback = (callback: () => void) => {
-  onDataChangeCallback = callback;
+export const setOnRefreshSectionsCallback = (callback: () => void) => {
+  onRefreshSectionsCallback = callback;
 };
 
 // Update setActiveMainList to trigger the callback
 export const setActiveMainList = (mainListId: number) => {
   activeMainListId = mainListId;
 
-  if (onDataChangeCallback) {
-    onDataChangeCallback();
+  if (onRefreshSectionsCallback) {
+    onRefreshSectionsCallback();
   }
 };
 
@@ -63,8 +63,8 @@ export const addSection = async (title: string): Promise<SectionList> => {
   newSection.id = newSectionid;
   sectionLists = [...sectionLists, newSection];
 
-  if (onDataChangeCallback) {
-    onDataChangeCallback();
+  if (onRefreshSectionsCallback) {
+    onRefreshSectionsCallback();
   }
   return newSection;
 };

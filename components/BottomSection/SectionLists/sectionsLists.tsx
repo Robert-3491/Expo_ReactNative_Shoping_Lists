@@ -23,11 +23,11 @@ export default function SectionsLists() {
       refreshData();
     };
     // Set up the callback for when data changes
-    sectionListsContainer.setOnDataChangeCallback(refreshData);
+    sectionListsContainer.setOnRefreshSectionsCallback(refreshData);
     initializeData();
     // Cleanup callback on unmount
     return () => {
-      sectionListsContainer.setOnDataChangeCallback(() => {});
+      sectionListsContainer.setOnRefreshSectionsCallback(() => {});
     };
   }, []);
 
@@ -85,7 +85,7 @@ export default function SectionsLists() {
       />
       <Button
         title="sec"
-        onPress={() => sectionListsContainer.addSection("dummy")}
+        onPress={() => sectionListsContainer.addSection("test")}
       ></Button>
     </View>
   );

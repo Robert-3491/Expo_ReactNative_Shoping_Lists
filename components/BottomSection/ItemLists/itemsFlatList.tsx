@@ -1,36 +1,36 @@
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "@/assets/colors";
+import { useEffect, useState } from "react";
+import { Item } from "@/data/models/item";
+import * as itemsContainer from "@/containers/itemsContainer";
 
 interface Props {
   sectionId: number;
 }
 
 const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
-  const data = [
-    {
-      id: "1",
-      title: "Buy groceries",
-      description: "Milk, eggs, bread, and vegetables",
-      status: "pending",
-      category: "shopping",
-    },
-    {
-      id: "2",
-      title: "Walk the dog",
-      description: "Take Max for a 30-minute walk in the park",
-      status: "completed",
-      category: "pets",
-    },
-  ];
+  // component start
 
-  interface Item {
-    id: string;
-    title: string;
-    description: string;
-    status: string;
-    category: string;
-  }
+  const [data, setData] = useState<Item[]>([]);
+
+  const refreshData = () => {
+    setData(itemsContainer.getItems(sectionId));
+  };
+
+  useEffect(() => {
+    const initializeData = async () => {
+      await itemsContainer.initializeItemLists();
+      refreshData();
+    };
+    // Set up the callback for when data changes
+    itemsContainer.setOnRefreshItemsCallback(refreshData);
+    initializeData();
+    // Cleanup callback on unmount
+    return () => {
+      itemsContainer.setOnRefreshItemsCallback(() => {});
+    };
+  }, []);
 
   const renderItem = ({ item }: { item: Item }) => {
     // Render individual list items
