@@ -71,7 +71,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           {addingMode === "ITEM" && (
             <AddingDestinationText
               currentSectionList={currentSectionList}
-              newList={currentSectionList === sectionList}
+              newList={currentSectionList.id === sectionList.id}
             />
           )}
           <TextInputsWrapper

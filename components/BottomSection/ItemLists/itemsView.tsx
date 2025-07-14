@@ -1,5 +1,5 @@
 import { colors } from "@/assets/colors";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ViewStyle } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ItemsFlatList from "../ItemLists/itemsFlatList";
 
@@ -10,7 +10,7 @@ interface Props {
 const ItemsView: React.FC<Props> = ({ sectionId }) => {
   return (
     <GestureHandlerRootView>
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <ItemsFlatList sectionId={sectionId} />
       </View>
     </GestureHandlerRootView>

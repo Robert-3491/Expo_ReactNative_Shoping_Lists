@@ -4,6 +4,7 @@ import { colors } from "@/assets/colors";
 import { useEffect, useState } from "react";
 import { Item } from "@/data/models/item";
 import * as itemsContainer from "@/containers/itemsContainer";
+import RenderItem from "./renderItem";
 
 interface Props {
   sectionId: number;
@@ -34,11 +35,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   const renderItem = ({ item }: { item: Item }) => {
     // Render individual list items
-    return (
-      <View style={styles.itemContainer}>
-        <Text>{item.title}</Text>
-      </View>
-    );
+    return <RenderItem item={item} />;
   };
 
   const renderLeftActions = (item: Item) => {
@@ -53,12 +50,14 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   return (
     <SwipeableFlatList
+      style={styles.itemContainer}
       keyboardShouldPersistTaps="handled"
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
+      ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
     />
   );
 };
@@ -70,6 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
+    marginVertical: 10,
   },
 });
 

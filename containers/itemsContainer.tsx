@@ -1,19 +1,25 @@
 import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
+import { useState } from "react";
+
+let initialized = false;
 
 let itemsList: Item[] = [];
 
 export async function initializeItemLists() {
-  itemsList = (await dbRepoItem.getAllItems()).map(
-    (item) =>
-      new Item(
-        item.title,
-        item.sectionListId,
-        item.isChecked,
-        item.link,
-        item.id
-      )
-  );
+  if (!initialized) {
+    itemsList = (await dbRepoItem.getAllItems()).map(
+      (item) =>
+        new Item(
+          item.title,
+          item.sectionListId,
+          item.isChecked,
+          item.link,
+          item.id
+        )
+    );
+    initialized = true;
+  }
 }
 
 export const getItems = (sectionId: number): Item[] => {
