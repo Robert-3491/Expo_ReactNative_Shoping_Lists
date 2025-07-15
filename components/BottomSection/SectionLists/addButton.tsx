@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 55,
     borderLeftWidth: 2,
+    borderRadius: 5,
     borderColor: colors.border,
   },
   iconPressable: {

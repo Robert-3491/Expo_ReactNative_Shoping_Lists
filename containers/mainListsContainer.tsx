@@ -2,18 +2,26 @@ import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 
-let initialized = false;
-
 let mainLists: MainList[] = [];
 
 export async function initializeMainLists() {
-  if (!initialized) {
-    mainLists = (await dbRepoList.getAllMainLists()).map(
-      (list) => new MainList(list.title, list.isActive, list.id)
-    );
-    initialized = true;
-  }
+  mainLists = (await dbRepoList.getAllMainLists()).map(
+    (list) => new MainList(list.title, list.isActive, list.id)
+  );
 }
+
+// let initialized = false;
+
+// let mainLists: MainList[] = [];
+
+// export async function initializeMainLists() {
+//   if (!initialized) {
+//     mainLists = (await dbRepoList.getAllMainLists()).map(
+//       (list) => new MainList(list.title, list.isActive, list.id)
+//     );
+//     initialized = true;
+//   }
+// }
 
 export const getMainLists = (): MainList[] => {
   return mainLists;

@@ -80,8 +80,8 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
     const handleSaveEdit = (item: MainList) => {
       setIsMainListEditing(false); // Exit editing mode for the main list
       const newTitle = MainListsContainer.handleSaveEdit(item, editText);
-
-      if (item.isActive && item.title !== newTitle) {
+      if (item.isActive) {
+        console.log("true");
         setActiveList(newTitle); // Update the active list title if ACTIVE
       }
     };

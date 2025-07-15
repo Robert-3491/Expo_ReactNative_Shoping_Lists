@@ -107,22 +107,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
   },
-  pressSection: {
-    flexDirection: "row",
-    width: "90%",
-    paddingVertical: 15,
-  },
-  pressSectionElements: {
-    fontSize: 25,
-    color: colors.text,
-  },
-  dropdownIcon: {
-    marginHorizontal: 5,
-    verticalAlign: "middle",
-  },
-  activeListsText: {
-    color: colors.text,
-  },
 
   // Modal Styling
   modalPosition: {
