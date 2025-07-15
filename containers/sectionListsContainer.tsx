@@ -50,6 +50,10 @@ export const toggleItemVisibility = (itemId: number) => {
     item.id === itemId ? { ...item, isVisible: !item.isVisible } : item
   );
   dbRepoSectionLists.toggleSectionListVisibility(itemId);
+
+  if (onRefreshSectionsCallback) {
+    onRefreshSectionsCallback();
+  }
 };
 
 export const deleteList = (id: number) => {
@@ -58,7 +62,7 @@ export const deleteList = (id: number) => {
 };
 
 export const addSection = async (title: string): Promise<SectionList> => {
-  let newSection = new SectionList(title, true, activeMainListId);
+  let newSection = new SectionList(title, false, activeMainListId);
   const newSectionid = await dbRepoSectionLists.addSectionList(newSection);
   newSection.id = newSectionid;
   sectionLists = [...sectionLists, newSection];

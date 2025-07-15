@@ -43,7 +43,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   };
 
   const addItem = () => {
-    addModalContainer.addItem(addTitle, currentSectionList.id, addLink);
+    addModalContainer.addItem(addTitle, currentSectionList, addLink);
   };
 
   return (

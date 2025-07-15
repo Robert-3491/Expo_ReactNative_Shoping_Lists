@@ -33,7 +33,6 @@ export default function SectionsLists() {
 
   const toggleItemVisibility = (id: number) => {
     sectionListsContainer.toggleItemVisibility(id);
-    refreshData();
   };
 
   // Render individual list sectionLists
