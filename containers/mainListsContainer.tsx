@@ -2,26 +2,26 @@ import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 
+//let mainLists: MainList[] = [];
+
+// export async function initializeMainLists() {
+//   mainLists = (await dbRepoList.getAllMainLists()).map(
+//     (list) => new MainList(list.title, list.isActive, list.id)
+//   );
+// }
+
+let initialized = false;
+
 let mainLists: MainList[] = [];
 
 export async function initializeMainLists() {
-  mainLists = (await dbRepoList.getAllMainLists()).map(
-    (list) => new MainList(list.title, list.isActive, list.id)
-  );
+  if (!initialized) {
+    mainLists = (await dbRepoList.getAllMainLists()).map(
+      (list) => new MainList(list.title, list.isActive, list.id)
+    );
+    initialized = true;
+  }
 }
-
-// let initialized = false;
-
-// let mainLists: MainList[] = [];
-
-// export async function initializeMainLists() {
-//   if (!initialized) {
-//     mainLists = (await dbRepoList.getAllMainLists()).map(
-//       (list) => new MainList(list.title, list.isActive, list.id)
-//     );
-//     initialized = true;
-//   }
-// }
 
 export const getMainLists = (): MainList[] => {
   return mainLists;
@@ -54,36 +54,42 @@ export function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+export const setMainListActive = (id: number): void => {
+  mainLists = mainLists.map((list) =>
+    list.id === id ? { ...list, isActive: true } : list
+  );
+};
 
-export const handleMainListPress = (item: MainList) => {
+export const handleMainListPress = (
+  item: MainList,
+  isMainListEditing: boolean,
+  setModalVisible: (val: boolean) => void,
+  setActiveList: (val: string) => void
+) => {
+  if (isMainListEditing) {
+    return;
+  }
+  if (item.isActive) {
+    setModalVisible(false);
+  }
   SetInactiveLists(); // Set all lists to inactive
   dbRepoList.setAllInactive(); // Ensure the database reflects this change
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
   sectionListsContainer.setActiveMainList(item.id);
+
+  setMainListActive(item.id);
+  setActiveList(item.title); // Set the active list title
+  setModalVisible(false); // Close the modal after selecting a list
 };
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+export const handleSaveEdit = (
+  item: MainList,
+  editText: string,
+  setIsMainListEditing: (val: boolean) => void,
+  setActiveList: (val: string) => void
+) => {
+  setIsMainListEditing(false); // Exit editing mode for the main list
 
-export const handleSaveEdit = (item: MainList, editText: string): string => {
   const editTextUpped = capitalizeFirst(editText);
 
   item.isEditing = false;
@@ -93,7 +99,21 @@ export const handleSaveEdit = (item: MainList, editText: string): string => {
     dbRepoList.updateMainList(item.id, item); // Update the main list in the database
     updateMainList(item.id, item); // Update the main list in the local state
   }
-  return item.title;
+
+  if (item.isActive) {
+    setActiveList(item.title);
+  }
+};
+
+export const handleEditPress = (
+  item: MainList,
+  setIsMainListEditing: (val: boolean) => void
+) => {
+  setIsMainListEditing(true);
+
+  mainLists = mainLists.map((list) =>
+    list.id === item.id ? { ...list, isEditing: true } : list
+  );
 };
 
 export const handleDeleteList = (item: MainList): string | undefined => {

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
-import * as MainListsContainer from "@/containers/mainListsContainer";
+import * as mainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
 import AddMainList from "./addMainList";
 import {
@@ -22,18 +22,23 @@ interface IProps {
 
 export default forwardRef<{ exitEdit: () => void }, IProps>(
   function MainListsModalContents({ setModalVisible, setActiveList }, ref) {
-    //
+    // State to hold the Main Lists
+    const [mainLists, setMainLists] = useState<MainList[]>([]);
+
+    // Function to refresh the data
+    const refreshData = () => {
+      setMainLists(mainListsContainer.getMainLists());
+    };
+
     useEffect(() => {
       const initializeData = async () => {
-        await MainListsContainer.initializeMainLists();
-        setMainLists(MainListsContainer.getMainLists());
+        await mainListsContainer.initializeMainLists();
+        refreshData();
       };
       initializeData();
     }, []);
 
     //
-    // State to hold the Main Lists
-    const [mainLists, setMainLists] = useState<MainList[]>([]);
 
     // State to manage the editing mode of the Main Lists - blocks selection of lists on edit
     const [isMainListEditing, setIsMainListEditing] = useState(false);
@@ -46,13 +51,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
 
     const exitEdit = () => {
       setIsMainListEditing(false);
-      const updatedLists = mainLists.map((list) => ({
-        ...list,
-        isEditing: false,
-      }));
-      setMainLists(updatedLists);
     };
-
     // Expose exitEdit to parent
     useImperativeHandle(ref, () => ({
       exitEdit,
@@ -60,29 +59,29 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
 
     // Function to handle reloading the Main Lists
     const handleReloadMainList = () => {
-      setMainLists(MainListsContainer.getMainLists()); // Reload the Main Lists
+      refreshData(); // Reload the Main Lists
       setModalVisible(false); // Close the modal after reloading
     };
 
     //Change the active list when a main list is pressed
     const handleMainListPress = (item: MainList) => () => {
-      if (isMainListEditing) {
-        return;
-      }
-      if (item.isActive) {
-        setModalVisible(false);
-      }
-      MainListsContainer.handleMainListPress(item);
-      setActiveList(item.title); // Set the active list title
-      setModalVisible(false); // Close the modal after selecting a list
+      mainListsContainer.handleMainListPress(
+        item,
+        isMainListEditing,
+        setModalVisible,
+        setActiveList
+      );
+      refreshData();
     };
 
     const handleSaveEdit = (item: MainList) => {
-      setIsMainListEditing(false); // Exit editing mode for the main list
-      const newTitle = MainListsContainer.handleSaveEdit(item, editText);
-      if (item.isActive) {
-        setActiveList(newTitle); // Update the active list title if ACTIVE
-      }
+      mainListsContainer.handleSaveEdit(
+        item,
+        editText,
+        setIsMainListEditing,
+        setActiveList
+      );
+      refreshData();
     };
 
     // Render function for each main list item
@@ -132,12 +131,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
     };
 
     const handleEditPress = (item: MainList) => {
-      setIsMainListEditing(true);
-      setMainLists((currentLists) =>
-        currentLists.map((list) =>
-          list.id === item.id ? { ...list, isEditing: true } : list
-        )
-      );
+      mainListsContainer.handleEditPress(item, setIsMainListEditing);
       swipeListRef.current?.closeAnyOpenRows();
     };
 
@@ -148,17 +142,23 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       }
       return <RenderEditItem item={item} handleEdit={handleEditPress} />;
     };
-
+    //
+    //
+    //
+    //
     // Function to handle deleting a main list - for RIGHT ACTION
     function handleDeleteList(item: MainList): void {
-      setMainLists(MainListsContainer.getMainLists); // Refresh local state with updated lists from database - state available on next render
-      const response = MainListsContainer.handleDeleteList(item);
+      setMainLists(mainListsContainer.getMainLists); // Refresh local state with updated lists from database - state available on next render
+      const response = mainListsContainer.handleDeleteList(item);
       if (response !== undefined) {
         setActiveList(response);
       }
-      setMainLists(MainListsContainer.getMainLists());
+      setMainLists(mainListsContainer.getMainLists());
     }
-
+    //
+    //
+    //
+    //
     // RENDER RIGHT ACTIONS
     const renderRightActions = (item: MainList) => {
       if (isMainListEditing) {
