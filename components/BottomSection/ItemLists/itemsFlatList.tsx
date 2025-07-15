@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Item } from "@/data/models/item";
 import * as itemsContainer from "@/containers/itemsContainer";
 import RenderItem from "./renderItem";
+import RenderEditItem from "@/components/SharedComponents/renderEditItem";
+import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 
 interface Props {
   sectionId: number;
@@ -40,12 +42,19 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   const renderLeftActions = (item: Item) => {
     // Render left swipe actions for each item
-    return <Text>LEFT</Text>;
+    return (
+      <RenderEditItem item={item} handleEdit={() => console.log("Edit")} />
+    );
   };
 
   const renderRightActions = (item: Item) => {
     // Render right swipe actions for each item
-    return <Text>DELTE</Text>;
+    return (
+      <RenderDeleteItem
+        item={item}
+        handleDelete={() => itemsContainer.deleteList(item.id, refreshData)}
+      />
+    );
   };
 
   return (

@@ -72,3 +72,17 @@ export const addSection = async (title: string): Promise<SectionList> => {
   }
   return newSection;
 };
+
+export const toggleSectionVisibilityTrue = async (itemId: number) => {
+  const currentItem = sectionLists.find((item) => item.id === itemId);
+
+  if (!currentItem?.isVisible) {
+    sectionLists = sectionLists.map((item) =>
+      item.id === itemId ? { ...item, isVisible: true } : item
+    );
+    await dbRepoSectionLists.toggleSectionVisibilityTrue(itemId);
+    if (onRefreshSectionsCallback) {
+      onRefreshSectionsCallback();
+    }
+  }
+};

@@ -46,3 +46,9 @@ export const addItem = async (
     onRefreshItemsCallback();
   }
 };
+
+export const deleteList = (id: number, refreshData: () => void) => {
+  dbRepoItem.deleteItem(id);
+  itemsList = itemsList.filter((item) => item.id !== id);
+  refreshData();
+};

@@ -8,6 +8,8 @@ interface Props {
   addLink: string;
   setAddTitle: (addTitle: string) => void;
   setAddLink: (addLink: string) => void;
+  addItem: () => void;
+  addSection: () => void;
 }
 
 const TextInputsWrapper: React.FC<Props> = ({
@@ -16,6 +18,8 @@ const TextInputsWrapper: React.FC<Props> = ({
   addLink,
   setAddTitle,
   setAddLink,
+  addItem,
+  addSection,
 }) => {
   const linkInputRef = useRef<TextInput>(null);
 
@@ -30,7 +34,7 @@ const TextInputsWrapper: React.FC<Props> = ({
             ? "Item title - required"
             : "Section title - required"
         }
-        onSubmitEditing={focusNextInput}
+        onSubmitEditing={addingMode === "ITEM" ? focusNextInput : addSection}
         autofocus={true}
         addTitle={addTitle}
         setAddTitle={setAddTitle}
@@ -41,7 +45,7 @@ const TextInputsWrapper: React.FC<Props> = ({
           placeholder="Link - optional"
           ref={linkInputRef}
           selectTextOnFocus={true}
-          onSubmitEditing={() => console.log("not implementd")}
+          onSubmitEditing={addItem}
           addLink={addLink}
           setAddLink={setAddLink}
         />

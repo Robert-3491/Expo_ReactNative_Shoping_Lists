@@ -27,10 +27,10 @@ export const addSection = async (
 export const addItem = (
   title: string,
   sectionList: SectionList,
-  link: string
+  link: string,
+  clearText: () => void
 ) => {
   itemsContainer.addItem(title, sectionList.id, link);
-  if (!sectionList.isVisible) {
-    sectionListsContainer.toggleItemVisibility(sectionList.id);
-  }
+  sectionListsContainer.toggleSectionVisibilityTrue(sectionList.id);
+  clearText();
 };

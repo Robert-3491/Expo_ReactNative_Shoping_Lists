@@ -188,3 +188,13 @@ export const getVisibleSectionList = async (
     throw error;
   }
 };
+
+export const toggleSectionVisibilityTrue = async (id: number) => {
+  try {
+    db.runSync("UPDATE sectionlists SET isVisible = 1 WHERE id = ?", [id]);
+    console.log("SectionList set to visible:", id);
+  } catch (error) {
+    console.error("Error toggling SectionList visibility to true:", error);
+    throw error;
+  }
+};

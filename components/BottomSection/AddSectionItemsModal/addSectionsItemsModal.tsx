@@ -43,7 +43,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   };
 
   const addItem = () => {
-    addModalContainer.addItem(addTitle, currentSectionList, addLink);
+    addModalContainer.addItem(addTitle, currentSectionList, addLink, clearText);
   };
 
   return (
@@ -80,6 +80,8 @@ const AddSectionsItemsModal: React.FC<Props> = ({
             addLink={addLink}
             setAddTitle={setAddTitle}
             setAddLink={setAddLink}
+            addItem={addItem}
+            addSection={addSection}
           />
 
           <AddModalButton
