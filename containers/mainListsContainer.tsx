@@ -54,12 +54,34 @@ export function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 export const handleMainListPress = (item: MainList) => {
   SetInactiveLists(); // Set all lists to inactive
   dbRepoList.setAllInactive(); // Ensure the database reflects this change
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
   sectionListsContainer.setActiveMainList(item.id);
 };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 export const handleSaveEdit = (item: MainList, editText: string): string => {
   const editTextUpped = capitalizeFirst(editText);
