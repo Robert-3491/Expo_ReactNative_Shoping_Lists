@@ -14,6 +14,7 @@ import {
 } from "react";
 import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
 import RenderEditItem from "../SharedComponents/renderEditItem";
+import EditMainListTextInput from "./editMainListTextInput";
 
 interface IProps {
   setModalVisible: (visible: boolean) => void;
@@ -51,6 +52,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
 
     const exitEdit = () => {
       setIsMainListEditing(false);
+      mainListsContainer.mainListsStopEdit();
     };
     // Expose exitEdit to parent
     useImperativeHandle(ref, () => ({
@@ -64,9 +66,9 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
     };
 
     //Change the active list when a main list is pressed
-    const handleMainListPress = (item: MainList) => () => {
+    const handleMainListPress = (mainList: MainList) => () => {
       mainListsContainer.handleMainListPress(
-        item,
+        mainList,
         isMainListEditing,
         setModalVisible,
         setActiveList
@@ -74,9 +76,9 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       refreshData();
     };
 
-    const handleSaveEdit = (item: MainList) => {
+    const handleSaveEdit = (mainList: MainList) => {
       mainListsContainer.handleSaveEdit(
-        item,
+        mainList,
         editText,
         setIsMainListEditing,
         setActiveList
@@ -84,38 +86,23 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       refreshData();
     };
 
-    // Render function for each main list item
+    // Render function for each main list mainList
     const renderMainList = ({ item }: { item: MainList }) => {
       return (
         <Pressable onPress={handleMainListPress(item)}>
           {item.isEditing ? (
             // TextInput mounts fresh when editing starts
-            <TextInput
-              autoCorrect={false}
-              selectionColor={colors.edit}
-              autoFocus={true}
-              value={editText}
-              onFocus={() => {
-                setEditText(item.title); // Set the text input value to the current title when focused
-              }}
-              onChangeText={(text) => setEditText(text)}
-              onBlur={() => handleSaveEdit(item)}
-              onSubmitEditing={() => handleSaveEdit(item)}
-              style={[
-                styles.itemText,
-                styles.itemEdit,
-                {
-                  backgroundColor: item.isActive
-                    ? colors.primaryLight
-                    : colors.borderLight,
-                },
-              ]}
+            <EditMainListTextInput
+              mainList={item}
+              editText={editText}
+              setEditText={setEditText}
+              handleSaveEdit={handleSaveEdit}
             />
           ) : (
             // Regular text when not editing
             <Text
               style={[
-                styles.itemText,
+                styles.mainListText,
                 {
                   backgroundColor: item.isActive
                     ? colors.primary
@@ -130,41 +117,34 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       );
     };
 
-    const handleEditPress = (item: MainList) => {
-      mainListsContainer.handleEditPress(item, setIsMainListEditing);
+    const handleEditPress = (mainList: MainList) => {
+      mainListsContainer.handleEditPress(mainList, setIsMainListEditing);
       swipeListRef.current?.closeAnyOpenRows();
+      refreshData();
     };
 
     // RENDER LEFT ACTIONS
-    const renderLeftActions = (item: MainList) => {
+    const renderLeftActions = (mainList: MainList) => {
       if (isMainListEditing) {
         return; // Do not render left action if in editing mode
       }
-      return <RenderEditItem item={item} handleEdit={handleEditPress} />;
+      return <RenderEditItem item={mainList} handleEdit={handleEditPress} />;
     };
-    //
-    //
-    //
-    //
+
     // Function to handle deleting a main list - for RIGHT ACTION
-    function handleDeleteList(item: MainList): void {
-      setMainLists(mainListsContainer.getMainLists); // Refresh local state with updated lists from database - state available on next render
-      const response = mainListsContainer.handleDeleteList(item);
-      if (response !== undefined) {
-        setActiveList(response);
-      }
-      setMainLists(mainListsContainer.getMainLists());
+    function handleDeleteList(mainList: MainList): void {
+      mainListsContainer.handleDeleteList(mainList, setActiveList);
+      refreshData();
     }
-    //
-    //
-    //
-    //
+
     // RENDER RIGHT ACTIONS
-    const renderRightActions = (item: MainList) => {
+    const renderRightActions = (mainList: MainList) => {
       if (isMainListEditing) {
         return; // Do not render right action if in editing mode
       }
-      return <RenderDeleteItem item={item} handleDelete={handleDeleteList} />;
+      return (
+        <RenderDeleteItem item={mainList} handleDelete={handleDeleteList} />
+      );
     };
 
     return (
@@ -177,7 +157,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
         <SwipeableFlatList
           ref={swipeListRef}
           data={mainLists}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(mainList) => mainList.id.toString()}
           renderItem={renderMainList}
           renderLeftActions={renderLeftActions}
           renderRightActions={renderRightActions}
@@ -192,7 +172,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  itemText: {
+  mainListText: {
     paddingHorizontal: 10,
     paddingVertical: 15,
     color: colors.text,
@@ -200,9 +180,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.borderLight,
     width: "100%",
     borderRadius: 5,
-  },
-  itemEdit: {
-    borderWidth: 1.5,
-    borderColor: colors.edit,
   },
 });

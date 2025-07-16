@@ -13,11 +13,12 @@ const AddButton: React.FC<Props> = ({ sectionList }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View style={styles.iconContainer}>
+    <View>
       <Pressable
         style={({ pressed }) => [
           styles.iconPressable,
           { opacity: pressed ? 0.4 : 1 },
+          styles.iconContainer,
         ]}
         onPress={() => setModalVisible(!modalVisible)}
       >
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     width: 55,
     borderLeftWidth: 2,
     borderRadius: 5,
-    borderColor: colors.border,
+    borderColor: colors.primaryLight,
   },
   iconPressable: {
     flex: 1,

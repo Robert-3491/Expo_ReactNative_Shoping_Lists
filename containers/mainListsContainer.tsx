@@ -40,7 +40,6 @@ export const addMainList = (newMainList: MainList) => {
 
 export const deleteMainList = (id: number) => {
   mainLists = mainLists.filter((list) => list.id !== id);
-  console.log("MainList deleted:", id);
 };
 
 export const updateMainList = (id: number, updatedList: MainList) => {
@@ -73,7 +72,6 @@ export const handleMainListPress = (
     setModalVisible(false);
   }
   SetInactiveLists(); // Set all lists to inactive
-  dbRepoList.setAllInactive(); // Ensure the database reflects this change
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
   sectionListsContainer.setActiveMainList(item.id);
 
@@ -116,7 +114,16 @@ export const handleEditPress = (
   );
 };
 
-export const handleDeleteList = (item: MainList): string | undefined => {
+export const mainListsStopEdit = () => {
+  mainLists = mainLists.map((list) =>
+    list.isEditing === true ? { ...list, isEditing: false } : list
+  );
+};
+
+export const handleDeleteList = (
+  item: MainList,
+  setActiveList: (val: string) => void
+) => {
   dbRepoList.deleteMainList(item.id); // Remove from database
   deleteMainList(item.id); // Remove from local state
 
@@ -125,10 +132,10 @@ export const handleDeleteList = (item: MainList): string | undefined => {
       mainLists[0].isActive = true; // Set the first list as active if available
       dbRepoList.setActiveMainList(mainLists[0].id); // Update the database with the new active list
       sectionListsContainer.setActiveMainList(mainLists[0].id);
-      return mainLists[0].title;
+      setActiveList(mainLists[0].title);
     } else {
       sectionListsContainer.setActiveMainList(0);
-      return "No list created yet";
+      setActiveList("No list created yet");
     } // Clear active list if no lists are left
   }
   return undefined;

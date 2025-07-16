@@ -75,7 +75,7 @@ export const getMainListById = async (id: number): Promise<any | null> => {
 export const setAllInactive = async (): Promise<void> => {
   try {
     db.runSync("UPDATE mainlists SET isActive = 0");
-    console.log("All MainLists set to inactive");
+    console.log("All MainLists set to inactive (DB)");
   } catch (error) {
     console.error("Error setting all inactive:", error);
     throw error;
@@ -83,15 +83,13 @@ export const setAllInactive = async (): Promise<void> => {
 };
 
 export const setActiveMainList = async (id: number): Promise<void> => {
-  console.log("Setting active MainList:", id);
-
   try {
     // First set all to inactive
     await setAllInactive();
 
     // Then set the specific one as active
     db.runSync("UPDATE mainlists SET isActive = 1 WHERE id = ?", [id]);
-    console.log("MainList set as active:", id);
+    console.log("MainList set as active: (DB)", id);
   } catch (error) {
     console.error("Error setting active MainList:", error);
     throw error;
