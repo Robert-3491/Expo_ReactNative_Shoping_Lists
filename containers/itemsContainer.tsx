@@ -23,7 +23,9 @@ export async function initializeItemLists() {
 }
 
 export const getItems = (sectionId: number): Item[] => {
-  return itemsList.filter((item) => item.sectionListId === sectionId);
+  return itemsList
+    .filter((item) => item.sectionListId === sectionId)
+    .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
 };
 
 let onRefreshItemsCallback: (() => void) | null = null;
@@ -51,4 +53,15 @@ export const deleteList = (id: number, refreshData: () => void) => {
   dbRepoItem.deleteItem(id);
   itemsList = itemsList.filter((item) => item.id !== id);
   refreshData();
+};
+
+export const toggleIsChecked = (id: number) => {
+  dbRepoItem.toggleItemChecked(id);
+  itemsList = itemsList.map((item) =>
+    item.id === id ? { ...item, isChecked: !item.isChecked } : item
+  );
+
+  if (onRefreshItemsCallback) {
+    onRefreshItemsCallback();
+  }
 };

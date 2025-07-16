@@ -1,6 +1,5 @@
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { View, StyleSheet } from "react-native";
-import { colors } from "@/assets/colors";
 import { useEffect, useState } from "react";
 import { Item } from "@/data/models/item";
 import * as itemsContainer from "@/containers/itemsContainer";
@@ -26,7 +25,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       await itemsContainer.initializeItemLists();
       refreshData();
     };
-    // Set up the callback for when data changes
+    // Set up the callback
     itemsContainer.setOnRefreshItemsCallback(refreshData);
     initializeData();
     // Cleanup callback on unmount
@@ -35,9 +34,14 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     };
   }, []);
 
+  const toggleIsChecked = (id: number) => {
+    itemsContainer.toggleIsChecked(id);
+    refreshData();
+  };
+
   const renderItem = ({ item }: { item: Item }) => {
     // Render individual list items
-    return <RenderItem item={item} />;
+    return <RenderItem item={item} toggleIsChecked={toggleIsChecked} />;
   };
 
   const renderLeftActions = (item: Item) => {

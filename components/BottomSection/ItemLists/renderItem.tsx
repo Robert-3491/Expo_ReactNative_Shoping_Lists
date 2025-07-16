@@ -1,26 +1,40 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Item } from "@/data/models/item";
 import { colors } from "@/assets/colors";
 // eslint-disable-next-line import/no-named-as-default
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
+import * as itemsContainer from "@/containers/itemsContainer";
 
 interface Props {
   item: Item;
+  toggleIsChecked: (id: number) => void;
 }
 
-const RenderItem: React.FC<Props> = ({ item }) => {
+const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
+  // componenent start
+
   return (
     <View style={styles.itemContainer}>
       <Checkbox
         style={styles.checkbox}
-        value={Boolean(item.isChecked)}
+        value={Boolean(item.isChecked)} // Use item.isChecked directly
         color={colors.primaryLight}
-        onValueChange={() => !item.isChecked}
+        onValueChange={
+          () => toggleIsChecked(item.id) // Simplified call
+        }
       />
 
-      <Text style={styles.title}>{item.title}</Text>
+      <Text
+        selectable={true}
+        style={[
+          { textDecorationLine: item.isChecked ? "line-through" : "none" },
+          styles.title,
+        ]}
+      >
+        {item.title}
+      </Text>
 
       <Pressable
         style={({ pressed }) => [
@@ -43,7 +57,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   checkbox: { width: 30, height: 30, borderRadius: 5, margin: 5 },
-  title: { fontSize: 18, color: colors.text, flex: 1, marginHorizontal: 5 },
+  title: {
+    fontSize: 18,
+    color: colors.text,
+    flex: 1,
+    marginHorizontal: 5,
+  },
   openIcon: { fontSize: 30, color: colors.text },
   iconContainer: {
     padding: 7,
