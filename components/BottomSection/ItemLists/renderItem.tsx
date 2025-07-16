@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
     width: "97%",
-    backgroundColor: colors.borderLight,
+    backgroundColor: colors.itemCard,
     alignItems: "center",
     borderRadius: 5,
     alignSelf: "center",
   },
   checkbox: { width: 30, height: 30, borderRadius: 5, margin: 5 },
-  title: { fontSize: 18, color: colors.text, flex: 1 },
+  title: { fontSize: 18, color: colors.text, flex: 1, marginHorizontal: 5 },
   openIcon: { fontSize: 30, color: colors.text },
   iconContainer: {
     padding: 7,

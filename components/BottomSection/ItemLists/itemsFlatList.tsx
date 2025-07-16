@@ -1,5 +1,5 @@
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { colors } from "@/assets/colors";
 import { useEffect, useState } from "react";
 import { Item } from "@/data/models/item";
@@ -59,7 +59,6 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   return (
     <SwipeableFlatList
-      style={styles.itemContainer}
       keyboardShouldPersistTaps="handled"
       data={data}
       keyExtractor={(item) => item.id}
@@ -67,19 +66,9 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+      scrollEnabled={false}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    width: "100%",
-    backgroundColor: colors.border,
-    flex: 1,
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    marginVertical: 10,
-  },
-});
 
 export default ItemsFlatList;

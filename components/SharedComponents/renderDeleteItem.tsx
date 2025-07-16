@@ -53,7 +53,7 @@ const RenderDeleteItem: React.FC<Props> = ({
 const styles = StyleSheet.create({
   rightActionContainer: {
     flexDirection: "row",
-    width: "100%",
+    width: "80%",
     backgroundColor: colors.delete,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,

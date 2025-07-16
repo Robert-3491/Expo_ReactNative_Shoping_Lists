@@ -51,7 +51,7 @@ const RenderEditItem: React.FC<Props> = ({
 const styles = StyleSheet.create({
   leftActionContainer: {
     flexDirection: "row",
-    width: "100%",
+    width: "80%",
     backgroundColor: colors.edit,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,

@@ -20,6 +20,8 @@ export const colors = {
   placeholder: "#9CA3AF", // Gray 400
   edit: "#D99900", // Amber 500
   delete: "#A91B0D", // Red 500
+  itemBackground: "#293444", // Gray 700
+  itemCard: "#435164", // Gray 700
 };
 
 // Theme Option 1: Deep Ocean Blue
