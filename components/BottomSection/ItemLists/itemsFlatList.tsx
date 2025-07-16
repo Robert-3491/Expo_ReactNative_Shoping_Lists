@@ -59,6 +59,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   return (
     <SwipeableFlatList
+      style={styles.itemContainer}
       keyboardShouldPersistTaps="handled"
       data={data}
       keyExtractor={(item) => item.id}
@@ -70,5 +71,12 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  itemContainer: {
+    width: "97%",
+    alignSelf: "center",
+  },
+});
 
 export default ItemsFlatList;

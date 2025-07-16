@@ -37,11 +37,10 @@ const RenderItem: React.FC<Props> = ({ item }) => {
 const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
-    width: "97%",
+    flex: 1,
     backgroundColor: colors.itemCard,
     alignItems: "center",
     borderRadius: 5,
-    alignSelf: "center",
   },
   checkbox: { width: 30, height: 30, borderRadius: 5, margin: 5 },
   title: { fontSize: 18, color: colors.text, flex: 1, marginHorizontal: 5 },
