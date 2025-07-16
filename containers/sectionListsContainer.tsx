@@ -40,8 +40,10 @@ export const setActiveMainList = (mainListId: number) => {
   }
 };
 
-export const getActiveMainListId = (): number => {
-  return activeMainListId;
+export const refreshCallback = () => {
+  if (onRefreshSectionsCallback) {
+    onRefreshSectionsCallback();
+  }
 };
 // end
 
@@ -50,10 +52,7 @@ export const toggleItemVisibility = (itemId: number) => {
     item.id === itemId ? { ...item, isVisible: !item.isVisible } : item
   );
   dbRepoSectionLists.toggleSectionListVisibility(itemId);
-
-  if (onRefreshSectionsCallback) {
-    onRefreshSectionsCallback();
-  }
+  refreshCallback();
 };
 
 export const deleteList = (id: number) => {
@@ -67,9 +66,7 @@ export const addSection = async (title: string): Promise<SectionList> => {
   newSection.id = newSectionid;
   sectionLists = [...sectionLists, newSection];
 
-  if (onRefreshSectionsCallback) {
-    onRefreshSectionsCallback();
-  }
+  refreshCallback();
   return newSection;
 };
 
@@ -81,8 +78,6 @@ export const toggleSectionVisibilityTrue = async (itemId: number) => {
       item.id === itemId ? { ...item, isVisible: true } : item
     );
     await dbRepoSectionLists.toggleSectionVisibilityTrue(itemId);
-    if (onRefreshSectionsCallback) {
-      onRefreshSectionsCallback();
-    }
+    refreshCallback();
   }
 };

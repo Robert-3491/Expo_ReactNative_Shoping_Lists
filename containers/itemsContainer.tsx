@@ -1,6 +1,5 @@
 import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
-import { useState } from "react";
 
 let initialized = false;
 
