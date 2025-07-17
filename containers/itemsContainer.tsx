@@ -27,10 +27,18 @@ export const getItems = (sectionId: number): Item[] => {
     .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
 };
 
-let onRefreshItemsCallback: (() => void) | null = null;
+// Change to Map for multiple callbacks
+let onRefreshItemsCallbacks: Map<number, () => void> = new Map();
 
-export const setOnRefreshItemsCallback = (callback: () => void) => {
-  onRefreshItemsCallback = callback;
+export const setOnRefreshItemsCallback = (
+  sectionId: number,
+  callback: (() => void) | null
+) => {
+  if (callback) {
+    onRefreshItemsCallbacks.set(sectionId, callback);
+  } else {
+    onRefreshItemsCallbacks.delete(sectionId);
+  }
 };
 
 export const addItem = async (
@@ -43,8 +51,10 @@ export const addItem = async (
   newItem.id = newItemId;
   itemsList = [...itemsList, newItem];
 
-  if (onRefreshItemsCallback) {
-    onRefreshItemsCallback();
+  // Call the callback for the specific section where item was added
+  const callback = onRefreshItemsCallbacks.get(sectionListId);
+  if (callback) {
+    callback();
   }
 };
 
@@ -54,13 +64,16 @@ export const deleteList = (id: number, refreshData: () => void) => {
   refreshData();
 };
 
-export const toggleIsChecked = (id: number) => {
+export const toggleIsChecked = (id: number, sectionId: number) => {
   dbRepoItem.toggleItemChecked(id);
+
   itemsList = itemsList.map((item) =>
     item.id === id ? { ...item, isChecked: !item.isChecked } : item
   );
 
-  if (onRefreshItemsCallback) {
-    onRefreshItemsCallback();
+  // Call the callback for this specific section
+  const callback = onRefreshItemsCallbacks.get(sectionId);
+  if (callback) {
+    callback();
   }
 };

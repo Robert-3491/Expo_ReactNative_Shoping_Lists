@@ -18,6 +18,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   const refreshData = () => {
     setData(itemsContainer.getItems(sectionId));
+    console.log(itemsContainer.getItems(sectionId));
   };
 
   useEffect(() => {
@@ -26,16 +27,17 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       refreshData();
     };
     // Set up the callback
-    itemsContainer.setOnRefreshItemsCallback(refreshData);
+    itemsContainer.setOnRefreshItemsCallback(sectionId, refreshData);
     initializeData();
+
     // Cleanup callback on unmount
     return () => {
-      itemsContainer.setOnRefreshItemsCallback(() => {});
+      itemsContainer.setOnRefreshItemsCallback(sectionId, () => {});
     };
-  }, []);
+  }, [sectionId]);
 
   const toggleIsChecked = (id: number) => {
-    itemsContainer.toggleIsChecked(id);
+    itemsContainer.toggleIsChecked(id, sectionId);
     refreshData();
   };
 
