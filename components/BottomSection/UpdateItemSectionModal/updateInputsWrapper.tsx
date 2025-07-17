@@ -3,7 +3,9 @@ import React from "react";
 import TextInputModal from "../AddSectionItemsModal/TextInputModal/textInputModal";
 import { colors } from "@/assets/colors";
 
-const UpdateInputsWrapper = () => {
+interface Props {}
+
+const UpdateInputsWrapper: React.FC<Props> = () => {
   return (
     <View>
       <TextInputModal

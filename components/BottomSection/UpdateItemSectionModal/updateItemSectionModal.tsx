@@ -56,7 +56,7 @@ const UpdateItemSectionModal: React.FC<Props> = ({
             <UpdateInputsWrapper />
 
             <AddModalButton
-              buttonText="Update"
+              buttonText={item ? "Update Item" : "Update Section"}
               onPress={() => console.log("Works")}
               backgroundColor={colors.edit}
             />

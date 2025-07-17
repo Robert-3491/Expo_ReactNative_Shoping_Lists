@@ -17,6 +17,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   const [data, setData] = useState<Item[]>([]);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [itemForUpdate, setItemForUpdate] = useState<Item>();
 
   const refreshData = () => {
     setData(itemsContainer.getItems(sectionId));
@@ -47,12 +48,18 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     return <RenderItem item={item} toggleIsChecked={toggleIsChecked} />;
   };
 
+  // Open UpdateModal for Edit action on selected SectionList
+  const openUpdateModalItem = (item: Item) => {
+    setItemForUpdate(item);
+    setUpdateModalVisible(!updateModalVisible);
+  };
+
   const renderLeftActions = (item: Item) => {
     // Render left swipe actions for each item
     return (
       <RenderEditItem
         item={item}
-        handleEdit={() => setUpdateModalVisible(!updateModalVisible)}
+        handleEdit={() => openUpdateModalItem(item)}
       />
     );
   };
@@ -82,6 +89,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
         setUpdateModalVisible={setUpdateModalVisible}
+        item={itemForUpdate}
       />
     </View>
   );

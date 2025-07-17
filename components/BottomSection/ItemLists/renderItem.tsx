@@ -19,11 +19,9 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
     <View style={styles.itemContainer}>
       <Checkbox
         style={styles.checkbox}
-        value={Boolean(item.isChecked)} // Use item.isChecked directly
+        value={Boolean(item.isChecked)}
         color={colors.primaryLight}
-        onValueChange={
-          () => toggleIsChecked(item.id) // Simplified call
-        }
+        onValueChange={() => toggleIsChecked(item.id)}
       />
 
       <Text
