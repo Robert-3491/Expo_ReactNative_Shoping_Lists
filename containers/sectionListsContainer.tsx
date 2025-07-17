@@ -70,6 +70,7 @@ export const addSection = async (title: string): Promise<SectionList> => {
   return newSection;
 };
 
+//For after adding a new item
 export const toggleSectionVisibilityTrue = async (itemId: number) => {
   const currentItem = sectionLists.find((item) => item.id === itemId);
 

@@ -48,7 +48,9 @@ const UpdateItemSectionModal: React.FC<Props> = ({
           <View style={styles.modalView}>
             {/* // */}
             <Text style={styles.header}>
-              {item ? "Update Item" : "Update Section"}
+              {item
+                ? `Update Item: ${item.title}`
+                : `Update Section: ${sectionList?.title}`}
             </Text>
 
             <UpdateInputsWrapper />
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderLight,
     borderWidth: 1,
     paddingHorizontal: 10,
+    paddingBottom: 5,
   },
   header: {
     fontSize: 20,

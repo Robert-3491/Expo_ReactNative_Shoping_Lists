@@ -13,6 +13,7 @@ import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionM
 export default function SectionsLists() {
   const [data, setData] = useState<SectionList[]>([]);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [sectionForUpdate, setSectionForUpdate] = useState<SectionList>();
 
   // Function to refresh the data
   const refreshData = () => {
@@ -56,12 +57,18 @@ export default function SectionsLists() {
     );
   };
 
+  // Open UpdateModal for Edit action on selected SectionList
+  const openUpdateModalSection = (sectionList: SectionList) => {
+    setSectionForUpdate(sectionList);
+    setUpdateModalVisible(!updateModalVisible);
+  };
+
   // Render left swipe actions for each sectionList
   const renderLeftActions = (item: SectionList) => {
     return (
       <RenderEditItem
         item={item}
-        handleEdit={() => setUpdateModalVisible(!updateModalVisible)}
+        handleEdit={() => openUpdateModalSection(item)}
       />
     );
   };
@@ -94,6 +101,7 @@ export default function SectionsLists() {
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
         setUpdateModalVisible={setUpdateModalVisible}
+        sectionList={sectionForUpdate}
       />
     </View>
   );
