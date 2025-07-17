@@ -1,9 +1,16 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import {
+  ColorValue,
+  StyleSheet,
+  TextInput,
+  TextStyle,
+  View,
+} from "react-native";
 import React, { forwardRef, useState } from "react";
 import { colors } from "@/assets/colors";
 
 interface Props {
   placeholder: string;
+  selectionColor: ColorValue;
   autofocus?: boolean;
   selectTextOnFocus?: boolean;
   onSubmitEditing: () => void;
@@ -11,12 +18,14 @@ interface Props {
   setAddTitle?: (addTitle: string) => void;
   addLink?: string;
   setAddLink?: (addLink: string) => void;
+  style?: TextStyle;
 }
 
 const TextInputModal = forwardRef<TextInput, Props>(
   (
     {
       placeholder,
+      selectionColor,
       onSubmitEditing,
       selectTextOnFocus = false,
       autofocus = false,
@@ -24,6 +33,7 @@ const TextInputModal = forwardRef<TextInput, Props>(
       addLink,
       setAddTitle,
       setAddLink,
+      style,
     },
     ref?
   ) => {
@@ -32,9 +42,9 @@ const TextInputModal = forwardRef<TextInput, Props>(
     return (
       <View style={[styles.container]}>
         <TextInput
-          style={[styles.textInput, focus && styles.activeBorder]}
+          style={[styles.textInput, focus && [styles.activeBorder, style]]}
           onFocus={() => setFocus(true)}
-          selectionColor={colors.primaryLight}
+          selectionColor={selectionColor}
           onBlur={() => setFocus(false)}
           placeholder={placeholder}
           placeholderTextColor={colors.textSecondary}

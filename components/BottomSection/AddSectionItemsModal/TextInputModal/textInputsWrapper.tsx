@@ -1,6 +1,7 @@
 import { TextInput, View } from "react-native";
 import React, { useRef } from "react";
 import TextInputModal from "./textInputModal";
+import { colors } from "@/assets/colors";
 
 interface Props {
   addingMode: string;
@@ -34,6 +35,7 @@ const TextInputsWrapper: React.FC<Props> = ({
             ? "Item title - required"
             : "Section title - required"
         }
+        selectionColor={colors.primaryLight}
         onSubmitEditing={addingMode === "ITEM" ? focusNextInput : addSection}
         autofocus={true}
         addTitle={addTitle}
@@ -43,6 +45,7 @@ const TextInputsWrapper: React.FC<Props> = ({
       {addingMode === "ITEM" && (
         <TextInputModal
           placeholder="Link - optional"
+          selectionColor={colors.primaryLight}
           ref={linkInputRef}
           selectTextOnFocus={true}
           onSubmitEditing={addItem}

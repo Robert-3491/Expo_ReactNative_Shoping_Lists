@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   activeListsText: {
     color: colors.text,
+    flex: 1,
   },
 });
 

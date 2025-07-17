@@ -8,9 +8,11 @@ import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 import ItemsView from "../ItemLists/itemsView";
+import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
 
 export default function SectionsLists() {
   const [data, setData] = useState<SectionList[]>([]);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
 
   // Function to refresh the data
   const refreshData = () => {
@@ -45,7 +47,7 @@ export default function SectionsLists() {
             isOpen={item.isVisible}
             onPress={() => toggleItemVisibility(item.id)}
             textStyle={{ fontSize: 22 }}
-            style={{ paddingVertical: 11 }}
+            style={{ paddingVertical: 10 }}
             sectionList={item}
           />
         </View>
@@ -57,7 +59,10 @@ export default function SectionsLists() {
   // Render left swipe actions for each sectionList
   const renderLeftActions = (item: SectionList) => {
     return (
-      <RenderEditItem item={item} handleEdit={() => console.log("Edit")} />
+      <RenderEditItem
+        item={item}
+        handleEdit={() => setUpdateModalVisible(!updateModalVisible)}
+      />
     );
   };
 
@@ -86,6 +91,10 @@ export default function SectionsLists() {
         title="sec"
         onPress={() => sectionListsContainer.addSection("test")}
       ></Button>
+      <UpdateItemSectionModal
+        updateModalVisible={updateModalVisible}
+        setUpdateModalVisible={setUpdateModalVisible}
+      />
     </View>
   );
 }
@@ -93,9 +102,7 @@ export default function SectionsLists() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-    width: "95%",
-    alignSelf: "center",
-    backgroundColor: colors.background,
+    marginHorizontal: "1.5%",
     flex: 1,
   },
   dropdownPressable: {

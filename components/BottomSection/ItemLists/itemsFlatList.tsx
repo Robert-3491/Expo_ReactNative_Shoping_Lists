@@ -6,6 +6,7 @@ import * as itemsContainer from "@/containers/itemsContainer";
 import RenderItem from "./renderItem";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
+import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
 
 interface Props {
   sectionId: number;
@@ -15,10 +16,10 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
   // component start
 
   const [data, setData] = useState<Item[]>([]);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
 
   const refreshData = () => {
     setData(itemsContainer.getItems(sectionId));
-    console.log(itemsContainer.getItems(sectionId));
   };
 
   useEffect(() => {
@@ -49,7 +50,10 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
   const renderLeftActions = (item: Item) => {
     // Render left swipe actions for each item
     return (
-      <RenderEditItem item={item} handleEdit={() => console.log("Edit")} />
+      <RenderEditItem
+        item={item}
+        handleEdit={() => setUpdateModalVisible(!updateModalVisible)}
+      />
     );
   };
 
@@ -64,17 +68,22 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
   };
 
   return (
-    <SwipeableFlatList
-      style={styles.itemContainer}
-      keyboardShouldPersistTaps="handled"
-      data={data}
-      keyExtractor={(item) => item.id}
-      renderItem={renderItem}
-      renderLeftActions={renderLeftActions}
-      renderRightActions={renderRightActions}
-      ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-      scrollEnabled={false}
-    />
+    <View style={styles.itemContainer}>
+      <SwipeableFlatList
+        keyboardShouldPersistTaps="handled"
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        renderLeftActions={renderLeftActions}
+        renderRightActions={renderRightActions}
+        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        scrollEnabled={false}
+      />
+      <UpdateItemSectionModal
+        updateModalVisible={updateModalVisible}
+        setUpdateModalVisible={setUpdateModalVisible}
+      />
+    </View>
   );
 };
 

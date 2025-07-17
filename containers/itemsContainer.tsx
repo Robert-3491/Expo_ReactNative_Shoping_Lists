@@ -21,15 +21,7 @@ export async function initializeItemLists() {
   }
 }
 
-export const getItems = (sectionId: number): Item[] => {
-  return itemsList
-    .filter((item) => item.sectionListId === sectionId)
-    .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
-};
-
-// Change to Map for multiple callbacks
 let onRefreshItemsCallbacks: Map<number, () => void> = new Map();
-
 export const setOnRefreshItemsCallback = (
   sectionId: number,
   callback: (() => void) | null
@@ -39,6 +31,12 @@ export const setOnRefreshItemsCallback = (
   } else {
     onRefreshItemsCallbacks.delete(sectionId);
   }
+};
+
+export const getItems = (sectionId: number): Item[] => {
+  return itemsList
+    .filter((item) => item.sectionListId === sectionId)
+    .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
 };
 
 export const addItem = async (
@@ -51,7 +49,6 @@ export const addItem = async (
   newItem.id = newItemId;
   itemsList = [...itemsList, newItem];
 
-  // Call the callback for the specific section where item was added
   const callback = onRefreshItemsCallbacks.get(sectionListId);
   if (callback) {
     callback();

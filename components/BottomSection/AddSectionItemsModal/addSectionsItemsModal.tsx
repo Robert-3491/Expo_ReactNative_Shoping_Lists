@@ -87,6 +87,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           <AddModalButton
             buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
             onPress={addingMode === "ITEM" ? addItem : addSection}
+            backgroundColor={colors.primaryLight}
           />
         </View>
       </View>
