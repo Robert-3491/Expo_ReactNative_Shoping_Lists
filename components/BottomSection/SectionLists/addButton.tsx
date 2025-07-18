@@ -11,7 +11,7 @@ interface Props {
 
 const AddButton: React.FC<Props> = ({ sectionList }) => {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [currentSectionList, setCurrentSectionList] = useState(sectionList);
   return (
     <View>
       <Pressable
@@ -20,7 +20,10 @@ const AddButton: React.FC<Props> = ({ sectionList }) => {
           { opacity: pressed ? 0.4 : 1 },
           styles.iconContainer,
         ]}
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => [
+          setCurrentSectionList(sectionList),
+          setModalVisible(!modalVisible),
+        ]}
       >
         <Ionicons name="add-circle" style={styles.addIcon} />
       </Pressable>
@@ -29,6 +32,8 @@ const AddButton: React.FC<Props> = ({ sectionList }) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         sectionList={sectionList}
+        currentSectionList={currentSectionList}
+        setCurrentSectionList={setCurrentSectionList}
       />
     </View>
   );

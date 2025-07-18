@@ -1,10 +1,11 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "@/assets/colors";
 import { SectionList } from "@/data/models/sectionList";
 import { Item } from "@/data/models/item";
 import UpdateInputsWrapper from "./updateInputsWrapper";
 import AddModalButton from "../AddSectionItemsModal/addModalButton";
+import * as updateModalContainer from "@/containers/updateModalContainer";
 
 interface Props {
   sectionList?: SectionList;
@@ -21,13 +22,23 @@ const UpdateItemSectionModal: React.FC<Props> = ({
 }) => {
   //comp start
 
+  const [updateTitle, setUpdateTitle] = useState("");
+  const [updateLink, setUpdateLink] = useState("");
+
+  // Update state when props change
+  useEffect(() => {
+    if (item) {
+      setUpdateTitle(item.title ?? "");
+      setUpdateLink(item.link ?? "");
+    } else if (sectionList) {
+      setUpdateTitle(sectionList.title ?? "");
+    }
+  }, [item, sectionList]);
+
   const modalClosingBehaviour = () => {
     setUpdateModalVisible(!updateModalVisible);
-    clearText();
-  };
-
-  const clearText = () => {
-    console.log("Clear text");
+    setUpdateTitle(item ? item.title ?? "" : sectionList?.title ?? "");
+    setUpdateLink(item?.link ?? "");
   };
 
   return (
@@ -46,18 +57,33 @@ const UpdateItemSectionModal: React.FC<Props> = ({
         {/* The modal content */}
         <View style={styles.modalPosition}>
           <View style={styles.modalView}>
-            {/* // */}
+            {/* Modal composition */}
+
             <Text style={styles.header}>
               {item
                 ? `Update Item: ${item.title}`
                 : `Update Section: ${sectionList?.title}`}
             </Text>
 
-            <UpdateInputsWrapper />
+            <UpdateInputsWrapper
+              updateTitle={updateTitle}
+              setUpdateTitle={setUpdateTitle}
+              updateLink={updateLink}
+              setUpdateLink={setUpdateLink}
+              item={item}
+            />
 
             <AddModalButton
               buttonText={item ? "Update Item" : "Update Section"}
-              onPress={() => console.log("Works")}
+              onPress={() =>
+                item
+                  ? updateModalContainer.modalUpdateItem
+                  : updateModalContainer.modalUpdateSection(
+                      sectionList?.id ?? 0,
+                      updateTitle,
+                      modalClosingBehaviour
+                    )
+              }
               backgroundColor={colors.edit}
             />
           </View>

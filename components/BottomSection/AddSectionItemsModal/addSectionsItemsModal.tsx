@@ -13,15 +13,19 @@ interface Props {
   sectionList: SectionList;
   modalVisible: boolean;
   setModalVisible: (value: boolean) => void;
+  currentSectionList: SectionList;
+  setCurrentSectionList: (val: SectionList) => void;
 }
 
 const AddSectionsItemsModal: React.FC<Props> = ({
   sectionList,
   modalVisible,
   setModalVisible,
+  currentSectionList,
+  setCurrentSectionList,
 }) => {
   // component start
-  const [currentSectionList, setCurrentSectionList] = useState(sectionList);
+
   const [addingMode, setAddingMode] = useState("ITEM");
   const [addTitle, setAddTitle] = useState("");
   const [addLink, setAddLink] = useState("");

@@ -82,3 +82,11 @@ export const toggleSectionVisibilityTrue = async (itemId: number) => {
     refreshCallback();
   }
 };
+
+export const updateSection = async (id: number, title: string) => {
+  sectionLists = sectionLists.map((list) =>
+    list.id === id ? { ...list, title } : list
+  );
+  await dbRepoSectionLists.updateSectionList(title, id);
+  refreshCallback();
+};
