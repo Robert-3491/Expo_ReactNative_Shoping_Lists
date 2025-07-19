@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Item } from "@/data/models/item";
 import { colors } from "@/assets/colors";
@@ -6,6 +6,7 @@ import { colors } from "@/assets/colors";
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
 import { isNotWhitespace } from "@/containers/textFormating";
+import { ensureHttps } from "@/containers/addModalContainer";
 
 interface Props {
   item: Item;
@@ -36,6 +37,7 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
 
       {isNotWhitespace(item.link) && (
         <Pressable
+          onPress={() => Linking.openURL(ensureHttps(item.link))}
           style={({ pressed }) => [
             styles.iconContainer,
             { opacity: pressed ? 0.4 : 1 },

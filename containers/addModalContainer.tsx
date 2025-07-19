@@ -31,3 +31,12 @@ export const addItem = (
   sectionListsContainer.toggleSectionVisibilityTrue(sectionList.id);
   clearText();
 };
+
+export const ensureHttps = (url: string): string => {
+  const trimmedUrl = url.trim();
+
+  if (trimmedUrl.startsWith("http://") || trimmedUrl.startsWith("https://")) {
+    return trimmedUrl;
+  }
+  return `https://${trimmedUrl}`;
+};
