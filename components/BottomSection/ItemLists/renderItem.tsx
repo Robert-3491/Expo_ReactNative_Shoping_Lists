@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { Item } from "@/data/models/item";
 import { colors } from "@/assets/colors";
 // eslint-disable-next-line import/no-named-as-default
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
-import * as itemsContainer from "@/containers/itemsContainer";
+import { isNotWhitespace } from "@/containers/textFormating";
 
 interface Props {
   item: Item;
@@ -34,14 +34,16 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
         {item.title}
       </Text>
 
-      <Pressable
-        style={({ pressed }) => [
-          styles.iconContainer,
-          { opacity: pressed ? 0.4 : 1 },
-        ]}
-      >
-        <Ionicons style={styles.openIcon} name="open-outline" />
-      </Pressable>
+      {isNotWhitespace(item.link) && (
+        <Pressable
+          style={({ pressed }) => [
+            styles.iconContainer,
+            { opacity: pressed ? 0.4 : 1 },
+          ]}
+        >
+          <Ionicons style={styles.openIcon} name="open-outline" />
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -55,7 +57,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  checkbox: { width: 30, height: 30, borderRadius: 5, margin: 5 },
+  checkbox: {
+    width: 30,
+    height: 30,
+    borderRadius: 5,
+    marginHorizontal: 5,
+    marginVertical: 8,
+  },
 
   title: {
     fontSize: 18,
@@ -64,13 +72,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
 
-  openIcon: { fontSize: 30, color: colors.text },
   iconContainer: {
-    padding: 7,
+    paddingHorizontal: 7,
+    height: "100%",
     borderRadius: 5,
     borderLeftWidth: 2,
     borderColor: colors.textSecondary,
+    justifyContent: "center", // Centers vertically
   },
+
+  openIcon: { fontSize: 30, color: colors.text },
 });
 
 export default RenderItem;

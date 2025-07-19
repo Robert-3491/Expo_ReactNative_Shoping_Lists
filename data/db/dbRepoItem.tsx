@@ -62,12 +62,17 @@ export const getItemsBySectionListId = async (
   }
 };
 
-export const updateItem = async (id: number, item: Item): Promise<void> => {
+export const updateItem = async (
+  id: number,
+  title: string,
+  link: string
+): Promise<void> => {
   try {
-    db.runSync(
-      "UPDATE items SET sectionListId = ?, title = ?, link = ?, isChecked = ? WHERE id = ?",
-      [item.sectionListId, item.title, item.link, item.isChecked ? 1 : 0, id]
-    );
+    db.runSync("UPDATE items SET title = ?, link = ? WHERE id = ?", [
+      title,
+      link,
+      id,
+    ]);
     console.log("Item updated:", id);
   } catch (error) {
     console.error("Error updating Item:", error);

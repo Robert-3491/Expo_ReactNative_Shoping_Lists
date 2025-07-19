@@ -68,7 +68,22 @@ export const toggleIsChecked = (id: number, sectionId: number) => {
     item.id === id ? { ...item, isChecked: !item.isChecked } : item
   );
 
-  // Call the callback for this specific section
+  const callback = onRefreshItemsCallbacks.get(sectionId);
+  if (callback) {
+    callback();
+  }
+};
+
+export const updateItem = async (
+  id: number,
+  title: string,
+  link: string,
+  sectionId: number
+) => {
+  itemsList = itemsList.map((list) =>
+    list.id === id ? { ...list, title, link } : list
+  );
+  await dbRepoItem.updateItem(id, title, link);
   const callback = onRefreshItemsCallbacks.get(sectionId);
   if (callback) {
     callback();

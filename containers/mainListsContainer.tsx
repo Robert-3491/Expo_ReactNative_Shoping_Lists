@@ -1,6 +1,7 @@
 import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
+import * as textFormating from "./textFormating";
 
 //let mainLists: MainList[] = [];
 
@@ -49,10 +50,6 @@ export const updateMainList = (id: number, updatedList: MainList) => {
   }
 };
 
-export function capitalizeFirst(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 export const setMainListActive = (id: number): void => {
   mainLists = mainLists.map((list) =>
     list.id === id ? { ...list, isActive: true } : list
@@ -87,16 +84,19 @@ export const handleSaveEdit = (
   setActiveList: (val: string) => void
 ) => {
   setIsMainListEditing(false); // Exit editing mode for the main list
-
-  const editTextUpped = capitalizeFirst(editText);
-
   item.isEditing = false;
-
-  if (item.title !== editTextUpped) {
-    item.title = editTextUpped; // Update the item's title with the edited text
-    dbRepoList.updateMainList(item.id, item); // Update the main list in the database
-    updateMainList(item.id, item); // Update the main list in the local state
+  if (!textFormating.isNotWhitespace(editText)) {
+    return;
   }
+
+  const editTextUpped = textFormating.capitalizeFirst(editText);
+  if (item.title === editTextUpped) {
+    return;
+  }
+
+  item.title = editTextUpped; // Update the item's title with the edited text
+  dbRepoList.updateMainList(item.id, item); // Update the main list in the database
+  updateMainList(item.id, item); // Update the main list in the local state
 
   if (item.isActive) {
     setActiveList(item.title);

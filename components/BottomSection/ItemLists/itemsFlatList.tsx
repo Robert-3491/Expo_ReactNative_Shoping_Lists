@@ -84,6 +84,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        removeClippedSubviews={false}
         scrollEnabled={false}
       />
       <UpdateItemSectionModal

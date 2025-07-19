@@ -93,6 +93,7 @@ export default function SectionsLists() {
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
+        removeClippedSubviews={false}
       />
       <Button
         title="sec"

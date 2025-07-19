@@ -77,7 +77,12 @@ const UpdateItemSectionModal: React.FC<Props> = ({
               buttonText={item ? "Update Item" : "Update Section"}
               onPress={() =>
                 item
-                  ? updateModalContainer.modalUpdateItem
+                  ? updateModalContainer.modalUpdateItem(
+                      item,
+                      updateTitle,
+                      updateLink,
+                      modalClosingBehaviour
+                    )
                   : updateModalContainer.modalUpdateSection(
                       sectionList?.id ?? 0,
                       updateTitle,
