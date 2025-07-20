@@ -4,9 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
 import * as MainListsContainer from "@/containers/mainListsContainer";
-import * as dbRepoList from "@/data/db/dbRepoList";
-import { MainList } from "@/data/models/mainList";
-import * as sectionListsContainer from "@/containers/sectionListsContainer";
+import * as textFormating from "@/containers/textFormating";
 
 interface IProps {
   reloadMainList: () => void;
@@ -20,22 +18,13 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   // Reference for handleIconPress focusing
   const textInputRef = useRef<TextInput>(null);
 
-  // Function to add a new main list. To be called by icon and keyboard submit
-  const addMainList = async () => {
-    if (title.length > 0) {
-      const titleUpped = MainListsContainer.capitalizeFirst(title);
-      dbRepoList.setAllInactive(); // Set all existing lists to inactive
-      const newList = new MainList(titleUpped, true); // Create a new MainList instance
-      newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
-      MainListsContainer.addMainList(newList);
-      reloadMainList();
-      setActiveList(titleUpped); // Set the active list Title
-      sectionListsContainer.setActiveMainList(newList.id);
-    }
+  const addMainListHelper = () => {
+    MainListsContainer.addMainList(title, reloadMainList, setActiveList);
   };
+
   // Function to handle ADD icon press
   function handleIconPress() {
-    addMainList();
+    addMainListHelper();
     textInputRef.current?.focus();
   }
 
@@ -58,13 +47,21 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         onBlur={() => setisInputFocus(false)}
         value={title}
         onChangeText={(text) => setTitle(text)}
-        onSubmitEditing={() => addMainList()}
+        onSubmitEditing={() => addMainListHelper()}
       />
       {/* Pressable icon that adds the new list or focus on TextInput */}
       <Pressable onPress={() => handleIconPress()}>
         <Ionicons
-          name={title.length > 0 ? "checkmark-circle" : "add-circle"}
-          color={title.length > 0 ? colors.success : colors.primaryLight}
+          name={
+            textFormating.isNotWhitespace(title)
+              ? "checkmark-circle"
+              : "add-circle"
+          }
+          color={
+            textFormating.isNotWhitespace(title)
+              ? colors.success
+              : colors.primaryLight
+          }
           size={45}
         />
       </Pressable>

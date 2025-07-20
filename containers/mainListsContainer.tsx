@@ -3,14 +3,6 @@ import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import * as textFormating from "./textFormating";
 
-//let mainLists: MainList[] = [];
-
-// export async function initializeMainLists() {
-//   mainLists = (await dbRepoList.getAllMainLists()).map(
-//     (list) => new MainList(list.title, list.isActive, list.id)
-//   );
-// }
-
 let initialized = false;
 
 let mainLists: MainList[] = [];
@@ -30,13 +22,28 @@ export const getMainLists = (): MainList[] => {
 
 export function SetInactiveLists() {
   mainLists.forEach((list) => {
-    list.isActive = false; // Set all existing lists to inactive
+    list.isActive = false; // Set all local lists to inactive
   });
 }
 
-export const addMainList = (newMainList: MainList) => {
-  SetInactiveLists();
-  mainLists = [...mainLists, newMainList]; //This will make the update re-render
+export const addMainList = async (
+  title: string,
+  reloadMainList: () => void,
+  setActiveList: (val: string) => void
+) => {
+  if (textFormating.isNotWhitespace(title)) {
+    const titleUpped = textFormating.capitalizeFirst(title.trim());
+    dbRepoList.setAllInactive(); // Set all existing lists to inactive
+    const newList = new MainList(titleUpped, true); // Create a new MainList instance
+    newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
+
+    SetInactiveLists();
+    mainLists = [...mainLists, newList]; //This will make the update re-render
+
+    reloadMainList();
+    setActiveList(titleUpped); // Set the active list Title
+    sectionListsContainer.setActiveMainList(newList.id);
+  }
 };
 
 export const deleteMainList = (id: number) => {
@@ -89,7 +96,7 @@ export const handleSaveEdit = (
     return;
   }
 
-  const editTextUpped = textFormating.capitalizeFirst(editText);
+  const editTextUpped = textFormating.capitalizeFirst(editText.trim());
   if (item.title === editTextUpped) {
     return;
   }

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
-import { Pressable, TextInput } from "react-native-gesture-handler";
+import { Pressable } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as mainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
@@ -174,9 +174,9 @@ const styles = StyleSheet.create({
   },
   mainListText: {
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 12,
     color: colors.text,
-    fontSize: 18,
+    fontSize: 20,
     backgroundColor: colors.borderLight,
     width: "100%",
     borderRadius: 5,

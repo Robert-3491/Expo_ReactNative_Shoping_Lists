@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 import { MainList } from "@/data/models/mainList";
@@ -18,6 +18,7 @@ const EditMainListTextInput: React.FC<Props> = ({
 }) => {
   return (
     <TextInput
+      selectTextOnFocus={true}
       autoCorrect={false}
       selectionColor={colors.edit}
       autoFocus={true}
@@ -33,7 +34,7 @@ const EditMainListTextInput: React.FC<Props> = ({
         styles.itemEdit,
         {
           backgroundColor: mainList.isActive
-            ? colors.primaryLight
+            ? colors.primary
             : colors.borderLight,
         },
       ]}
@@ -46,10 +47,9 @@ export default EditMainListTextInput;
 const styles = StyleSheet.create({
   itemText: {
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 12,
     color: colors.text,
-    fontSize: 18,
-    backgroundColor: colors.borderLight,
+    fontSize: 20,
     width: "100%",
     borderRadius: 5,
   },
