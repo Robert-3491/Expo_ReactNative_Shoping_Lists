@@ -94,11 +94,14 @@ export default function SectionsLists() {
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
         removeClippedSubviews={false}
+        ListEmptyComponent={
+          <Button
+            title="sec"
+            onPress={() => sectionListsContainer.addSection("test")}
+          ></Button>
+        }
       />
-      <Button
-        title="sec"
-        onPress={() => sectionListsContainer.addSection("test")}
-      ></Button>
+
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
         setUpdateModalVisible={setUpdateModalVisible}

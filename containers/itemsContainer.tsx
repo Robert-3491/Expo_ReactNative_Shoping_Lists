@@ -44,7 +44,7 @@ export const addItem = async (
   sectionListId: number,
   link: string
 ) => {
-  let newItem = new Item(title, sectionListId, false, link);
+  let newItem = new Item(title.trim(), sectionListId, false, link);
   const newItemId = await dbRepoItem.addItem(newItem);
   newItem.id = newItemId;
   itemsList = [...itemsList, newItem];
@@ -80,10 +80,11 @@ export const updateItem = async (
   link: string,
   sectionId: number
 ) => {
+  const updateTitle = title.trim();
   itemsList = itemsList.map((list) =>
-    list.id === id ? { ...list, title, link } : list
+    list.id === id ? { ...list, title: updateTitle, link } : list
   );
-  await dbRepoItem.updateItem(id, title, link);
+  await dbRepoItem.updateItem(id, updateTitle, link);
   const callback = onRefreshItemsCallbacks.get(sectionId);
   if (callback) {
     callback();
