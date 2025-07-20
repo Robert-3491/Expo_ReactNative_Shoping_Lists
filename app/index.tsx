@@ -5,11 +5,13 @@ import { colors } from "../assets/colors";
 import BottomSection from "@/components/BottomSection/SectionLists/bottomSection";
 import { useEffect } from "react";
 import { initializeDatabase } from "@/data/db/databaseService";
+import { initializeSettings } from "@/data/db/dbRepoSettings";
 
 export default function Index() {
   useEffect(() => {
     const setupDatabase = async () => {
       await initializeDatabase();
+      await initializeSettings();
     };
     setupDatabase();
   }, []);

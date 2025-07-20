@@ -47,4 +47,14 @@ export const initializeDatabase = async () => {
       FOREIGN KEY (sectionListId) REFERENCES sectionlists (id) ON DELETE CASCADE
     );
   `);
+
+  // Create settings table
+  db.execSync(`
+    CREATE TABLE IF NOT EXISTS settings (
+      id INTEGER PRIMARY KEY,
+      defaultSectionName TEXT,
+      closeModalOnAdd INTEGER,
+      orderByChecked INTEGER
+    );
+  `);
 };
