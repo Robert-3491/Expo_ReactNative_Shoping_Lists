@@ -2,6 +2,10 @@ import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import * as textFormating from "./textFormating";
+import {
+  getCreateDefaultSection,
+  getDefaultSectionName,
+} from "@/data/db/dbRepoSettings";
 
 let initialized = false;
 
@@ -45,6 +49,10 @@ export const addMainList = async (
   reloadMainList();
   setActiveList(titleUpped); // Set the active list Title
   sectionListsContainer.setActiveMainList(newList.id);
+
+  if (getCreateDefaultSection()) {
+    sectionListsContainer.addSection(getDefaultSectionName());
+  }
 };
 
 export const deleteMainList = (id: number) => {

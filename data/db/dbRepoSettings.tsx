@@ -7,8 +7,8 @@ let settings: Settings;
 
 export const initializeSettings = async () => {
   db.execSync(`
-    INSERT OR IGNORE INTO settings (id, defaultSectionName, closeModalOnAdd, orderByChecked) 
-    VALUES (1, 'Section', 0, 1)
+    INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked) 
+    VALUES (1, 'Section', 1, 0, 1)
   `);
   settings = db.getFirstSync("SELECT * FROM settings WHERE id = 1") as Settings;
   console.log(settings);
@@ -21,6 +21,10 @@ export const getSettings = (): Settings => {
 //Getters
 export const getDefaultSectionName = (): string => {
   return settings.defaultSectionName;
+};
+
+export const getCreateDefaultSection = (): boolean => {
+  return Boolean(settings.createDefaultSection);
 };
 
 export const getCloseModalOnAdd = (): boolean => {
@@ -37,6 +41,13 @@ export const setDefaultSectionName = (name: string): void => {
     `UPDATE settings SET defaultSectionName = '${name}' WHERE id = 1`
   );
   settings.defaultSectionName = name;
+};
+
+export const toggleCreateDefaultSection = (val: boolean): void => {
+  db.execSync(
+    `UPDATE settings SET createDefaultSection = '${!val}' WHERE id = 1`
+  );
+  settings.createDefaultSection = !val;
 };
 
 export const toggleCloseModalOnAdd = (val: boolean): void => {

@@ -48,11 +48,13 @@ export const initializeDatabase = async () => {
     );
   `);
 
+  //db.execSync(`DROP TABLE IF EXISTS settings;`);
   // Create settings table
   db.execSync(`
     CREATE TABLE IF NOT EXISTS settings (
       id INTEGER PRIMARY KEY,
       defaultSectionName TEXT,
+      createDefaultSection INTEGER,
       closeModalOnAdd INTEGER,
       orderByChecked INTEGER
     );
@@ -60,7 +62,7 @@ export const initializeDatabase = async () => {
 };
 
 // try {
-//   db.execSync(`ALTER TABLE settings ADD COLUMN darkMode INTEGER DEFAULT 0;`);
+//   db.execSync(`ALTER TABLE settings ADD COLUMN xxx INTEGER DEFAULT 0;`);
 // } catch (error) {
-//   // Column already exists, ignore error
+//   // Column already exists, ignore error...
 // }
