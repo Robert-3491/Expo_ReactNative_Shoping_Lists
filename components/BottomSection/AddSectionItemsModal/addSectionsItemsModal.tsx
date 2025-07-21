@@ -43,11 +43,22 @@ const AddSectionsItemsModal: React.FC<Props> = ({
   };
 
   const addSection = () => {
-    addModalContainer.addSection(addTitle, setCurrentSectionList, clearText);
+    addModalContainer.addSection(
+      addTitle,
+      setCurrentSectionList,
+      clearText,
+      modalClosingBehaviour
+    );
   };
 
   const addItem = () => {
-    addModalContainer.addItem(addTitle, currentSectionList, addLink, clearText);
+    addModalContainer.addItem(
+      addTitle,
+      currentSectionList,
+      addLink,
+      clearText,
+      modalClosingBehaviour
+    );
   };
 
   return (
@@ -70,7 +81,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
             setAddingMode={setAddingMode}
           />
 
-          <AddingBehavior />
+          <AddingBehavior modalClosingBehaviour={modalClosingBehaviour} />
 
           {addingMode === "ITEM" && (
             <AddingDestinationText

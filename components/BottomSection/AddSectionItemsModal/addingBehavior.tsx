@@ -2,11 +2,23 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "@/assets/colors";
 import { Switch } from "react-native-gesture-handler";
+import {
+  getCloseModalOnAdd,
+  toggleCloseModalOnAdd,
+} from "@/data/db/dbRepoSettings";
 
-const AddingBehavior = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(!isEnabled);
+interface Props {
+  modalClosingBehaviour: () => void;
+}
 
+const AddingBehavior: React.FC<Props> = ({ modalClosingBehaviour }) => {
+  //comp start
+  const [isEnabled, setIsEnabled] = useState(getCloseModalOnAdd);
+
+  const toggleSwitch = () => {
+    toggleCloseModalOnAdd(isEnabled);
+    setIsEnabled(!isEnabled);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Close after adding</Text>
