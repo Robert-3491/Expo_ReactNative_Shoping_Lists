@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet } from "react-native";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
-import * as MainListsContainer from "@/containers/mainListsContainer";
+import * as mainListsContainer from "@/containers/mainListsContainer";
 import * as textFormating from "@/containers/textFormating";
 
 interface IProps {
@@ -19,7 +19,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   const textInputRef = useRef<TextInput>(null);
 
   const addMainListHelper = () => {
-    MainListsContainer.addMainList(title, reloadMainList, setActiveList);
+    mainListsContainer.addMainList(title, reloadMainList, setActiveList);
   };
 
   // Function to handle ADD icon press
@@ -48,6 +48,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         value={title}
         onChangeText={(text) => setTitle(text)}
         onSubmitEditing={() => addMainListHelper()}
+        autoFocus={mainListsContainer.isMainListEmpty() ? true : false}
       />
       {/* Pressable icon that adds the new list or focus on TextInput */}
       <Pressable onPress={() => handleIconPress()}>

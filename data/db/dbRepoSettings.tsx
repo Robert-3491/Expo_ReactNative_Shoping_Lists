@@ -6,11 +6,13 @@ const db = getDatabase();
 let settings: Settings;
 
 export const initializeSettings = async () => {
-  db.execSync(`
+  await db.execAsync(`
     INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked) 
     VALUES (1, 'Section', 1, 0, 1)
   `);
-  settings = db.getFirstSync("SELECT * FROM settings WHERE id = 1") as Settings;
+  settings = (await db.getFirstAsync(
+    "SELECT * FROM settings WHERE id = 1"
+  )) as Settings;
   console.log(settings);
 };
 

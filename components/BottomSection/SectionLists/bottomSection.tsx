@@ -1,6 +1,4 @@
-import { Text, View, StyleSheet, StatusBar } from "react-native";
-import { colors } from "@/assets/colors";
-import { useEffect } from "react";
+import { View, StyleSheet } from "react-native";
 import SectionsLists from "./sectionsLists";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

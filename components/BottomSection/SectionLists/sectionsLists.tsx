@@ -9,6 +9,7 @@ import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 import ItemsView from "../ItemLists/itemsView";
 import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
+import EmptySectionComponent from "./emptySectionComponent";
 
 export default function SectionsLists() {
   const [data, setData] = useState<SectionList[]>([]);
@@ -94,12 +95,7 @@ export default function SectionsLists() {
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
         removeClippedSubviews={false}
-        ListEmptyComponent={
-          <Button
-            title="sec"
-            onPress={() => sectionListsContainer.addSection("test")}
-          ></Button>
-        }
+        ListEmptyComponent={<EmptySectionComponent />}
       />
 
       <UpdateItemSectionModal

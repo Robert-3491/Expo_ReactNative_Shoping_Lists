@@ -24,6 +24,10 @@ export const getMainLists = (): MainList[] => {
   return mainLists;
 };
 
+export const isMainListEmpty = (): boolean => {
+  return mainLists.length === 0;
+};
+
 export function SetInactiveLists() {
   mainLists.forEach((list) => {
     list.isActive = false; // Set all local lists to inactive
