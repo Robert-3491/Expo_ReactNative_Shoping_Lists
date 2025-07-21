@@ -31,19 +31,20 @@ export const addMainList = async (
   reloadMainList: () => void,
   setActiveList: (val: string) => void
 ) => {
-  if (textFormating.isNotWhitespace(title)) {
-    const titleUpped = textFormating.capitalizeFirst(title.trim());
-    dbRepoList.setAllInactive(); // Set all existing lists to inactive
-    const newList = new MainList(titleUpped, true); // Create a new MainList instance
-    newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
-
-    SetInactiveLists();
-    mainLists = [...mainLists, newList]; //This will make the update re-render
-
-    reloadMainList();
-    setActiveList(titleUpped); // Set the active list Title
-    sectionListsContainer.setActiveMainList(newList.id);
+  if (textFormating.isWhitespace(title)) {
+    return;
   }
+  const titleUpped = textFormating.capitalizeFirst(title.trim());
+  dbRepoList.setAllInactive(); // Set all existing lists to inactive
+  const newList = new MainList(titleUpped, true); // Create a new MainList instance
+  newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
+
+  SetInactiveLists();
+  mainLists = [...mainLists, newList]; //This will make the update re-render
+
+  reloadMainList();
+  setActiveList(titleUpped); // Set the active list Title
+  sectionListsContainer.setActiveMainList(newList.id);
 };
 
 export const deleteMainList = (id: number) => {
@@ -92,7 +93,7 @@ export const handleSaveEdit = (
 ) => {
   setIsMainListEditing(false); // Exit editing mode for the main list
   item.isEditing = false;
-  if (!textFormating.isNotWhitespace(editText)) {
+  if (textFormating.isWhitespace(editText)) {
     return;
   }
 

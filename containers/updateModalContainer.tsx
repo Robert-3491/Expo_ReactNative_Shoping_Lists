@@ -9,10 +9,11 @@ export const modalUpdateItem = (
   link: string,
   modalClosingBehaviour: () => void
 ) => {
-  if (textFormating.isNotWhitespace(title)) {
-    updateItem(item.id, title, link, item.sectionListId);
-    modalClosingBehaviour();
+  if (textFormating.isWhitespace(title)) {
+    return;
   }
+  updateItem(item.id, title, link, item.sectionListId);
+  modalClosingBehaviour();
 };
 
 export const modalUpdateSection = (
@@ -20,8 +21,9 @@ export const modalUpdateSection = (
   title: string,
   modalClosingBehaviour: () => void
 ) => {
-  if (textFormating.isNotWhitespace(title)) {
-    updateSection(sectionId, title);
-    modalClosingBehaviour();
+  if (textFormating.isWhitespace(title)) {
+    return;
   }
+  updateSection(sectionId, title);
+  modalClosingBehaviour();
 };

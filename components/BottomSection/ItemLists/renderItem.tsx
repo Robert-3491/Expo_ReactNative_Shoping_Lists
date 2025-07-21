@@ -5,7 +5,7 @@ import { colors } from "@/assets/colors";
 // eslint-disable-next-line import/no-named-as-default
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
-import { isNotWhitespace } from "@/containers/textFormating";
+import { isWhitespace } from "@/containers/textFormating";
 import { ensureHttps } from "@/containers/addModalContainer";
 
 interface Props {
@@ -35,7 +35,7 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
         {item.title}
       </Text>
 
-      {isNotWhitespace(item.link) && (
+      {!isWhitespace(item.link) && (
         <Pressable
           onPress={() => Linking.openURL(ensureHttps(item.link))}
           style={({ pressed }) => [

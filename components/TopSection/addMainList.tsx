@@ -53,14 +53,14 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
       <Pressable onPress={() => handleIconPress()}>
         <Ionicons
           name={
-            textFormating.isNotWhitespace(title)
-              ? "checkmark-circle"
-              : "add-circle"
+            textFormating.isWhitespace(title)
+              ? "add-circle"
+              : "checkmark-circle"
           }
           color={
-            textFormating.isNotWhitespace(title)
-              ? colors.success
-              : colors.primaryLight
+            textFormating.isWhitespace(title)
+              ? colors.primaryLight
+              : colors.success
           }
           size={45}
         />

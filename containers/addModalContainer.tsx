@@ -10,7 +10,7 @@ export const addSection = async (
   clearText: () => void,
   modalClosingBehaviour: () => void
 ) => {
-  if (!textFormating.isNotWhitespace(addTitle)) {
+  if (textFormating.isWhitespace(addTitle)) {
     return;
   }
 
@@ -32,7 +32,7 @@ export const addItem = (
   clearText: () => void,
   modalClosingBehaviour: () => void
 ) => {
-  if (!textFormating.isNotWhitespace(title)) {
+  if (textFormating.isWhitespace(title)) {
     return;
   }
 
