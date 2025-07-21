@@ -58,3 +58,9 @@ export const initializeDatabase = async () => {
     );
   `);
 };
+
+// try {
+//   db.execSync(`ALTER TABLE settings ADD COLUMN darkMode INTEGER DEFAULT 0;`);
+// } catch (error) {
+//   // Column already exists, ignore error
+// }
