@@ -22,13 +22,9 @@ export default function SectionsLists() {
   };
 
   useEffect(() => {
-    const initializeData = async () => {
-      await sectionListsContainer.initializeSectionLists();
-      refreshData();
-    };
     // Set up the callback for when data changes
     sectionListsContainer.setOnRefreshSectionsCallback(refreshData);
-    initializeData();
+    refreshData();
     // Cleanup callback on unmount
     return () => {
       sectionListsContainer.setOnRefreshSectionsCallback(() => {});

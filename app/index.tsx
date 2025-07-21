@@ -12,6 +12,9 @@ import BottomSection from "@/components/BottomSection/SectionLists/bottomSection
 import { useEffect, useState } from "react";
 import { initializeDatabase } from "@/data/db/databaseService";
 import { initializeSettings } from "@/data/db/dbRepoSettings";
+import { initializeMainLists } from "@/containers/mainListsContainer";
+import { initializeSectionLists } from "@/containers/sectionListsContainer";
+import { initializeItemLists } from "@/containers/itemsContainer";
 import LoadingSpinner from "@/components/loadingSpinner";
 
 export default function Index() {
@@ -21,6 +24,9 @@ export default function Index() {
     const setupDatabase = async () => {
       await initializeDatabase();
       await initializeSettings();
+      await initializeMainLists();
+      await initializeSectionLists();
+      await initializeItemLists();
       setIsInitialized(true);
     };
     setupDatabase();

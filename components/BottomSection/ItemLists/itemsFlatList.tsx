@@ -24,13 +24,9 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
   };
 
   useEffect(() => {
-    const initializeData = async () => {
-      await itemsContainer.initializeItemLists();
-      refreshData();
-    };
     // Set up the callback
     itemsContainer.setOnRefreshItemsCallback(sectionId, refreshData);
-    initializeData();
+    refreshData();
 
     // Cleanup callback on unmount
     return () => {

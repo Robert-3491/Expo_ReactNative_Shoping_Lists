@@ -32,11 +32,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
     };
 
     useEffect(() => {
-      const initializeData = async () => {
-        await mainListsContainer.initializeMainLists();
-        refreshData();
-      };
-      initializeData();
+      refreshData();
     }, []);
 
     //
@@ -54,7 +50,7 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
       setIsMainListEditing(false);
       mainListsContainer.mainListsStopEdit();
     };
-    // Expose exitEdit to parent
+    // Expose exitEdit
     useImperativeHandle(ref, () => ({
       exitEdit,
     }));

@@ -9,6 +9,7 @@ import { isMainListEmpty } from "@/containers/mainListsContainer";
 
 const EmptySectionComponent = () => {
   const [title, setTitle] = useState(getDefaultSectionName());
+  console.log(isMainListEmpty());
 
   return (
     <View style={styles.container}>

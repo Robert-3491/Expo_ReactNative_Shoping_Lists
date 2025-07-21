@@ -32,8 +32,8 @@ const TextInputsWrapper: React.FC<Props> = ({
       <TextInputModal
         placeholder={
           addingMode === "ITEM"
-            ? "Item title - required"
-            : "Section title - required"
+            ? "Item title (required)"
+            : "Section title (required)"
         }
         selectionColor={colors.primaryLight}
         onSubmitEditing={addingMode === "ITEM" ? focusNextInput : addSection}
