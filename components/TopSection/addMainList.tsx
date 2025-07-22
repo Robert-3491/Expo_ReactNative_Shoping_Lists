@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { Pressable, TextInput } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
 import * as mainListsContainer from "@/containers/mainListsContainer";
-import * as textFormating from "@/containers/textFormating";
+import * as textFormating from "@/Utilities/textFormating";
 
 interface IProps {
   reloadMainList: () => void;

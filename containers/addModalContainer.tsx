@@ -1,7 +1,7 @@
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import * as itemsContainer from "@/containers/itemsContainer";
 import { SectionList } from "@/data/models/sectionList";
-import * as textFormating from "./textFormating";
+import * as textFormating from "../Utilities/textFormating";
 import { getCloseModalOnAdd } from "@/data/db/dbRepoSettings";
 
 export const addSection = async (

@@ -5,7 +5,7 @@ import { colors } from "@/assets/colors";
 // eslint-disable-next-line import/no-named-as-default
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
-import { isWhitespace } from "@/containers/textFormating";
+import { isWhitespace } from "@/Utilities/textFormating";
 import { ensureHttps } from "@/containers/addModalContainer";
 
 interface Props {

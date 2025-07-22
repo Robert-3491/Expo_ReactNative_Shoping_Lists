@@ -1,7 +1,7 @@
 import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
-import * as textFormating from "./textFormating";
+import * as textFormating from "../Utilities/textFormating";
 
 let sectionLists: SectionList[] = [];
 let activeMainListId = 0;

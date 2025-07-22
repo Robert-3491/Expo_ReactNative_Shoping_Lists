@@ -1,6 +1,6 @@
 import { updateSection } from "@/containers/sectionListsContainer";
 import { updateItem } from "@/containers/itemsContainer";
-import * as textFormating from ".//textFormating";
+import * as textFormating from "../Utilities/textFormating";
 import { Item } from "@/data/models/item";
 
 export const modalUpdateItem = (

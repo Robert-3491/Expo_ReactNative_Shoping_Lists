@@ -1,7 +1,7 @@
 import { MainList } from "@/data/models/mainList";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
-import * as textFormating from "./textFormating";
+import * as textFormating from "../Utilities/textFormating";
 import {
   getCreateDefaultSection,
   getDefaultSectionName,

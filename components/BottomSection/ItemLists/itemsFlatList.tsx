@@ -7,6 +7,7 @@ import RenderItem from "./renderItem";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
+import EmptyItemListComponent from "./emptyItemListComponent";
 
 interface Props {
   sectionId: number;
@@ -82,6 +83,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
         removeClippedSubviews={false}
         scrollEnabled={false}
+        ListEmptyComponent={<EmptyItemListComponent />}
       />
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
