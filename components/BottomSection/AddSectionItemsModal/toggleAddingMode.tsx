@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.borderLight,
     paddingBottom: 10,
+    marginBottom: 10,
   },
   pressable: { width: "50%", borderRadius: 5, paddingVertical: 8 },
   label: {

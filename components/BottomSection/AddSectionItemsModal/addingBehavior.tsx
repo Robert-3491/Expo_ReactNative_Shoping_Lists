@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center", // Vertical position
+    marginBottom: 5,
   },
   label: { color: colors.textSecondary, fontSize: 18, paddingRight: 5 },
 });

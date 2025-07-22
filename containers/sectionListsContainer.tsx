@@ -1,6 +1,7 @@
 import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
+import * as textFormating from "./textFormating";
 
 let sectionLists: SectionList[] = [];
 let activeMainListId = 0;
@@ -60,7 +61,14 @@ export const deleteList = (id: number) => {
   sectionLists = sectionLists.filter((list) => list.id !== id);
 };
 
-export const addSection = async (title: string): Promise<SectionList> => {
+export const addSection = async (
+  title: string
+): Promise<SectionList | null> => {
+  if (textFormating.isWhitespace(title)) {
+    return null;
+  }
+  title = textFormating.capitalizeFirst(title.trim());
+
   let newSection = new SectionList(title, false, activeMainListId);
   const newSectionid = await dbRepoSectionLists.addSectionList(newSection);
   newSection.id = newSectionid;

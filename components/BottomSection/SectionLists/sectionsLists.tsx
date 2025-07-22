@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { colors } from "@/assets/colors";
 import { useEffect, useState } from "react";

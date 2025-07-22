@@ -10,13 +10,10 @@ export const addSection = async (
   clearText: () => void,
   modalClosingBehaviour: () => void
 ) => {
-  if (textFormating.isWhitespace(addTitle)) {
+  const newSection = await sectionListsContainer.addSection(addTitle);
+  if (!newSection) {
     return;
   }
-
-  const newSection = await sectionListsContainer.addSection(
-    textFormating.capitalizeFirst(addTitle.trim())
-  );
   setCurrentSectionList(newSection);
   clearText();
 
