@@ -5,6 +5,8 @@ import {
   ActivityIndicator,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "@/Utilities/toastConfig";
 
 import TopSection from "../components/TopSection/topSection";
 import { colors } from "../assets/colors";
@@ -41,6 +43,7 @@ export default function Index() {
       <StatusBar backgroundColor={"black"} barStyle={"light-content"} />
       <TopSection />
       <BottomSection />
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 }

@@ -24,6 +24,7 @@ export const modalUpdateSection = (
   if (textFormating.isWhitespace(title)) {
     return;
   }
+  title = textFormating.capitalizeFirst(title);
   updateSection(sectionId, title);
   modalClosingBehaviour();
 };

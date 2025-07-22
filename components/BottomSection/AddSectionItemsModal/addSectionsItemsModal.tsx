@@ -8,6 +8,9 @@ import AddModalButton from "./addModalButton";
 import TextInputsWrapper from "./TextInputModal/textInputsWrapper";
 import { useState } from "react";
 import * as addModalContainer from "@/containers/addModalContainer";
+import Toast from "react-native-toast-message";
+import { isWhitespace } from "@/Utilities/textFormating";
+import { toastConfig } from "@/Utilities/toastConfig";
 
 interface Props {
   sectionList: SectionList;
@@ -75,6 +78,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
 
       {/* The modal content */}
       <View style={styles.modalPosition}>
+        <Toast config={toastConfig} />
         <View style={styles.modalView}>
           <ToggleAddingMode
             addingMode={addingMode}
@@ -102,7 +106,9 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           <AddModalButton
             buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
             onPress={addingMode === "ITEM" ? addItem : addSection}
-            backgroundColor={colors.primaryLight}
+            backgroundColor={
+              isWhitespace(addTitle) ? colors.disabled : colors.primaryLight
+            }
           />
         </View>
       </View>

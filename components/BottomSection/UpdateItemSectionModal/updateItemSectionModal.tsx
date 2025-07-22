@@ -6,6 +6,7 @@ import { Item } from "@/data/models/item";
 import UpdateInputsWrapper from "./updateInputsWrapper";
 import AddModalButton from "../AddSectionItemsModal/addModalButton";
 import * as updateModalContainer from "@/containers/updateModalContainer";
+import { isWhitespace } from "@/Utilities/textFormating";
 
 interface Props {
   sectionList?: SectionList;
@@ -89,7 +90,9 @@ const UpdateItemSectionModal: React.FC<Props> = ({
                       modalClosingBehaviour
                     )
               }
-              backgroundColor={colors.edit}
+              backgroundColor={
+                isWhitespace(updateTitle) ? colors.disabled : colors.edit
+              }
             />
           </View>
         </View>
