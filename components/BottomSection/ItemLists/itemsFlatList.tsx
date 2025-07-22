@@ -1,6 +1,6 @@
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { View, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Item } from "@/data/models/item";
 import * as itemsContainer from "@/containers/itemsContainer";
 import RenderItem from "./renderItem";
@@ -34,6 +34,13 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       itemsContainer.setOnRefreshItemsCallback(sectionId, () => {});
     };
   }, [sectionId]);
+
+  const swipeListRef = useRef<any>(null);
+  const closeAllRows = () => {
+    if (swipeListRef.current) {
+      swipeListRef.current?.closeAnyOpenRows();
+    }
+  };
 
   const toggleIsChecked = (id: number) => {
     itemsContainer.toggleIsChecked(id, sectionId);
@@ -71,9 +78,15 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     );
   };
 
+  const handleModalClose = () => {
+    setUpdateModalVisible(false);
+    closeAllRows();
+  };
+
   return (
     <View style={styles.itemContainer}>
       <SwipeableFlatList
+        ref={swipeListRef}
         keyboardShouldPersistTaps="handled"
         data={data}
         keyExtractor={(item) => item.id}
@@ -87,7 +100,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
       />
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
-        setUpdateModalVisible={setUpdateModalVisible}
+        setUpdateModalVisible={handleModalClose}
         item={itemForUpdate}
       />
     </View>

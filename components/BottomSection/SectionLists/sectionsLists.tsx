@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { colors } from "@/assets/colors";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionList } from "@/data/models/sectionList";
 import DropdownPressable from "@/components/SharedComponents/dropDownPressable";
 import * as sectionListsContainer from "@/containers/sectionListsContainer";
@@ -30,6 +30,13 @@ export default function SectionsLists() {
       sectionListsContainer.setOnRefreshSectionsCallback(() => {});
     };
   }, []);
+
+  const swipeListRef = useRef<any>(null);
+  const closeAllRows = () => {
+    if (swipeListRef.current) {
+      swipeListRef.current?.closeAnyOpenRows();
+    }
+  };
 
   const toggleItemVisibility = (id: number) => {
     sectionListsContainer.toggleItemVisibility(id);
@@ -80,9 +87,15 @@ export default function SectionsLists() {
     return <RenderDeleteItem item={item} handleDelete={deleteSectionList} />;
   };
 
+  const handleModalClose = () => {
+    setUpdateModalVisible(false);
+    closeAllRows();
+  };
+
   return (
     <View style={styles.container}>
       <SwipeableFlatList
+        ref={swipeListRef}
         keyboardShouldPersistTaps="handled"
         data={data}
         keyExtractor={(item: SectionList) => item.id.toString()}
@@ -96,7 +109,7 @@ export default function SectionsLists() {
 
       <UpdateItemSectionModal
         updateModalVisible={updateModalVisible}
-        setUpdateModalVisible={setUpdateModalVisible}
+        setUpdateModalVisible={handleModalClose}
         sectionList={sectionForUpdate}
       />
     </View>

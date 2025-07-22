@@ -1,8 +1,8 @@
 import { colors } from "@/assets/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { View, StyleSheet } from "react-native";
-import { Pressable, TextInput } from "react-native-gesture-handler";
-import { useRef, useState } from "react";
+import { View, StyleSheet, TextInput } from "react-native"; // ← Move TextInput here
+import { Pressable } from "react-native-gesture-handler"; // ← Only Pressable from gesture handler
+import { useEffect, useRef, useState } from "react";
 import * as mainListsContainer from "@/containers/mainListsContainer";
 import * as textFormating from "@/Utilities/textFormating";
 
@@ -17,6 +17,15 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
 
   // Reference for handleIconPress focusing
   const textInputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    if (mainListsContainer.isMainListEmpty()) {
+      // Add small delay for better reliability
+      setTimeout(() => {
+        textInputRef.current?.focus();
+      }, 100);
+    }
+  }, []);
 
   const addMainListHelper = () => {
     mainListsContainer.addMainList(title, reloadMainList, setActiveList);
@@ -33,13 +42,12 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
       <TextInput
         ref={textInputRef}
         autoCorrect={false}
-        placeholder="Press to add a new list"
+        placeholder="Tap here to add a new list"
         placeholderTextColor={colors.disabled}
         selectTextOnFocus={true}
         style={[
           styles.addInput,
           {
-            borderWidth: isInputFocus ? 2 : 0,
             borderColor: isInputFocus ? "#1976D2" : "transparent",
           },
         ]}
@@ -48,7 +56,6 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         value={title}
         onChangeText={(text) => setTitle(text)}
         onSubmitEditing={() => addMainListHelper()}
-        autoFocus={mainListsContainer.isMainListEmpty() ? true : false}
       />
       {/* Pressable icon that adds the new list or focus on TextInput */}
       <Pressable onPress={() => handleIconPress()}>
@@ -81,6 +88,7 @@ let styles = StyleSheet.create({
   addInput: {
     width: "85%",
     borderRadius: 5,
+    borderWidth: 2,
     fontSize: 18,
     color: colors.text,
     textAlignVertical: "center",
