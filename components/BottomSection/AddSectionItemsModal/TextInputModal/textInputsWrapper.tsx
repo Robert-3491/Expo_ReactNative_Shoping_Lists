@@ -22,6 +22,7 @@ const TextInputsWrapper: React.FC<Props> = ({
   addItem,
   addSection,
 }) => {
+  const titleInputRef = useRef<TextInput>(null);
   const linkInputRef = useRef<TextInput>(null);
 
   const focusNextInput = () => {
@@ -40,6 +41,7 @@ const TextInputsWrapper: React.FC<Props> = ({
         autofocus={true}
         addTitle={addTitle}
         setAddTitle={setAddTitle}
+        ref={titleInputRef}
       />
 
       {addingMode === "ITEM" && (
@@ -51,6 +53,7 @@ const TextInputsWrapper: React.FC<Props> = ({
           onSubmitEditing={addItem}
           addLink={addLink}
           setAddLink={setAddLink}
+          autofocus={false}
         />
       )}
     </View>

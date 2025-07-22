@@ -20,7 +20,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
 
   useEffect(() => {
     if (mainListsContainer.isMainListEmpty()) {
-      // Add small delay for better reliability
+      // Add delay for usability...
       setTimeout(() => {
         textInputRef.current?.focus();
       }, 100);

@@ -72,6 +72,7 @@ export default function TopSection() {
         <GestureHandlerRootView>
           {/* Close the modal when tapping outside the modal content */}
           <Pressable style={StyleSheet.absoluteFill} onPress={toggleModal} />
+
           {/* The modal content */}
           <View style={styles.modalPosition}>
             <View

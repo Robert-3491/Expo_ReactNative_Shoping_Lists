@@ -42,6 +42,24 @@ const UpdateItemSectionModal: React.FC<Props> = ({
     setUpdateLink(item?.link ?? "");
   };
 
+  const modalUpdateItem = () => {
+    if (item)
+      updateModalContainer.modalUpdateItem(
+        item,
+        updateTitle,
+        updateLink,
+        modalClosingBehaviour
+      );
+  };
+
+  const modalUpdateSection = () => {
+    updateModalContainer.modalUpdateSection(
+      sectionList?.id ?? 0,
+      updateTitle,
+      modalClosingBehaviour
+    );
+  };
+
   return (
     <View>
       <Modal
@@ -72,24 +90,13 @@ const UpdateItemSectionModal: React.FC<Props> = ({
               updateLink={updateLink}
               setUpdateLink={setUpdateLink}
               item={item}
+              modalUpdateItem={modalUpdateItem}
+              modalUpdateSection={modalUpdateSection}
             />
 
             <AddModalButton
               buttonText={item ? "Update Item" : "Update Section"}
-              onPress={() =>
-                item
-                  ? updateModalContainer.modalUpdateItem(
-                      item,
-                      updateTitle,
-                      updateLink,
-                      modalClosingBehaviour
-                    )
-                  : updateModalContainer.modalUpdateSection(
-                      sectionList?.id ?? 0,
-                      updateTitle,
-                      modalClosingBehaviour
-                    )
-              }
+              onPress={() => (item ? modalUpdateItem : modalUpdateSection)}
               backgroundColor={
                 isWhitespace(updateTitle) ? colors.disabled : colors.edit
               }

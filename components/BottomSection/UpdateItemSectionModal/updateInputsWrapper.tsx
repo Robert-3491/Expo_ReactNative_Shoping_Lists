@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useRef } from "react";
 import TextInputModal from "../AddSectionItemsModal/TextInputModal/textInputModal";
 import { colors } from "@/assets/colors";
 import { Item } from "@/data/models/item";
@@ -11,6 +11,8 @@ interface Props {
   updateLink: string;
   setUpdateLink: (val: string) => void;
   item?: Item;
+  modalUpdateItem: () => void;
+  modalUpdateSection: () => void;
 }
 
 const UpdateInputsWrapper: React.FC<Props> = ({
@@ -19,7 +21,18 @@ const UpdateInputsWrapper: React.FC<Props> = ({
   updateLink,
   setUpdateLink,
   item,
+  modalUpdateItem,
+  modalUpdateSection,
 }) => {
+  // comp start
+
+  const titleInputRef = useRef<TextInput>(null);
+  const linkInputRef = useRef<TextInput>(null);
+
+  const focusNextInput = () => {
+    linkInputRef.current?.focus();
+  };
+
   return (
     <View>
       <TextInputModal
@@ -28,9 +41,10 @@ const UpdateInputsWrapper: React.FC<Props> = ({
         autofocus={true}
         selectTextOnFocus={true}
         style={{ borderColor: colors.edit }}
-        onSubmitEditing={() => console.log("Works")}
+        onSubmitEditing={() => (item ? focusNextInput() : modalUpdateSection())}
         addTitle={updateTitle}
         setAddTitle={setUpdateTitle}
+        ref={titleInputRef}
       />
 
       {item && (
@@ -39,9 +53,11 @@ const UpdateInputsWrapper: React.FC<Props> = ({
           selectionColor={colors.edit}
           selectTextOnFocus={true}
           style={{ borderColor: colors.edit }}
-          onSubmitEditing={() => console.log("Works")}
+          onSubmitEditing={() => modalUpdateItem()}
           addLink={updateLink}
           setAddLink={setUpdateLink}
+          autofocus={false}
+          ref={linkInputRef}
         />
       )}
     </View>

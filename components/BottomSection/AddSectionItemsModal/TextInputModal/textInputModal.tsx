@@ -5,13 +5,13 @@ import {
   TextStyle,
   View,
 } from "react-native";
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { colors } from "@/assets/colors";
 
 interface Props {
   placeholder: string;
   selectionColor: ColorValue;
-  autofocus?: boolean;
+  autofocus: boolean;
   selectTextOnFocus?: boolean;
   onSubmitEditing: () => void;
   addTitle?: string;
@@ -37,7 +37,20 @@ const TextInputModal = forwardRef<TextInput, Props>(
     },
     ref?
   ) => {
+    //comp start
+
     const [focus, setFocus] = useState(false);
+
+    useEffect(() => {
+      if (autofocus) {
+        setTimeout(() => {
+          // Type guard to check if ref is a RefObject
+          if (ref && typeof ref === "object" && "current" in ref) {
+            ref.current?.focus();
+          }
+        }, 100);
+      }
+    }, [autofocus, ref]);
 
     return (
       <View style={[styles.container]}>
@@ -52,7 +65,7 @@ const TextInputModal = forwardRef<TextInput, Props>(
           ref={ref}
           onSubmitEditing={onSubmitEditing}
           selectTextOnFocus={selectTextOnFocus}
-          autoFocus={autofocus}
+          //autoFocus={autofocus}
           value={addTitle ? addTitle : addLink}
           onChangeText={(text) =>
             setAddTitle
