@@ -3,6 +3,7 @@ import * as itemsContainer from "@/containers/itemsContainer";
 import { SectionList } from "@/data/models/sectionList";
 import * as textFormating from "../Utilities/textFormating";
 import { getCloseModalOnAdd } from "@/data/db/dbRepoSettings";
+import { showSuccess } from "@/Utilities/messages";
 
 export const addSection = async (
   addTitle: string,
@@ -16,6 +17,8 @@ export const addSection = async (
   }
   setCurrentSectionList(newSection);
   clearText();
+
+  showSuccess(`${newSection.title} added!`);
 
   if (getCloseModalOnAdd()) {
     modalClosingBehaviour();
@@ -36,6 +39,8 @@ export const addItem = (
   itemsContainer.addItem(title, sectionList.id, link);
   sectionListsContainer.toggleSectionVisibilityTrue(sectionList.id);
   clearText();
+
+  showSuccess(`${title} added!`);
 
   if (getCloseModalOnAdd()) {
     modalClosingBehaviour();

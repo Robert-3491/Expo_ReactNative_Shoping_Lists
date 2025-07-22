@@ -12,17 +12,18 @@ export const showError = () => {
   });
 };
 
-export const showSuccess = () => {
+export const showSuccess = (message: string) => {
   Toast.show({
     type: "success",
-    text2: "Success",
+    text2: message,
+    visibilityTime: 1500,
   });
 };
 
-export const showInfo = () => {
+export const showEdit = () => {
   Toast.show({
     type: "info",
-    text1: "Info",
     text2: "Info",
+    visibilityTime: 1500,
   });
 };

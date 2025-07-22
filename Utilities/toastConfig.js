@@ -7,56 +7,46 @@ export const toastConfig = {
   error: (props) => (
     <ErrorToast
       {...props}
-      style={{
-        backgroundColor: colors.card,
-        borderWidth: 1,
-        borderLeftWidth: 1,
-        borderColor: colors.error,
-      }}
-      text2Style={{
-        fontSize: 18,
-        color: colors.text,
-      }}
+      style={[styles.error, styles.card]}
+      text2Style={textStyles.text2}
     />
   ),
 
   success: (props) => (
     <BaseToast
       {...props}
-      style={{
-        backgroundColor: "#28a745",
-        borderLeftColor: "#155724",
-        borderLeftWidth: 5,
-      }}
-      text1Style={{
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "white",
-      }}
-      text2Style={{
-        fontSize: 16,
-        color: "white",
-      }}
+      style={[styles.success, styles.card]}
+      text2Style={textStyles.text2}
     />
   ),
 
-  info: (props) => (
+  edit: (props) => (
     <BaseToast
       {...props}
-      style={{
-        backgroundColor: "#17a2b8",
-        borderLeftColor: "#0c5460",
-        borderLeftWidth: 5,
-      }}
-      text1Style={{
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "white",
-      }}
-      text2Style={{
-        fontSize: 16,
-        color: "white",
-      }}
+      style={[styles.info, styles.card]}
+      text2Style={textStyles.text2Info}
     />
   ),
+};
+
+// Toast Styles
+const styles = {
+  error: {
+    borderColor: colors.error,
+  },
+  success: {
+    borderColor: colors.successToast,
+  },
+  info: {
+    borderColor: colors.info,
+  },
+  card: { backgroundColor: colors.card, borderWidth: 1, borderLeftWidth: 5 },
+};
+
+// Text Styles
+const textStyles = {
+  text2: {
+    fontSize: 18,
+    color: colors.text,
+  },
 };

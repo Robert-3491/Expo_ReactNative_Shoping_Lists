@@ -14,6 +14,7 @@ export const colors = {
   accent: "#60A5FA", // Blue 400
   secondary: "#4B5563", // Gray 600
   success: "#10B981", // Emerald 500
+  successToast: "#23933dff", // Emerald 500
   warning: "#F59E0B", // Amber 500
   error: "#EF4444", // Red 500
   disabled: "#6B7280", // Gray 500
