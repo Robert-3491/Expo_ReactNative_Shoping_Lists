@@ -2,7 +2,10 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect, useRef } from "react";
 import MainListsModalContents from "./mainListsModalContents";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  Pressable,
+} from "react-native-gesture-handler";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
@@ -57,6 +60,7 @@ export default function TopSection() {
       </View>
 
       {/* The modal content */}
+
       <View
         style={[
           styles.mainListsView,
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
 
   // Modal Styling
   mainListsView: {
-    width: "70%",
+    width: "100%",
     backgroundColor: colors.card,
     borderRadius: 5,
     padding: 5,
