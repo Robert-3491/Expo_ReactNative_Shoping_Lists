@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect, useRef } from "react";
 import MainListsModalContents from "./mainListsModalContents";
@@ -7,9 +7,12 @@ import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
 
+const { height: windowHeight } = Dimensions.get("window");
+
 export default function TopSection() {
   const [activeList, setActiveList] = useState("Loading...");
   const [modalVisible, setModalVisible] = useState(false);
+  const [dropdownHeight, setDropdownHeight] = useState(0);
 
   // Ref to access MainListsModalContents functions
   const modalRef = useRef<{ exitEdit: () => void }>(null);
@@ -34,6 +37,13 @@ export default function TopSection() {
     setModalVisible(!modalVisible);
   };
 
+  // Handle layout to get dropdown height
+  const handleDropdownLayout = (event: any) => {
+    const borderHeight = 4; //border is not included in the event.nativeEvent.layout
+    const { height } = event.nativeEvent.layout;
+    setDropdownHeight(height + borderHeight);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.dropdownPressable}>
@@ -42,15 +52,19 @@ export default function TopSection() {
           text={activeList}
           isOpen={modalVisible}
           onPress={toggleModal}
+          onLayout={handleDropdownLayout}
         />
       </View>
 
       {/* The modal content */}
-
       <View
         style={[
           styles.mainListsView,
-          { display: modalVisible ? "flex" : "none" },
+          {
+            display: modalVisible ? "flex" : "none",
+            height: windowHeight - dropdownHeight,
+            marginTop: dropdownHeight,
+          },
         ]}
       >
         {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
@@ -79,20 +93,15 @@ const styles = StyleSheet.create({
   },
 
   // Modal Styling
-
   mainListsView: {
     width: "70%",
-    height: "100%",
-    maxHeight: "100%",
-    //minHeight: "40%",
-
     backgroundColor: colors.card,
     borderRadius: 5,
     padding: 5,
     borderColor: colors.borderLight,
     borderWidth: 2,
+    borderTopWidth: 0,
     zIndex: 10,
-    flex: 1,
     position: "absolute",
   },
 });

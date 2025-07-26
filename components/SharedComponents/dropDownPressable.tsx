@@ -60,7 +60,9 @@ const DropdownPressable: React.FC<Props> = ({
 
 // Stock styles
 const styles = StyleSheet.create({
-  container: { flexDirection: "row" },
+  container: {
+    flexDirection: "row",
+  },
   pressSection: {
     flexDirection: "row",
     flex: 1,
