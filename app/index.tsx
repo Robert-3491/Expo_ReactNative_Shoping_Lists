@@ -1,10 +1,6 @@
-import {
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  ActivityIndicator,
-  View,
-} from "react-native";
+import { StyleSheet, StatusBar, ActivityIndicator, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/Utilities/toastConfig";
 
@@ -40,9 +36,13 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={"black"} barStyle={"light-content"} />
+      {/* <StatusBar
+        backgroundColor={"black"}
+        barStyle={"light-content"}
+        hidden={true}
+      /> */}
       <TopSection />
-      <BottomSection />
+
       <Toast config={toastConfig} />
     </SafeAreaView>
   );

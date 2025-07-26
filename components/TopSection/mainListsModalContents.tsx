@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
 import { Pressable } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
@@ -88,12 +88,14 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
         <Pressable onPress={handleMainListPress(item)}>
           {item.isEditing ? (
             // TextInput mounts fresh when editing starts
-            <EditMainListTextInput
-              mainList={item}
-              editText={editText}
-              setEditText={setEditText}
-              handleSaveEdit={handleSaveEdit}
-            />
+            <KeyboardAvoidingView>
+              <EditMainListTextInput
+                mainList={item}
+                editText={editText}
+                setEditText={setEditText}
+                handleSaveEdit={handleSaveEdit}
+              />
+            </KeyboardAvoidingView>
           ) : (
             // Regular text when not editing
             <Text
@@ -158,6 +160,8 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
           renderLeftActions={renderLeftActions}
           renderRightActions={renderRightActions}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          keyboardShouldPersistTaps="handled"
+          removeClippedSubviews={false}
         />
       </View>
     );
@@ -166,7 +170,9 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
+    height: "auto",
+    maxHeight: "100%",
   },
   mainListText: {
     paddingHorizontal: 10,

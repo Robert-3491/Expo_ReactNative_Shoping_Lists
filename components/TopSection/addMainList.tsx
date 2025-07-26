@@ -41,6 +41,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
     <View style={styles.container}>
       <TextInput
         ref={textInputRef}
+        autoFocus={false}
         autoCorrect={false}
         placeholder="Tap here to add a new list"
         placeholderTextColor={colors.disabled}
