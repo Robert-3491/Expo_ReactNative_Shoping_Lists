@@ -88,14 +88,13 @@ export default forwardRef<{ exitEdit: () => void }, IProps>(
         <Pressable onPress={handleMainListPress(item)}>
           {item.isEditing ? (
             // TextInput mounts fresh when editing starts
-            <KeyboardAvoidingView>
-              <EditMainListTextInput
-                mainList={item}
-                editText={editText}
-                setEditText={setEditText}
-                handleSaveEdit={handleSaveEdit}
-              />
-            </KeyboardAvoidingView>
+
+            <EditMainListTextInput
+              mainList={item}
+              editText={editText}
+              setEditText={setEditText}
+              handleSaveEdit={handleSaveEdit}
+            />
           ) : (
             // Regular text when not editing
             <Text

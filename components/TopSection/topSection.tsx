@@ -2,10 +2,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect, useRef } from "react";
 import MainListsModalContents from "./mainListsModalContents";
-import {
-  GestureHandlerRootView,
-  Pressable,
-} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
@@ -98,14 +95,18 @@ const styles = StyleSheet.create({
 
   // Modal Styling
   mainListsView: {
-    width: "100%",
+    width: "98%",
     backgroundColor: colors.card,
     borderRadius: 5,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
     padding: 5,
+    paddingBottom: 15,
     borderColor: colors.borderLight,
     borderWidth: 2,
     borderTopWidth: 0,
     zIndex: 10,
     position: "absolute",
+    alignSelf: "center",
   },
 });
