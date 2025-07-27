@@ -53,7 +53,7 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
 const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
-    //flex: 1,
+    flex: 1,
     backgroundColor: colors.itemCard,
     alignItems: "center",
     borderRadius: 5,

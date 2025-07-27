@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect } from "react";
 import MainListsView from "./mainListsView";
@@ -37,6 +37,7 @@ export default function TopSection() {
   // Exit edit mode before closing modal
   const toggleModal = () => {
     setModalVisible(!modalVisible);
+    Keyboard.dismiss();
   };
 
   // Handle layout to get dropdown height
@@ -84,6 +85,7 @@ export default function TopSection() {
       </View>
 
       <BottomSection />
+
       <UpdateAllListsModal
         mainList={updatingMainList}
         updateModalVisible={updateModalVisible}

@@ -15,7 +15,6 @@ export default function BottomSection() {
 const styles = StyleSheet.create({
   container: {
     //position: "absolute",
-    top: 0,
-    //height: "100%",
+    flex: 1,
   },
 });

@@ -119,8 +119,6 @@ const MainListsView: React.FC<IProps> = ({
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        keyboardShouldPersistTaps="handled"
-        removeClippedSubviews={false}
       />
     </View>
   );
@@ -136,7 +134,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 12,
     color: colors.text,
-    fontSize: 25,
+    fontSize: 22,
     backgroundColor: colors.borderLight,
     width: "100%",
     borderRadius: 5,

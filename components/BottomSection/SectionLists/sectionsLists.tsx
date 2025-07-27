@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 15,
     marginHorizontal: "1.5%",
-    //flex: 1,
+    flex: 1,
   },
   dropdownPressable: {
     backgroundColor: colors.surface,

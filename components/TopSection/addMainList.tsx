@@ -2,7 +2,7 @@ import { colors } from "@/assets/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet, TextInput } from "react-native"; // ← Move TextInput here
 import { Pressable } from "react-native-gesture-handler"; // ← Only Pressable from gesture handler
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import * as mainListsContainer from "@/containers/mainListsContainer";
 import * as textFormating from "@/Utilities/textFormating";
 
@@ -18,17 +18,9 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
   // Reference for handleIconPress focusing
   const textInputRef = useRef<TextInput>(null);
 
-  useEffect(() => {
-    if (mainListsContainer.isMainListEmpty()) {
-      // Add delay for usability...
-      setTimeout(() => {
-        textInputRef.current?.focus();
-      }, 100);
-    }
-  }, []);
-
   const addMainListHelper = () => {
     mainListsContainer.addMainList(title, reloadMainList, setActiveList);
+    setTitle("");
   };
 
   // Function to handle ADD icon press
@@ -36,6 +28,8 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
     addMainListHelper();
     textInputRef.current?.focus();
   }
+
+  // textInputRef.current?.focus();
 
   return (
     <View style={styles.container}>
@@ -53,13 +47,16 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
           },
         ]}
         onFocus={() => setisInputFocus(true)}
-        onBlur={() => setisInputFocus(false)}
+        onBlur={() => [setisInputFocus(false), setTitle("")]}
         value={title}
         onChangeText={(text) => setTitle(text)}
         onSubmitEditing={() => addMainListHelper()}
       />
       {/* Pressable icon that adds the new list or focus on TextInput */}
-      <Pressable onPress={() => handleIconPress()}>
+      <Pressable
+        style={({ pressed }) => [{ opacity: pressed ? 0.4 : 1 }]}
+        onPress={() => handleIconPress()}
+      >
         <Ionicons
           name={
             textFormating.isWhitespace(title)
@@ -71,7 +68,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
               ? colors.primaryLight
               : colors.success
           }
-          size={45}
+          size={50}
         />
       </Pressable>
     </View>
@@ -83,21 +80,15 @@ let styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginVertical: 5,
+    marginVertical: 10,
   },
 
   addInput: {
-    width: "85%",
+    flex: 1,
     borderRadius: 5,
     borderWidth: 2,
-    fontSize: 18,
+    fontSize: 20,
     color: colors.text,
     textAlignVertical: "center",
-  },
-
-  addIcon: {
-    width: "15%",
-    height: "100%",
-    alignContent: "flex-end",
   },
 });
