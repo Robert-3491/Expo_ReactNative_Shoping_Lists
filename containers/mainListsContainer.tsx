@@ -106,6 +106,10 @@ export const saveMainListUpdate = (
   if (item.isActive) {
     setActiveList(item.title);
   }
+
+  if (onRefreshCallback) {
+    onRefreshCallback();
+  }
 };
 
 export const handleDeleteList = (
@@ -127,4 +131,11 @@ export const handleDeleteList = (
     } // Clear active list if no lists are left
   }
   return undefined;
+};
+
+// Callback system for UI updates
+let onRefreshCallback: (() => void) | null = null;
+
+export const setOnRefreshCallback = (callback: () => void) => {
+  onRefreshCallback = callback;
 };

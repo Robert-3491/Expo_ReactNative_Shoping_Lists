@@ -1,7 +1,7 @@
 import { View, StyleSheet, Dimensions } from "react-native";
 import { colors } from "../../assets/colors";
-import { useState, useEffect, useRef } from "react";
-import MainListsModalContents from "./mainListsModalContents";
+import { useState, useEffect } from "react";
+import MainListsView from "./mainListsView";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
@@ -73,7 +73,7 @@ export default function TopSection() {
         {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
         <GestureHandlerRootView>
           {/* MainListsModalContents => the component that renders the lists */}
-          <MainListsModalContents
+          <MainListsView
             setItemsViewVisible={toggleModal}
             setActiveList={setActiveList}
             setUpdateModalVisible={setUpdateModalVisible}

@@ -17,7 +17,7 @@ interface IProps {
   setUpdatingMainList: (val: MainList) => void; // Prop to set thea active Main List Title
 }
 
-const MainListsModalContents: React.FC<IProps> = ({
+const MainListsView: React.FC<IProps> = ({
   setItemsViewVisible,
   setUpdateModalVisible,
   updateModalVisible,
@@ -32,7 +32,13 @@ const MainListsModalContents: React.FC<IProps> = ({
   };
 
   useEffect(() => {
+    // Set up the callback for when data changes
+    mainListsContainer.setOnRefreshCallback(refreshData);
     refreshData();
+    // Cleanup callback on unmount
+    return () => {
+      mainListsContainer.setOnRefreshCallback(() => {});
+    };
   }, []);
 
   //
@@ -137,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainListsModalContents;
+export default MainListsView;
