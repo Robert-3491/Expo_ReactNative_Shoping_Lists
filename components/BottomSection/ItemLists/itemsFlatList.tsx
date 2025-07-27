@@ -6,7 +6,7 @@ import * as itemsContainer from "@/containers/itemsContainer";
 import RenderItem from "./renderItem";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
-import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
+import UpdateAllListsModal from "../UpdateItemSectionModal/updateItemSectionModal";
 import EmptyItemListComponent from "./emptyItemListComponent";
 
 interface Props {
@@ -98,7 +98,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
         scrollEnabled={false}
         ListEmptyComponent={<EmptyItemListComponent />}
       />
-      <UpdateItemSectionModal
+      <UpdateAllListsModal
         updateModalVisible={updateModalVisible}
         setUpdateModalVisible={handleModalClose}
         item={itemForUpdate}

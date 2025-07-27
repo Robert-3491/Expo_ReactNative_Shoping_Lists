@@ -6,16 +6,19 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
+import UpdateAllListsModal from "../BottomSection/UpdateItemSectionModal/updateItemSectionModal";
+import { MainList } from "@/data/models/mainList";
 
 const { height: windowHeight } = Dimensions.get("window");
 
 export default function TopSection() {
   const [activeList, setActiveList] = useState("Loading...");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [dropdownHeight, setDropdownHeight] = useState(0);
+  const [updatingMainList, setUpdatingMainList] = useState<MainList>();
 
-  // Ref to access MainListsModalContents functions
-  const modalRef = useRef<{ exitEdit: () => void }>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+
+  const [dropdownHeight, setDropdownHeight] = useState(0);
 
   // Load active list on component mount
   useEffect(() => {
@@ -33,7 +36,6 @@ export default function TopSection() {
 
   // Exit edit mode before closing modal
   const toggleModal = () => {
-    modalRef.current?.exitEdit();
     setModalVisible(!modalVisible);
   };
 
@@ -72,14 +74,22 @@ export default function TopSection() {
         <GestureHandlerRootView>
           {/* MainListsModalContents => the component that renders the lists */}
           <MainListsModalContents
-            ref={modalRef}
-            setModalVisible={toggleModal}
+            setItemsViewVisible={toggleModal}
             setActiveList={setActiveList}
+            setUpdateModalVisible={setUpdateModalVisible}
+            updateModalVisible={updateModalVisible}
+            setUpdatingMainList={setUpdatingMainList}
           />
         </GestureHandlerRootView>
       </View>
 
       <BottomSection />
+      <UpdateAllListsModal
+        mainList={updatingMainList}
+        updateModalVisible={updateModalVisible}
+        setUpdateModalVisible={setUpdateModalVisible}
+        setActiveList={setActiveList}
+      />
     </View>
   );
 }
@@ -100,8 +110,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    padding: 5,
-    paddingBottom: 15,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
     borderColor: colors.borderLight,
     borderWidth: 2,
     borderTopWidth: 0,

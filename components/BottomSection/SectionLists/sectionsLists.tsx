@@ -8,7 +8,7 @@ import * as sectionListsContainer from "@/containers/sectionListsContainer";
 import RenderEditItem from "@/components/SharedComponents/renderEditItem";
 import RenderDeleteItem from "@/components/SharedComponents/renderDeleteItem";
 import ItemsView from "../ItemLists/itemsView";
-import UpdateItemSectionModal from "../UpdateItemSectionModal/updateItemSectionModal";
+import UpdateAllListsModal from "../UpdateItemSectionModal/updateItemSectionModal";
 import EmptySectionComponent from "./emptySectionComponent";
 
 export default function SectionsLists() {
@@ -107,7 +107,7 @@ export default function SectionsLists() {
         ListEmptyComponent={<EmptySectionComponent />}
       />
 
-      <UpdateItemSectionModal
+      <UpdateAllListsModal
         updateModalVisible={updateModalVisible}
         setUpdateModalVisible={handleModalClose}
         sectionList={sectionForUpdate}

@@ -78,16 +78,13 @@ export const setMainListActive = (id: number): void => {
 
 export const handleMainListPress = (
   item: MainList,
-  isMainListEditing: boolean,
   setModalVisible: (val: boolean) => void,
   setActiveList: (val: string) => void
 ) => {
-  if (isMainListEditing) {
-    return;
-  }
   if (item.isActive) {
     setModalVisible(false);
   }
+
   SetInactiveLists(); // Set all lists to inactive
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
   sectionListsContainer.setActiveMainList(item.id);
@@ -97,47 +94,18 @@ export const handleMainListPress = (
   setModalVisible(false); // Close the modal after selecting a list
 };
 
-export const handleSaveEdit = (
+export const saveMainListUpdate = (
   item: MainList,
   editText: string,
-  setIsMainListEditing: (val: boolean) => void,
   setActiveList: (val: string) => void
 ) => {
-  setIsMainListEditing(false); // Exit editing mode for the main list
-  item.isEditing = false;
-  if (textFormating.isWhitespace(editText)) {
-    return;
-  }
-
-  const editTextUpped = textFormating.capitalizeFirst(editText.trim());
-  if (item.title === editTextUpped) {
-    return;
-  }
-
-  item.title = editTextUpped; // Update the item's title with the edited text
+  item.title = editText; // Update the item's title with the edited text
   dbRepoList.updateMainList(item.id, item); // Update the main list in the database
   updateMainList(item.id, item); // Update the main list in the local state
 
   if (item.isActive) {
     setActiveList(item.title);
   }
-};
-
-export const handleEditPress = (
-  item: MainList,
-  setIsMainListEditing: (val: boolean) => void
-) => {
-  setIsMainListEditing(true);
-
-  mainLists = mainLists.map((list) =>
-    list.id === item.id ? { ...list, isEditing: true } : list
-  );
-};
-
-export const mainListsStopEdit = () => {
-  mainLists = mainLists.map((list) =>
-    list.isEditing === true ? { ...list, isEditing: false } : list
-  );
 };
 
 export const handleDeleteList = (

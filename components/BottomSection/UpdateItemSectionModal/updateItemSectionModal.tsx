@@ -7,19 +7,24 @@ import UpdateInputsWrapper from "./updateInputsWrapper";
 import AddModalButton from "../AddSectionItemsModal/addModalButton";
 import * as updateModalContainer from "@/containers/updateModalContainer";
 import { isWhitespace } from "@/Utilities/textFormating";
+import { MainList } from "@/data/models/mainList";
 
 interface Props {
   sectionList?: SectionList;
   item?: Item;
+  mainList?: MainList;
   updateModalVisible: boolean;
   setUpdateModalVisible: (value: boolean) => void;
+  setActiveList: (value: string) => void;
 }
 
-const UpdateItemSectionModal: React.FC<Props> = ({
+const UpdateAllListsModal: React.FC<Props> = ({
+  mainList,
   item,
   sectionList,
   updateModalVisible,
   setUpdateModalVisible,
+  setActiveList,
 }) => {
   //comp start
 
@@ -31,14 +36,18 @@ const UpdateItemSectionModal: React.FC<Props> = ({
     if (item) {
       setUpdateTitle(item.title ?? "");
       setUpdateLink(item.link ?? "");
-    } else if (sectionList) {
+    }
+    if (sectionList) {
       setUpdateTitle(sectionList.title ?? "");
     }
-  }, [item, sectionList]);
+    if (mainList) {
+      setUpdateTitle(mainList.title ?? "");
+    }
+  }, [item, sectionList, mainList]);
 
   const modalClosingBehaviour = () => {
     setUpdateModalVisible(!updateModalVisible);
-    setUpdateTitle(item ? item.title ?? "" : sectionList?.title ?? "");
+    setUpdateTitle(item?.title ?? sectionList?.title ?? mainList?.title ?? "");
     setUpdateLink(item?.link ?? "");
   };
 
@@ -60,6 +69,35 @@ const UpdateItemSectionModal: React.FC<Props> = ({
     );
   };
 
+  const modalUpdateMainList = () => {
+    if (mainList)
+      updateModalContainer.modalUpdateList(
+        mainList,
+        updateTitle,
+        modalClosingBehaviour,
+        setActiveList
+      );
+  };
+
+  const headerText = () => {
+    if (item) return `Update Item: ${item.title}`;
+    if (sectionList) return `Update Section: ${sectionList.title}`;
+    if (mainList) return `Update List: ${mainList.title}`;
+  };
+
+  const updateButtonPress = () => {
+    if (item) modalUpdateItem();
+    if (sectionList) modalUpdateSection();
+    if (mainList) modalUpdateMainList();
+  };
+
+  const buttonText = (): string => {
+    if (item) return "Update Item";
+    if (sectionList) return "Update Section";
+    if (mainList) return "Update List";
+    return "undefined";
+  };
+
   return (
     <View>
       <Modal
@@ -78,11 +116,7 @@ const UpdateItemSectionModal: React.FC<Props> = ({
           <View style={styles.modalView}>
             {/* Modal composition */}
 
-            <Text style={styles.header}>
-              {item
-                ? `Update Item: ${item.title}`
-                : `Update Section: ${sectionList?.title}`}
-            </Text>
+            <Text style={styles.header}>{headerText()}</Text>
 
             <UpdateInputsWrapper
               updateTitle={updateTitle}
@@ -95,8 +129,8 @@ const UpdateItemSectionModal: React.FC<Props> = ({
             />
 
             <AddModalButton
-              buttonText={item ? "Update Item" : "Update Section"}
-              onPress={() => (item ? modalUpdateItem : modalUpdateSection)}
+              buttonText={buttonText()}
+              onPress={() => updateButtonPress()}
               backgroundColor={
                 isWhitespace(updateTitle) ? colors.disabled : colors.edit
               }
@@ -127,10 +161,8 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     color: colors.text,
-    // textAlign: "center",
     borderBottomWidth: 1,
     borderColor: colors.borderLight,
-    //backgroundColor: colors.border,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     paddingVertical: 10,
@@ -138,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UpdateItemSectionModal;
+export default UpdateAllListsModal;
