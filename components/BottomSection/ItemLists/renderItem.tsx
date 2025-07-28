@@ -7,6 +7,7 @@ import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
 import { isWhitespace } from "@/Utilities/textFormating";
 import { ensureHttps } from "@/containers/addModalContainer";
+import { copyToClipboard } from "@/Utilities/clipboardHandler";
 
 interface Props {
   item: Item;
@@ -25,19 +26,25 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
         onValueChange={() => toggleIsChecked(item.id)}
       />
 
-      <Text
-        selectable={true}
-        style={[
-          { textDecorationLine: item.isChecked ? "line-through" : "none" },
-          styles.title,
-        ]}
+      <Pressable
+        style={({ pressed }) => [{ flex: 1 }, { opacity: pressed ? 0.4 : 1 }]}
+        onPress={() => toggleIsChecked(item.id)}
+        onLongPress={() => copyToClipboard({ item })}
       >
-        {item.title}
-      </Text>
+        <Text
+          style={[
+            { textDecorationLine: item.isChecked ? "line-through" : "none" },
+            styles.title,
+          ]}
+        >
+          {item.title}
+        </Text>
+      </Pressable>
 
       {!isWhitespace(item.link) && (
         <Pressable
           onPress={() => Linking.openURL(ensureHttps(item.link))}
+          onLongPress={() => copyToClipboard({ text: item.link })}
           style={({ pressed }) => [
             styles.iconContainer,
             { opacity: pressed ? 0.4 : 1 },
@@ -64,7 +71,6 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 5,
     marginHorizontal: 5,
-    marginVertical: 8,
   },
 
   title: {
@@ -72,6 +78,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     flex: 1,
     marginHorizontal: 5,
+    paddingVertical: 11,
   },
 
   iconContainer: {

@@ -21,7 +21,13 @@ const dbActiveMainList = async () => {
 };
 
 export const getSectionLists = (): SectionList[] => {
-  return sectionLists.filter((list) => list.mainListId === activeMainListId);
+  return sectionLists.filter(
+    (section) => section.mainListId === activeMainListId
+  );
+};
+
+export const getSectionListsByMainListId = (id: number): SectionList[] => {
+  return sectionLists.filter((section) => section.mainListId === id);
 };
 
 // for MainList connection

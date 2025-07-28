@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/assets/colors";
 import { SectionList } from "@/data/models/sectionList";
 import AddButton from "../BottomSection/SectionLists/addButton";
+import { copyToClipboard } from "@/Utilities/clipboardHandler";
 
 interface Props {
   text: string;
@@ -37,6 +38,9 @@ const DropdownPressable: React.FC<Props> = ({
   <View style={styles.container}>
     <Pressable
       onPress={onPress}
+      onLongPress={() =>
+        sectionList ? copyToClipboard({ sectionList }) : console.log("noting")
+      }
       onLayout={onLayout}
       style={({ pressed }) => [
         styles.pressSection,

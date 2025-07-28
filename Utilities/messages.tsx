@@ -4,10 +4,10 @@ import Toast from "react-native-toast-message";
 //import { showSuccess } from "@/Utilities/messages";
 //import { showInfo } from "@/Utilities/messages";
 
-export const showError = () => {
+export const showError = (error: string) => {
   Toast.show({
     type: "error",
-    text2: "Please enter a title",
+    text2: error,
     visibilityTime: 1500,
   });
 };
