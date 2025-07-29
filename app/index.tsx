@@ -35,16 +35,12 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <StatusBar
-        backgroundColor={"black"}
-        barStyle={"light-content"}
-        hidden={true}
-      /> */}
-      <TopSection />
-
+    <View style={{ flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+        <TopSection />
+      </SafeAreaView>
       <Toast config={toastConfig} />
-    </SafeAreaView>
+    </View>
   );
 }
 

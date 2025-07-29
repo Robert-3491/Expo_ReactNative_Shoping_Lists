@@ -7,6 +7,7 @@ import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
 import UpdateAllListsModal from "../BottomSection/UpdateItemSectionModal/updateItemSectionModal";
+import * as mainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
 
 const { height: windowHeight } = Dimensions.get("window");
@@ -56,6 +57,7 @@ export default function TopSection() {
           isOpen={modalVisible}
           onPress={toggleModal}
           onLayout={handleDropdownLayout}
+          mainList={mainListsContainer.getActiveMainList()}
         />
       </View>
 

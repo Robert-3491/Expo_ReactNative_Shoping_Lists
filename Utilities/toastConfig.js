@@ -40,7 +40,11 @@ const styles = {
   info: {
     borderColor: colors.info,
   },
-  card: { backgroundColor: colors.card, borderWidth: 1, borderLeftWidth: 5 },
+  card: {
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderLeftWidth: 3,
+  },
 };
 
 // Text Styles

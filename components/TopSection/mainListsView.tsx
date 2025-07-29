@@ -8,6 +8,7 @@ import AddMainList from "./addMainList";
 import { useState, useRef, useEffect } from "react";
 import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
 import RenderEditItem from "../SharedComponents/renderEditItem";
+import { copyToClipboard } from "@/Utilities/clipboardHandler";
 
 interface IProps {
   setItemsViewVisible: (visible: boolean) => void;
@@ -65,7 +66,11 @@ const MainListsView: React.FC<IProps> = ({
   // Render function for each main list mainList
   const renderMainList = ({ item }: { item: MainList }) => {
     return (
-      <Pressable onPress={handleMainListPress(item)}>
+      <Pressable
+        onPress={handleMainListPress(item)}
+        onLongPress={() => copyToClipboard({ mainList: item })}
+        style={({ pressed }) => [{ opacity: pressed ? 0.4 : 1 }]}
+      >
         <Text
           style={[
             styles.mainListText,

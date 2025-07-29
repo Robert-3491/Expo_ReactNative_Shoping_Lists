@@ -13,6 +13,7 @@ import { colors } from "@/assets/colors";
 import { SectionList } from "@/data/models/sectionList";
 import AddButton from "../BottomSection/SectionLists/addButton";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
+import { MainList } from "@/data/models/mainList";
 
 interface Props {
   text: string;
@@ -23,6 +24,7 @@ interface Props {
   textStyle?: TextStyle;
   iconStyle?: TextStyle;
   sectionList?: SectionList;
+  mainList?: MainList;
 }
 
 const DropdownPressable: React.FC<Props> = ({
@@ -34,12 +36,15 @@ const DropdownPressable: React.FC<Props> = ({
   textStyle,
   iconStyle,
   sectionList,
+  mainList,
 }) => (
   <View style={styles.container}>
     <Pressable
       onPress={onPress}
       onLongPress={() =>
-        sectionList ? copyToClipboard({ sectionList }) : console.log("noting")
+        sectionList
+          ? copyToClipboard({ sectionList })
+          : copyToClipboard({ mainList })
       }
       onLayout={onLayout}
       style={({ pressed }) => [
@@ -58,7 +63,7 @@ const DropdownPressable: React.FC<Props> = ({
         {text}
       </Text>
     </Pressable>
-    {sectionList ? <AddButton sectionList={sectionList} /> : null}
+    {sectionList && <AddButton sectionList={sectionList} />}
   </View>
 );
 

@@ -39,11 +39,12 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         autoCorrect={false}
         placeholder="Tap here to add a new list"
         placeholderTextColor={colors.disabled}
+        selectionColor={colors.primaryLight}
         selectTextOnFocus={true}
         style={[
           styles.addInput,
           {
-            borderColor: isInputFocus ? "#1976D2" : "transparent",
+            borderColor: isInputFocus ? colors.primaryLight : "transparent",
           },
         ]}
         onFocus={() => setisInputFocus(true)}

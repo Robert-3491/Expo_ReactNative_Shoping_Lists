@@ -24,6 +24,10 @@ export const getMainLists = (): MainList[] => {
   return mainLists;
 };
 
+export const getActiveMainList = (): MainList | undefined => {
+  return mainLists.find((list) => list.isActive);
+};
+
 export const isMainListEmpty = (): boolean => {
   return mainLists.length === 0;
 };

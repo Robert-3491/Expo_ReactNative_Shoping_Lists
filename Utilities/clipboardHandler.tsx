@@ -46,11 +46,11 @@ const itemFormating = (item: Item): string => {
 
 const sectionFormating = (sectionList: SectionList): string | null => {
   const itemsArray = getItems(sectionList.id);
-  let sectionText = `${sectionList.title} \n`;
+  let sectionText = `${sectionList.title}\n -----------------------------`;
 
   if (itemsArray.length > 0) {
     itemsArray.forEach((item) => {
-      sectionText += `\n ${itemFormating(item)} \n`;
+      sectionText += `\n ${itemFormating(item)}\n`;
     });
     return sectionText;
   }
@@ -60,13 +60,19 @@ const sectionFormating = (sectionList: SectionList): string | null => {
 
 const mainListFormating = (mainList: MainList): string | null => {
   const sectionsArray = getSectionListsByMainListId(mainList.id);
-  let mainListText = `${mainList.title} \n`;
+  let mainListText = "";
 
   if (sectionsArray.length > 0) {
     sectionsArray.forEach((section) => {
-      mainListText += `\n ${sectionFormating(section)} \n`;
+      const sectionText = sectionFormating(section);
+      if (sectionText) mainListText += `\n ${sectionText} \n`;
     });
-    return mainListText;
+
+    if (isWhitespace(mainListText)) return null;
+
+    const mainListTitleUpped = mainList.title.toUpperCase();
+    const textWithMainList = `${mainListTitleUpped} \n ${mainListText}`;
+    return textWithMainList;
   }
 
   return null;
