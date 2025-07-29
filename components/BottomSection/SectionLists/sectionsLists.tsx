@@ -52,7 +52,7 @@ export default function SectionsLists() {
             isOpen={item.isVisible}
             onPress={() => toggleItemVisibility(item.id)}
             textStyle={{ fontSize: 22 }}
-            style={{ paddingVertical: 10 }}
+            //style={{ paddingVertical: 10 }}
             sectionList={item}
           />
         </View>

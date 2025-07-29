@@ -14,6 +14,7 @@ import { SectionList } from "@/data/models/sectionList";
 import AddButton from "../BottomSection/SectionLists/addButton";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
 import { MainList } from "@/data/models/mainList";
+import ContentCount from "./contentCount";
 
 interface Props {
   text: string;
@@ -57,11 +58,10 @@ const DropdownPressable: React.FC<Props> = ({
         name={isOpen ? "caret-up-outline" : "caret-down-outline"}
         style={[styles.dropdownIcon, styles.pressSectionElements, iconStyle]}
       />
-      <Text
-        style={[styles.activeListsText, styles.pressSectionElements, textStyle]}
-      >
-        {text}
-      </Text>
+      <View style={{ flex: 1 }}>
+        <Text style={[styles.pressSectionElements, textStyle]}>{text}</Text>
+        <ContentCount mainList={mainList} sectionList={sectionList} />
+      </View>
     </Pressable>
     {sectionList && <AddButton sectionList={sectionList} />}
   </View>
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
   pressSection: {
     flexDirection: "row",
     flex: 1,
-    paddingVertical: 15,
+    paddingTop: 2,
+    paddingBottom: 5,
   },
   pressSectionElements: {
     fontSize: 25,
@@ -84,10 +85,6 @@ const styles = StyleSheet.create({
   dropdownIcon: {
     marginHorizontal: 5,
     verticalAlign: "middle",
-  },
-  activeListsText: {
-    color: colors.text,
-    flex: 1,
   },
 });
 
