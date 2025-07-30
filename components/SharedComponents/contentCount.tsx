@@ -18,8 +18,8 @@ const ContentCount: React.FC<Props> = ({ mainList, sectionList }) => {
     mainList
       ? getMainListContentCount(mainList)
       : sectionList
-      ? getSectionContentCount(sectionList)
-      : ""
+      ? sectionList.itemsCount
+      : "-"
   );
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ContentCount: React.FC<Props> = ({ mainList, sectionList }) => {
       ? getMainListContentCount(mainList)
       : sectionList
       ? getSectionContentCount(sectionList)
-      : "";
+      : "-";
     setContentCount(newCount);
   }, [mainList, sectionList]);
 

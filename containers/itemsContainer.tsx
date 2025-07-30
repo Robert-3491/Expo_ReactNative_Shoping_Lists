@@ -1,5 +1,6 @@
 import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
+import { updateSectionItemCount } from "@/containers/sectionListsContainer";
 
 let initialized = false;
 
@@ -34,9 +35,15 @@ export const setOnRefreshItemsCallback = (
 };
 
 export const getItems = (sectionId: number): Item[] => {
-  return itemsList
+  const filteredList = itemsList
     .filter((item) => item.sectionListId === sectionId)
     .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
+
+  const checkedItemsCount = filteredList.filter(
+    (item) => item.isChecked
+  ).length;
+  updateSectionItemCount(sectionId, filteredList.length, checkedItemsCount);
+  return filteredList;
 };
 
 export const addItem = async (
@@ -55,9 +62,10 @@ export const addItem = async (
   }
 };
 
-export const deleteList = (id: number, refreshData: () => void) => {
+export const deleteItem = (id: number, refreshData: () => void) => {
   dbRepoItem.deleteItem(id);
   itemsList = itemsList.filter((item) => item.id !== id);
+
   refreshData();
 };
 

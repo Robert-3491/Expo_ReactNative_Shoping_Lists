@@ -38,7 +38,6 @@ export const setOnRefreshSectionsCallback = (callback: () => void) => {
   onRefreshSectionsCallback = callback;
 };
 
-// Update setActiveMainList to trigger the callback
 export const setActiveMainList = (mainListId: number) => {
   activeMainListId = mainListId;
 
@@ -102,5 +101,16 @@ export const updateSection = async (id: number, title: string) => {
     list.id === id ? { ...list, title } : list
   );
   await dbRepoSectionLists.updateSectionList(title, id);
+  refreshCallback();
+};
+
+export const updateSectionItemCount = async (
+  id: number,
+  itemsCount: number,
+  checkedItemsCount: number
+) => {
+  sectionLists = sectionLists.map((list) =>
+    list.id === id ? { ...list, itemsCount, checkedItemsCount } : list
+  );
   refreshCallback();
 };

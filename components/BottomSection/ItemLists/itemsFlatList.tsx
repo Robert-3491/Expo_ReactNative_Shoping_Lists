@@ -73,7 +73,7 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     return (
       <RenderDeleteItem
         item={item}
-        handleDelete={() => itemsContainer.deleteList(item.id, refreshData)}
+        handleDelete={() => itemsContainer.deleteItem(item.id, refreshData)}
       />
     );
   };
