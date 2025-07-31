@@ -17,9 +17,9 @@ export class SectionList {
   ) {
     this.title = title;
     this.isVisible = isVisible;
-    this.id = id ? id : 0; // If id is not provided, default to 0
+    this.id = id ?? 0; // If id is not provided, default to 0
     this.mainListId = mainListId;
-    this.itemsCount = itemsCount ? itemsCount : 0;
-    this.checkedItemsCount = checkedItemsCount ? checkedItemsCount : 0;
+    this.itemsCount = itemsCount ?? 0;
+    this.checkedItemsCount = checkedItemsCount ?? 0;
   }
 }

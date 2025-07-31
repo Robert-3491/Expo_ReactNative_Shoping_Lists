@@ -2,11 +2,17 @@ export class MainList {
   id: number = 0;
   title: string;
   isActive: boolean;
-  isEditing: boolean = false; // Flag to indicate if the list is being edited
+  contentCount: [sectionCount: number, totalItemsCount: number];
 
-  constructor(title: string, isActive: boolean = false, id?: number) {
+  constructor(
+    title: string,
+    isActive: boolean = false,
+    id?: number,
+    contentCount?: [sectionCount: number, totalItemsCount: number]
+  ) {
     this.title = title;
     this.isActive = isActive;
-    this.id = id ? id : 0; // If id is not provided, default to 0
+    this.id = id ?? 0;
+    this.contentCount = contentCount ?? [0, 0];
   }
 }
