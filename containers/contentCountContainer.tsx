@@ -8,5 +8,5 @@ export const getSectionContentCount = (sectionList: SectionList): string => {
 };
 
 export const getMainListContentCount = (mainList: MainList): string => {
-  return "getMainListContentCount";
+  return mainList.contentCount.toString();
 };

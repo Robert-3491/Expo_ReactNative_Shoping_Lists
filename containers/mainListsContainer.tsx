@@ -20,6 +20,18 @@ export async function initializeMainLists() {
   }
 }
 
+export const updateMainListItemCount = (
+  id: number,
+  contentCount: [sectionCount: number, totalItemsCount: number]
+) => {
+  mainLists = mainLists.map((mainList) =>
+    mainList.id === id ? { ...mainList, contentCount } : mainList
+  );
+  if (onRefreshCallback) {
+    onRefreshCallback();
+  }
+};
+
 export const getMainLists = (): MainList[] => {
   return mainLists;
 };

@@ -2,15 +2,24 @@ import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
 import * as textFormating from "../Utilities/textFormating";
+import { updateMainListItemCount } from "@/containers/mainListsContainer";
 
 let sectionLists: SectionList[] = [];
 let activeMainListId = 0;
+const mainListsIds: number[] = [];
 
 export async function initializeSectionLists() {
-  sectionLists = (await dbRepoSectionLists.getAllSectionLists()).map(
-    (list) =>
-      new SectionList(list.title, list.isVisible, list.mainListId, list.id)
-  );
+  sectionLists = (await dbRepoSectionLists.getAllSectionLists()).map((list) => {
+    if (!mainListsIds.includes(list.mainListId)) {
+      mainListsIds.push(list.mainListId);
+    }
+    return new SectionList(
+      list.title,
+      list.isVisible,
+      list.mainListId,
+      list.id
+    );
+  });
   await dbActiveMainList();
 }
 
@@ -21,6 +30,7 @@ const dbActiveMainList = async () => {
 };
 
 export const getSectionLists = (): SectionList[] => {
+  updateMainListItemCountTrigger();
   return sectionLists.filter(
     (section) => section.mainListId === activeMainListId
   );
@@ -28,6 +38,28 @@ export const getSectionLists = (): SectionList[] => {
 
 export const getSectionListsByMainListId = (id: number): SectionList[] => {
   return sectionLists.filter((section) => section.mainListId === id);
+};
+
+export const updateMainListItemCountTrigger = () => {
+  mainListsIds.forEach((mainListId) => {
+    const mainListContent = sectionLists.filter(
+      (section) => section.mainListId === mainListId
+    );
+
+    const sectionCount = mainListContent.length;
+
+    let totalItemsCount = 0;
+    const calculateItemCount = mainListContent.forEach((section) => {
+      totalItemsCount += section.itemsCount;
+    });
+
+    const contentCount: [sectionCount: number, totalItemsCount: number] = [
+      sectionCount,
+      totalItemsCount,
+    ];
+
+    updateMainListItemCount(mainListId, contentCount);
+  });
 };
 
 // for MainList connection
@@ -104,7 +136,7 @@ export const updateSection = async (id: number, title: string) => {
   refreshCallback();
 };
 
-export const updateSectionItemCount = async (
+export const updateSectionItemCount = (
   id: number,
   itemsCount: number,
   checkedItemsCount: number
