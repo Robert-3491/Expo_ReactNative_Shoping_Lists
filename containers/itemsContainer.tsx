@@ -2,10 +2,6 @@ import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
 import { updateSectionItemCount } from "@/containers/sectionListsContainer";
 import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
-import {
-  updateSectionItemCount,
-  updateMainListItemCountTrigger,
-} from "@/containers/sectionListsContainer";
 
 let initialized = false;
 
@@ -13,29 +9,16 @@ let itemsList: Item[] = [];
 
 export async function initializeItemLists() {
   if (!initialized) {
-    const sectionListIds: number[] = [];
-    itemsList = (await dbRepoItem.getAllItems()).map((item) => {
-      if (!sectionListIds.includes(item.sectionListId)) {
-        sectionListIds.push(item.sectionListId);
-      }
-
-      return new Item(
-        item.title,
-        item.sectionListId,
-        item.isChecked,
-        item.link,
-        item.id
-      );
-    });
-
-    sectionListIds.forEach((id) => {
-      const filteredItemsList = getFilteredList(id);
-      const checkedItemsCount = getCheckedItemsCount(filteredItemsList);
-
-      updateSectionItemCount(id, filteredItemsList.length, checkedItemsCount);
-      updateMainListItemCountTrigger();
-    });
-
+    itemsList = (await dbRepoItem.getAllItems()).map(
+      (item) =>
+        new Item(
+          item.title,
+          item.sectionListId,
+          item.isChecked,
+          item.link,
+          item.id
+        )
+    );
     initialized = true;
   }
 }
@@ -52,26 +35,16 @@ export const setOnRefreshItemsCallback = (
   }
 };
 
-const getFilteredList = (sectionId: number): Item[] => {
-  return itemsList
+export const getItems = (sectionId: number): Item[] => {
+  const filteredList = itemsList
     .filter((item) => item.sectionListId === sectionId)
     .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
-};
 
-const getCheckedItemsCount = (itemList: Item[]): number => {
-  return itemList.filter((item) => item.isChecked).length;
-};
-
-export const getItems = (sectionId: number): Item[] => {
-  const filteredItemsList = getFilteredList(sectionId);
-  const checkedItemsCount = getCheckedItemsCount(filteredItemsList);
-
-  updateSectionItemCount(
-    sectionId,
-    filteredItemsList.length,
-    checkedItemsCount
-  );
-  return filteredItemsList;
+  const checkedItemsCount = filteredList.filter(
+    (item) => item.isChecked
+  ).length;
+  updateSectionItemCount(sectionId, filteredList.length, checkedItemsCount);
+  return filteredList;
 };
 
 export const addItem = async (
