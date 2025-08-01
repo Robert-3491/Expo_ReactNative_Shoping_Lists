@@ -117,3 +117,30 @@ export const getActiveMainList = async (): Promise<MainList | null> => {
     throw error;
   }
 };
+
+// Add this function to your dbRepoList.tsx file
+
+export const getMainListContentCount = async (mainListId: number) => {
+  try {
+    const contentCount = db.getFirstSync(
+      `
+      SELECT 
+        COUNT(DISTINCT s.id) as sectionCount,
+        COUNT(i.id) as totalItemCount
+      FROM mainlists ml
+      LEFT JOIN sectionlists s ON ml.id = s.mainListId
+      LEFT JOIN items i ON s.id = i.sectionListId
+      WHERE ml.id = ?
+    `,
+      [mainListId]
+    ) as any;
+
+    return {
+      sectionCount: contentCount?.sectionCount || 0,
+      totalItemCount: contentCount?.totalItemCount || 0,
+    };
+  } catch (error) {
+    console.error("Error getting MainList summary:", error);
+    throw error;
+  }
+};

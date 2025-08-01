@@ -2,6 +2,7 @@ import { SectionList } from "@/data/models/sectionList";
 import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
 import * as textFormating from "../Utilities/textFormating";
+import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
 import { updateMainListItemCount } from "@/containers/mainListsContainer";
 
 let sectionLists: SectionList[] = [];
@@ -96,6 +97,7 @@ export const toggleItemVisibility = (itemId: number) => {
 export const deleteList = (id: number) => {
   dbRepoSectionLists.deleteSectionList(id);
   sectionLists = sectionLists.filter((list) => list.id !== id);
+  externalRefreshCallbackMainLists();
 };
 
 export const addSection = async (
@@ -111,6 +113,7 @@ export const addSection = async (
   newSection.id = newSectionid;
   sectionLists = [...sectionLists, newSection];
 
+  externalRefreshCallbackMainLists();
   refreshCallback();
   return newSection;
 };
