@@ -18,7 +18,7 @@ const ContentCount: React.FC<Props> = ({ mainList, sectionList }) => {
     mainList
       ? getMainListContentCount(mainList)
       : sectionList
-      ? sectionList.itemsCount
+      ? getSectionContentCount(sectionList)
       : "-"
   );
 

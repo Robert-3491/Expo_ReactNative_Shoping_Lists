@@ -11,17 +11,35 @@ let initialized = false;
 
 let mainLists: MainList[] = [];
 
+// Helper function to add content count to MainLists
+const addContentCountsToMainLists = async (
+  lists: MainList[]
+): Promise<MainList[]> => {
+  return await Promise.all(
+    lists.map(async (list) => {
+      const contentCount = await dbRepoList.getMainListContentCount(list.id!);
+
+      return new MainList(list.title, list.isActive, list.id, [
+        contentCount.sectionCount,
+        contentCount.totalItemCount,
+      ]);
+    })
+  );
+};
+
 export async function initializeMainLists() {
   if (!initialized) {
-    mainLists = (await dbRepoList.getAllMainLists()).map(
-      (list) => new MainList(list.title, list.isActive, list.id)
-    );
+    const basicMainLists = (await dbRepoList.getAllMainLists()).map((list) => {
+      return new MainList(list.title, list.isActive, list.id);
+    });
+
+    mainLists = await addContentCountsToMainLists(basicMainLists);
     initialized = true;
   }
 }
 
-export const getMainLists = (): MainList[] => {
-  return mainLists;
+export const getMainLists = async (): Promise<MainList[]> => {
+  return await addContentCountsToMainLists(mainLists);
 };
 
 export const getActiveMainList = (): MainList | undefined => {
@@ -142,4 +160,10 @@ let onRefreshCallback: (() => void) | null = null;
 
 export const setOnRefreshCallback = (callback: () => void) => {
   onRefreshCallback = callback;
+};
+
+export const externalRefreshCallbackMainLists = () => {
+  if (onRefreshCallback) {
+    onRefreshCallback();
+  }
 };

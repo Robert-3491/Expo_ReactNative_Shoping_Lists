@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
 import RenderEditItem from "../SharedComponents/renderEditItem";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
+import ContentCount from "../SharedComponents/contentCount";
 
 interface IProps {
   setItemsViewVisible: (visible: boolean) => void;
@@ -28,8 +29,8 @@ const MainListsView: React.FC<IProps> = ({
   const [mainLists, setMainLists] = useState<MainList[]>([]);
 
   // Function to refresh the data
-  const refreshData = () => {
-    setMainLists(mainListsContainer.getMainLists());
+  const refreshData = async () => {
+    setMainLists(await mainListsContainer.getMainLists());
   };
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const MainListsView: React.FC<IProps> = ({
         >
           {item.title}
         </Text>
+        <ContentCount mainList={item} />
       </Pressable>
     );
   };

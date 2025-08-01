@@ -1,6 +1,7 @@
 import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
 import { updateSectionItemCount } from "@/containers/sectionListsContainer";
+import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
 
 let initialized = false;
 
@@ -57,6 +58,7 @@ export const addItem = async (
   itemsList = [...itemsList, newItem];
 
   const callback = onRefreshItemsCallbacks.get(sectionListId);
+  externalRefreshCallbackMainLists();
   if (callback) {
     callback();
   }
@@ -65,7 +67,7 @@ export const addItem = async (
 export const deleteItem = (id: number, refreshData: () => void) => {
   dbRepoItem.deleteItem(id);
   itemsList = itemsList.filter((item) => item.id !== id);
-
+  externalRefreshCallbackMainLists();
   refreshData();
 };
 
