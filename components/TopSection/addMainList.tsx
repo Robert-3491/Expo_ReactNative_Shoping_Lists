@@ -5,11 +5,10 @@ import { Pressable } from "react-native-gesture-handler"; // ← Only Pressable 
 import { useRef, useState } from "react";
 import * as mainListsContainer from "@/containers/mainListsContainer";
 import * as textFormating from "@/Utilities/textFormating";
-import { MainList } from "@/data/models/mainList";
 
 interface IProps {
   reloadMainList: () => void;
-  setActiveList: (mainList: MainList | undefined) => void;
+  setActiveList: (mainListTitle: string) => void;
 }
 
 export default function AddMainList({ reloadMainList, setActiveList }: IProps) {

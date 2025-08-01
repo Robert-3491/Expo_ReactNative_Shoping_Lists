@@ -15,7 +15,7 @@ interface Props {
   mainList?: MainList;
   updateModalVisible: boolean;
   setUpdateModalVisible: (value: boolean) => void;
-  setActiveList?: (value: MainList) => void;
+  setActiveList?: (value: string) => void;
 }
 
 const UpdateAllListsModal: React.FC<Props> = ({

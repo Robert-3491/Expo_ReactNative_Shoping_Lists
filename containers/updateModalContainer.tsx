@@ -35,7 +35,7 @@ export const modalUpdateList = (
   mainList: MainList,
   updateTitle: string,
   modalClosingBehaviour: () => void,
-  setActiveList: (val: MainList) => void
+  setActiveList: (val: string) => void
 ) => {
   if (textFormating.isWhitespace(updateTitle)) {
     return;
