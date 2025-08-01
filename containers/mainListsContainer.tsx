@@ -38,9 +38,9 @@ export async function initializeMainLists() {
   }
 }
 
-
 export const getMainLists = async (): Promise<MainList[]> => {
   return await addContentCountsToMainLists(mainLists);
+};
 
 export const updateMainListItemCount = (
   id: number,
@@ -52,10 +52,6 @@ export const updateMainListItemCount = (
   if (onRefreshCallback) {
     onRefreshCallback();
   }
-};
-
-export const getMainLists = (): MainList[] => {
-  return mainLists;
 };
 
 export const getActiveMainList = async (): Promise<MainList | undefined> => {
