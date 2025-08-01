@@ -3,7 +3,6 @@ import { colors } from "../../assets/colors";
 import { useState, useEffect } from "react";
 import MainListsView from "./mainListsView";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import * as dbRepoList from "@/data/db/dbRepoList";
 import DropdownPressable from "../SharedComponents/dropDownPressable";
 import BottomSection from "../BottomSection/SectionLists/bottomSection";
 import UpdateAllListsModal from "../BottomSection/UpdateItemSectionModal/updateItemSectionModal";
@@ -13,7 +12,7 @@ import { MainList } from "@/data/models/mainList";
 const { height: windowHeight } = Dimensions.get("window");
 
 export default function TopSection() {
-  const [activeList, setActiveList] = useState("Loading...");
+  const [activeList, setActiveList] = useState<MainList | undefined>();
   const [updatingMainList, setUpdatingMainList] = useState<MainList>();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,11 +23,9 @@ export default function TopSection() {
   // Load active list on component mount
   useEffect(() => {
     const loadActiveList = async () => {
-      const activeMainList = await dbRepoList.getActiveMainList();
+      const activeMainList = mainListsContainer.getActiveMainList();
       if (activeMainList) {
-        setActiveList(activeMainList.title);
-      } else {
-        setActiveList("No list created yet");
+        setActiveList(await activeMainList);
       }
     };
 
@@ -53,11 +50,11 @@ export default function TopSection() {
       <View style={styles.dropdownPressable}>
         {/* Pressable section that toggles the modal */}
         <DropdownPressable
-          text={activeList}
+          text={activeList?.title ? activeList.title : "No lists created yet"}
           isOpen={modalVisible}
           onPress={toggleModal}
           onLayout={handleDropdownLayout}
-          mainList={mainListsContainer.getActiveMainList()}
+          mainList={activeList}
         />
       </View>
 

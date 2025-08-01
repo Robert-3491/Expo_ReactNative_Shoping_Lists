@@ -10,12 +10,13 @@ import RenderDeleteItem from "../SharedComponents/renderDeleteItem";
 import RenderEditItem from "../SharedComponents/renderEditItem";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
 import ContentCount from "../SharedComponents/contentCount";
+import { getActiveMainList } from "@/containers/mainListsContainer";
 
 interface IProps {
   setItemsViewVisible: (visible: boolean) => void;
   setUpdateModalVisible: (visible: boolean) => void;
   updateModalVisible: boolean;
-  setActiveList: (mainListTitle: string) => void; // Prop to set thea active Main List Title
+  setActiveList: (mainListTitle: MainList | undefined) => void; // Prop to set thea active Main List Title
   setUpdatingMainList: (val: MainList) => void; // Prop to set thea active Main List Title
 }
 
@@ -31,6 +32,7 @@ const MainListsView: React.FC<IProps> = ({
   // Function to refresh the data
   const refreshData = async () => {
     setMainLists(await mainListsContainer.getMainLists());
+    setActiveList(await getActiveMainList());
   };
 
   useEffect(() => {
@@ -102,7 +104,9 @@ const MainListsView: React.FC<IProps> = ({
 
   // Function to handle deleting a main list - for RIGHT ACTION
   function handleDeleteList(mainList: MainList): void {
-    mainListsContainer.handleDeleteList(mainList, setActiveList);
+    mainListsContainer.handleDeleteList(mainList, (val: MainList | undefined) =>
+      setActiveList(val)
+    );
     refreshData();
   }
 

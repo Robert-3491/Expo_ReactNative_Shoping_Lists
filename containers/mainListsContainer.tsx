@@ -42,8 +42,13 @@ export const getMainLists = async (): Promise<MainList[]> => {
   return await addContentCountsToMainLists(mainLists);
 };
 
-export const getActiveMainList = (): MainList | undefined => {
-  return mainLists.find((list) => list.isActive);
+export const getActiveMainList = async (): Promise<MainList | undefined> => {
+  const activeList = mainLists.find((list) => list.isActive);
+  if (!activeList) return undefined;
+
+  // Use the helper method to get updated content counts
+  const [updatedActiveList] = await addContentCountsToMainLists([activeList]);
+  return updatedActiveList;
 };
 
 export const isMainListEmpty = (): boolean => {
@@ -59,7 +64,7 @@ export function SetInactiveLists() {
 export const addMainList = async (
   title: string,
   reloadMainList: () => void,
-  setActiveList: (val: string) => void
+  setActiveList: (val: MainList) => void
 ) => {
   if (textFormating.isWhitespace(title)) {
     return;
@@ -73,7 +78,7 @@ export const addMainList = async (
   mainLists = [...mainLists, newList]; //This will make the update re-render
 
   reloadMainList();
-  setActiveList(titleUpped); // Set the active list Title
+  setActiveList(newList); // Set the active list Title
   sectionListsContainer.setActiveMainList(newList.id);
 
   if (getCreateDefaultSection()) {
@@ -101,7 +106,7 @@ export const setMainListActive = (id: number): void => {
 export const handleMainListPress = (
   item: MainList,
   setModalVisible: (val: boolean) => void,
-  setActiveList: (val: string) => void
+  setActiveList: (val: MainList) => void
 ) => {
   if (item.isActive) {
     setModalVisible(false);
@@ -112,21 +117,21 @@ export const handleMainListPress = (
   sectionListsContainer.setActiveMainList(item.id);
 
   setMainListActive(item.id);
-  setActiveList(item.title); // Set the active list title
+  setActiveList(item); // Set the active list title
   setModalVisible(false); // Close the modal after selecting a list
 };
 
 export const saveMainListUpdate = (
   item: MainList,
   editText: string,
-  setActiveList: (val: string) => void
+  setActiveList: (val: MainList) => void
 ) => {
   item.title = editText; // Update the item's title with the edited text
   dbRepoList.updateMainList(item.id, item); // Update the main list in the database
   updateMainList(item.id, item); // Update the main list in the local state
 
   if (item.isActive) {
-    setActiveList(item.title);
+    setActiveList(item);
   }
 
   if (onRefreshCallback) {
@@ -136,7 +141,7 @@ export const saveMainListUpdate = (
 
 export const handleDeleteList = (
   item: MainList,
-  setActiveList: (val: string) => void
+  setActiveList: (val: MainList | undefined) => void
 ) => {
   dbRepoList.deleteMainList(item.id); // Remove from database
   deleteMainList(item.id); // Remove from local state
@@ -146,10 +151,10 @@ export const handleDeleteList = (
       mainLists[0].isActive = true; // Set the first list as active if available
       dbRepoList.setActiveMainList(mainLists[0].id); // Update the database with the new active list
       sectionListsContainer.setActiveMainList(mainLists[0].id);
-      setActiveList(mainLists[0].title);
+      setActiveList(mainLists[0]);
     } else {
       sectionListsContainer.setActiveMainList(0);
-      setActiveList("No list created yet");
+      setActiveList(undefined);
     } // Clear active list if no lists are left
   }
   return undefined;
