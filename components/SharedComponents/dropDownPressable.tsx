@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   pressSection: {
     flexDirection: "row",
     flex: 1,
-    paddingTop: 2,
-    paddingBottom: 5,
+    paddingTop: 5,
+    paddingBottom: 8,
   },
   pressSectionElements: {
     fontSize: 25,

@@ -72,20 +72,17 @@ const MainListsView: React.FC<IProps> = ({
       <Pressable
         onPress={handleMainListPress(item)}
         onLongPress={() => copyToClipboard({ mainList: item })}
-        style={({ pressed }) => [{ opacity: pressed ? 0.4 : 1 }]}
+        style={({ pressed }) => [
+          { opacity: pressed ? 0.4 : 1 },
+          {
+            backgroundColor: item.isActive
+              ? colors.primary
+              : colors.borderLight,
+          },
+          styles.pressable,
+        ]}
       >
-        <Text
-          style={[
-            styles.mainListText,
-            {
-              backgroundColor: item.isActive
-                ? colors.primary
-                : colors.borderLight,
-            },
-          ]}
-        >
-          {item.title}
-        </Text>
+        <Text style={[styles.mainListText]}>{item.title}</Text>
         <ContentCount mainList={item} />
       </Pressable>
     );
@@ -141,14 +138,19 @@ const styles = StyleSheet.create({
     height: "auto",
     maxHeight: "100%",
   },
-  mainListText: {
+  pressable: {
     paddingHorizontal: 10,
-    paddingVertical: 12,
-    color: colors.text,
-    fontSize: 22,
-    backgroundColor: colors.borderLight,
+    paddingTop: 5,
+    paddingBottom: 8,
     width: "100%",
     borderRadius: 5,
+  },
+
+  mainListText: {
+    color: colors.text,
+    fontSize: 22,
+
+    width: "100%",
   },
 });
 

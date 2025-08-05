@@ -19,7 +19,7 @@ const ContentCount: React.FC<Props> = ({ mainList, sectionList }) => {
       ? getMainListContentCount(mainList)
       : sectionList
       ? getSectionContentCount(sectionList)
-      : "-"
+      : "Menu"
   );
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ContentCount: React.FC<Props> = ({ mainList, sectionList }) => {
       ? getMainListContentCount(mainList)
       : sectionList
       ? getSectionContentCount(sectionList)
-      : "-";
+      : "Menu";
     setContentCount(newCount);
   }, [mainList, sectionList]);
 
