@@ -1,12 +1,7 @@
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, StatusBar, StyleSheet, View } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoadingSpinner = () => {
   return (

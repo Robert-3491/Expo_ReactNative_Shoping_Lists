@@ -7,12 +7,13 @@ let settings: Settings;
 
 export const initializeSettings = async () => {
   await db.execAsync(`
-    INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked) 
-    VALUES (1, 'Section', 1, 0, 1)
+    INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked, orderByNew) 
+    VALUES (1, 'Section', 1, 0, 1, 1)
   `);
   settings = (await db.getFirstAsync(
     "SELECT * FROM settings WHERE id = 1"
   )) as Settings;
+  console.log(settings);
 };
 
 export const getSettings = (): Settings => {
@@ -34,6 +35,10 @@ export const getCloseModalOnAdd = (): boolean => {
 
 export const getOrderByChecked = (): boolean => {
   return Boolean(settings.orderByChecked);
+};
+
+export const getOrderByNew = (): boolean => {
+  return Boolean(settings.orderByNew);
 };
 
 //Setters
@@ -59,4 +64,9 @@ export const toggleCloseModalOnAdd = (val: boolean): void => {
 export const toggleSetOrderByChecked = (val: boolean): void => {
   db.execSync(`UPDATE settings SET orderByChecked = ${!val} WHERE id = 1`);
   settings.orderByChecked = !val;
+};
+
+export const toggleSetOrderByNew = (val: boolean): void => {
+  db.execSync(`UPDATE settings SET orderByNew = ${!val} WHERE id = 1`);
+  settings.orderByNew = !val;
 };
