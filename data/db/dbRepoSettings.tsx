@@ -13,7 +13,6 @@ export const initializeSettings = async () => {
   settings = (await db.getFirstAsync(
     "SELECT * FROM settings WHERE id = 1"
   )) as Settings;
-  console.log(settings);
 };
 
 export const getSettings = (): Settings => {

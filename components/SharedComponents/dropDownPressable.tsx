@@ -15,6 +15,7 @@ import AddButton from "../BottomSection/SectionLists/addButton";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
 import { MainList } from "@/data/models/mainList";
 import ContentCount from "./contentCount";
+import OpenSettingsButton from "../TopSection/openSettingsButton";
 
 interface Props {
   text: string;
@@ -63,6 +64,7 @@ const DropdownPressable: React.FC<Props> = ({
         <ContentCount mainList={mainList} sectionList={sectionList} />
       </View>
     </Pressable>
+    {mainList && <OpenSettingsButton />}
     {sectionList && <AddButton sectionList={sectionList} />}
   </View>
 );
