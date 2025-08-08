@@ -12,6 +12,7 @@ import SecondaryText from "./SharedCompSettings/secondaryText";
 import GeneralSettings from "./generalSettings";
 import MainListSettings from "./MainListSettings/mainListSettings";
 import SectionSettings from "./sectionSettings";
+import ItemsSettings from "./itemsSettings";
 
 const SettingsPage = () => {
   return (
@@ -38,6 +39,10 @@ const SettingsPage = () => {
         <View style={[styles.border, styles.paddingLeft]}>
           <SectionSettings />
         </View>
+
+        <View style={[styles.border, styles.paddingLeft]}>
+          <ItemsSettings />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
   border: {
     borderBottomWidth: 2,
     borderColor: colors.border,
-    paddingVertical: 15,
+    paddingVertical: 20,
   },
   header: {
     backgroundColor: colors.card,
