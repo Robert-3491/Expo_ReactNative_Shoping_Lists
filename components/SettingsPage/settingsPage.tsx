@@ -28,19 +28,19 @@ const SettingsPage = () => {
           </SecondaryText>
         </View>
 
-        <View style={[styles.border, styles.paddingLeft]}>
+        <View style={[styles.border, styles.paddingHorizontal]}>
           <GeneralSettings />
         </View>
 
-        <View style={[styles.border, styles.paddingLeft]}>
+        <View style={[styles.border, styles.paddingHorizontal]}>
           <MainListSettings />
         </View>
 
-        <View style={[styles.border, styles.paddingLeft]}>
+        <View style={[styles.border, styles.paddingHorizontal]}>
           <SectionSettings />
         </View>
 
-        <View style={[styles.border, styles.paddingLeft]}>
+        <View style={[styles.border, styles.paddingHorizontal]}>
           <ItemsSettings />
         </View>
       </View>
@@ -53,6 +53,9 @@ export default SettingsPage;
 const styles = StyleSheet.create({
   paddingLeft: {
     paddingLeft: 15,
+  },
+  paddingHorizontal: {
+    paddingHorizontal: 15,
   },
   border: {
     borderBottomWidth: 2,

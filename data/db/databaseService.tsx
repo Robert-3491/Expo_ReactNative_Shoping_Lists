@@ -57,7 +57,8 @@ export const initializeDatabase = async () => {
       createDefaultSection INTEGER,
       closeModalOnAdd INTEGER,
       orderByChecked INTEGER,
-      orderByNew INTEGER
+      orderByNew INTEGER,
+      countIncludesChecked INTEGER
     );
   `);
 };

@@ -11,7 +11,7 @@ export default TextInputSettings;
 
 const styles = StyleSheet.create({
   textInput: {
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 5,
     borderColor: colors.primary,
     borderWidth: 2,

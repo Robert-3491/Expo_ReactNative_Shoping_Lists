@@ -20,6 +20,6 @@ export default TextSettings;
 const styles = StyleSheet.create({
   text: {
     color: colors.text,
-    fontSize: 20,
+    fontSize: 18,
   },
 });

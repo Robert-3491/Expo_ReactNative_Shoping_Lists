@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   text: {
     width: "100%",
     color: colors.textSecondary,
-    fontSize: 20,
+    fontSize: 18,
     paddingTop: 10,
   },
 });

@@ -19,7 +19,7 @@ const SectionSettings = () => {
           </TextSettings>
         </View>
 
-        <View style={[styles.selectionTab, { marginLeft: "1%" }]}>
+        <View style={[styles.selectionTab, { marginLeft: 15 }]}>
           <TextSettings margin={{ textAlign: "center" }}>X items</TextSettings>
         </View>
       </View>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   selectionTab: {
-    width: "49.5%",
+    width: "50%",
     paddingVertical: 10,
     borderWidth: 2,
     borderColor: colors.border,
