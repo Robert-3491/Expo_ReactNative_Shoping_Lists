@@ -58,16 +58,15 @@ export default function TopSection() {
         />
       </View>
 
-      {/* The modal content */}
-
+      {/* Control visibility with styles */}
       <View
         style={[
           styles.mainListsView,
           {
-            display: modalVisible ? "flex" : "none",
             height: windowHeight - dropdownHeight,
             marginTop: dropdownHeight,
           },
+          modalVisible ? styles.visibleContainer : styles.hiddenContainer,
         ]}
       >
         {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
@@ -119,5 +118,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
     position: "absolute",
     alignSelf: "center",
+  },
+
+  //visibility control styles
+  visibleContainer: {
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+  hiddenContainer: {
+    opacity: 0,
+    pointerEvents: "none", // Disable touch events when hidden
+    overflow: "hidden",
   },
 });

@@ -52,11 +52,17 @@ export default function SectionsLists() {
             isOpen={item.isVisible}
             onPress={() => toggleItemVisibility(item.id)}
             textStyle={{ fontSize: 22 }}
-            //style={{ paddingVertical: 10 }}
             sectionList={item}
           />
         </View>
-        {item.isVisible ? <ItemsView sectionId={item.id} /> : null}
+
+        <View
+          style={[
+            item.isVisible ? styles.visibleContainer : styles.hiddenContainer,
+          ]}
+        >
+          <ItemsView sectionId={item.id} />
+        </View>
       </View>
     );
   };
@@ -133,5 +139,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.primary,
     width: 80,
+  },
+  // Styles for visibility control
+  visibleContainer: {
+    opacity: 1,
+    height: "auto",
+  },
+  hiddenContainer: {
+    opacity: 0,
+    height: 0,
+    overflow: "hidden",
   },
 });
