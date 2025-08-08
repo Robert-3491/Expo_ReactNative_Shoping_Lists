@@ -1,41 +1,60 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React from "react";
 import HeaderSettings from "./headerSettings";
 import { colors } from "@/assets/colors";
-import TextSettings from "./SharedCompSettings/textSettings";
 import SecondaryText from "./SharedCompSettings/secondaryText";
+import GeneralSettings from "./generalSettings";
+import MainListSettings from "./MainListSettings/mainListSettings";
+import SectionSettings from "./sectionSettings";
 
 const SettingsPage = () => {
   return (
-    <View style={styles.container}>
-      <View style={[styles.paddingLeft, styles.header]}>
-        <HeaderSettings />
-      </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{ flex: 1 }}>
+        <View style={[styles.paddingLeft, styles.header]}>
+          <HeaderSettings />
+        </View>
 
-      <View style={[styles.paddingLeft, styles.notice]}>
-        <SecondaryText>
-          *Please restart the app to see the changes
-        </SecondaryText>
-      </View>
+        <View style={styles.paddingLeft}>
+          <SecondaryText>
+            *Please restart the app to see the changes
+          </SecondaryText>
+        </View>
 
-      <TextSettings>bla bla</TextSettings>
-    </View>
+        <View style={[styles.border, styles.paddingLeft]}>
+          <GeneralSettings />
+        </View>
+
+        <View style={[styles.border, styles.paddingLeft]}>
+          <MainListSettings />
+        </View>
+
+        <View style={[styles.border, styles.paddingLeft]}>
+          <SectionSettings />
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 export default SettingsPage;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   paddingLeft: {
     paddingLeft: 15,
   },
+  border: {
+    borderBottomWidth: 2,
+    borderColor: colors.border,
+    paddingVertical: 15,
+  },
   header: {
     backgroundColor: colors.card,
-  },
-  notice: {
-    paddingVertical: 10,
   },
 });

@@ -6,21 +6,19 @@ interface Props {
   children: React.ReactNode;
 }
 
-const SecondaryText = ({ children }: Props) => {
+const BlueText = ({ children }: Props) => {
   return (
     <View>
-      <Text style={styles.text}>{children}</Text>
+      <Text style={styles.title}>{children}</Text>
     </View>
   );
 };
 
-export default SecondaryText;
+export default BlueText;
 
 const styles = StyleSheet.create({
-  text: {
-    width: "100%",
-    color: colors.textSecondary,
+  title: {
     fontSize: 20,
-    paddingTop: 10,
+    color: colors.primaryLight,
   },
 });
