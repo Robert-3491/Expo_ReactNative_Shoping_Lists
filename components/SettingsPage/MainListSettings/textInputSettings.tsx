@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: 18,
     marginTop: 5,
-    borderColor: colors.primary,
+    borderColor: colors.border,
     borderWidth: 2,
     width: "65%",
     height: "auto",

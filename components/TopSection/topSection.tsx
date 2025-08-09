@@ -1,4 +1,10 @@
-import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect } from "react";
 import MainListsView from "./mainListsView";
@@ -58,29 +64,31 @@ export default function TopSection() {
         />
       </View>
 
-      {/* Control visibility with styles */}
-      <View
-        style={[
-          styles.mainListsView,
-          {
-            height: windowHeight - dropdownHeight,
-            marginTop: dropdownHeight,
-          },
-          modalVisible ? styles.visibleContainer : styles.hiddenContainer,
-        ]}
-      >
-        {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
-        <GestureHandlerRootView>
-          {/* MainListsModalContents => the component that renders the lists */}
-          <MainListsView
-            setItemsViewVisible={toggleModal}
-            setActiveList={setActiveList}
-            setUpdateModalVisible={setUpdateModalVisible}
-            updateModalVisible={updateModalVisible}
-            setUpdatingMainList={setUpdatingMainList}
-          />
-        </GestureHandlerRootView>
-      </View>
+      {/* Control Main Lists dropdown visibility with styles */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
+          style={[
+            styles.mainListsView,
+            {
+              height: windowHeight - dropdownHeight,
+              marginTop: dropdownHeight,
+            },
+            modalVisible ? styles.visibleContainer : styles.hiddenContainer,
+          ]}
+        >
+          {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
+          <GestureHandlerRootView>
+            {/* MainListsModalContents => the component that renders the lists */}
+            <MainListsView
+              setItemsViewVisible={toggleModal}
+              setActiveList={setActiveList}
+              setUpdateModalVisible={setUpdateModalVisible}
+              updateModalVisible={updateModalVisible}
+              setUpdatingMainList={setUpdatingMainList}
+            />
+          </GestureHandlerRootView>
+        </View>
+      </TouchableWithoutFeedback>
 
       <BottomSection />
 

@@ -39,7 +39,7 @@ export default function AddMainList({ reloadMainList, setActiveList }: IProps) {
         autoFocus={false}
         autoCorrect={false}
         placeholder="Tap here to add a new list"
-        placeholderTextColor={colors.disabled}
+        placeholderTextColor={colors.textSecondary}
         selectionColor={colors.primaryLight}
         selectTextOnFocus={true}
         style={[

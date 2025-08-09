@@ -21,36 +21,36 @@ export const getSettings = (): Settings => {
 };
 
 //Getters
-export const getDefaultSectionName = (): string => {
-  return settings.defaultSectionName;
+export const getOrderByNew = (): boolean => {
+  return Boolean(settings.orderByNew);
 };
 
 export const getCreateDefaultSection = (): boolean => {
   return Boolean(settings.createDefaultSection);
 };
 
-export const getCloseModalOnAdd = (): boolean => {
-  return Boolean(settings.closeModalOnAdd);
-};
-
-export const getOrderByChecked = (): boolean => {
-  return Boolean(settings.orderByChecked);
-};
-
-export const getOrderByNew = (): boolean => {
-  return Boolean(settings.orderByNew);
+export const getDefaultSectionName = (): string => {
+  return settings.defaultSectionName;
 };
 
 export const getCountIncludesChecked = (): boolean => {
   return Boolean(settings.countIncludesChecked);
 };
 
+export const getOrderByChecked = (): boolean => {
+  return Boolean(settings.orderByChecked);
+};
+
+export const getCloseModalOnAdd = (): boolean => {
+  return Boolean(settings.closeModalOnAdd);
+};
+
 //Setters
-export const setDefaultSectionName = (name: string): void => {
+export const toggleSetOrderByNew = (): void => {
   db.execSync(
-    `UPDATE settings SET defaultSectionName = '${name}' WHERE id = 1`
+    `UPDATE settings SET orderByNew = ${!settings.orderByNew} WHERE id = 1`
   );
-  settings.defaultSectionName = name;
+  settings.orderByNew = !settings.orderByNew;
 };
 
 export const toggleCreateDefaultSection = (): void => {
@@ -60,11 +60,18 @@ export const toggleCreateDefaultSection = (): void => {
   settings.createDefaultSection = !settings.createDefaultSection;
 };
 
-export const toggleCloseModalOnAdd = (): void => {
+export const setDefaultSectionName = (name: string): void => {
   db.execSync(
-    `UPDATE settings SET closeModalOnAdd = ${!settings.closeModalOnAdd} WHERE id = 1`
+    `UPDATE settings SET defaultSectionName = '${name}' WHERE id = 1`
   );
-  settings.closeModalOnAdd = !settings.closeModalOnAdd;
+  settings.defaultSectionName = name;
+};
+
+export const toggleCountIncludesChecked = (): void => {
+  db.execSync(
+    `UPDATE settings SET countIncludesChecked = ${!settings.countIncludesChecked} WHERE id = 1`
+  );
+  settings.countIncludesChecked = !settings.countIncludesChecked;
 };
 
 export const toggleSetOrderByChecked = (): void => {
@@ -74,16 +81,9 @@ export const toggleSetOrderByChecked = (): void => {
   settings.orderByChecked = !settings.orderByChecked;
 };
 
-export const toggleSetOrderByNew = (): void => {
+export const toggleCloseModalOnAdd = (): void => {
   db.execSync(
-    `UPDATE settings SET orderByNew = ${!settings.orderByNew} WHERE id = 1`
+    `UPDATE settings SET closeModalOnAdd = ${!settings.closeModalOnAdd} WHERE id = 1`
   );
-  settings.orderByNew = !settings.orderByNew;
-};
-
-export const toggleCountIncludesChecked = (): void => {
-  db.execSync(
-    `UPDATE settings SET countIncludesChecked = ${!settings.countIncludesChecked} WHERE id = 1`
-  );
-  settings.countIncludesChecked = !settings.countIncludesChecked;
+  settings.closeModalOnAdd = !settings.closeModalOnAdd;
 };
