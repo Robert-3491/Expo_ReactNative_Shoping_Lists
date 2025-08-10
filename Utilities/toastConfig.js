@@ -1,4 +1,3 @@
-// toastConfig.js
 import { colors } from "@/assets/colors";
 import React from "react";
 import { ErrorToast, BaseToast } from "react-native-toast-message";

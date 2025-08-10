@@ -7,12 +7,21 @@ import TextInputSettings from "./textInputSettings";
 import {
   getCreateDefaultSection,
   toggleCreateDefaultSection,
+  getDefaultSectionName,
 } from "@/data/db/dbRepoSettings";
+import * as settingsContainer from "@/containers/settingsContainer";
+import SaveButton from "./saveButton";
 
 const MainListSettings = () => {
   const [createDefaultSection, setCreateDefaultSection] = useState(
     getCreateDefaultSection()
   );
+
+  const [title, setTitle] = useState(getDefaultSectionName());
+
+  const isTitleValid = (): boolean => {
+    return settingsContainer.isTitleValidContainer(title);
+  };
 
   return (
     <View>
@@ -28,7 +37,11 @@ const MainListSettings = () => {
 
       <View style={[styles.marginTop]}>
         <TextSettings>Default section title:</TextSettings>
-        <TextInputSettings />
+
+        <View style={styles.textInputWrapper}>
+          <TextInputSettings title={title} setTitle={setTitle} />
+          {isTitleValid() && <SaveButton editTitle={title} />}
+        </View>
       </View>
     </View>
   );
@@ -40,5 +53,11 @@ const styles = StyleSheet.create({
   marginTop: { marginTop: 10 },
   container: {
     flexDirection: "row",
+  },
+  textInputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 15,
+    marginTop: 5,
   },
 });

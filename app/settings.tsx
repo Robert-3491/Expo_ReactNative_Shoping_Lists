@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 import SettingsPage from "@/components/SettingsPage/settingsPage";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "@/Utilities/toastConfig";
 
 const Settings = () => {
   return (
@@ -11,6 +13,7 @@ const Settings = () => {
       <SafeAreaView style={styles.container}>
         <SettingsPage />
       </SafeAreaView>
+      <Toast config={toastConfig} />
     </View>
   );
 };

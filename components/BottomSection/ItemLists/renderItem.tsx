@@ -5,7 +5,7 @@ import { colors } from "@/assets/colors";
 // eslint-disable-next-line import/no-named-as-default
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
-import { isWhitespace } from "@/Utilities/textFormating";
+import { isNotWhitespace } from "@/Utilities/textFormating";
 import { ensureHttps } from "@/containers/addModalContainer";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
 
@@ -41,7 +41,7 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
         </Text>
       </Pressable>
 
-      {!isWhitespace(item.link) && (
+      {isNotWhitespace(item.link) && (
         <Pressable
           onPress={() => Linking.openURL(ensureHttps(item.link))}
           onLongPress={() => copyToClipboard({ text: item.link })}
