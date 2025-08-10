@@ -1,10 +1,18 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import BlueText from "./SharedCompSettings/blueText";
 import { colors } from "@/assets/colors";
+import {
+  getCountIncludesChecked,
+  setCountIncludesChecked,
+} from "@/data/db/dbRepoSettings";
 
 const SectionSettings = () => {
+  const [countIncludesChecked, setCountIncludesChecked] = useState(
+    getCountIncludesChecked()
+  );
+
   return (
     <View>
       <BlueText>Sections</BlueText>
@@ -13,15 +21,33 @@ const SectionSettings = () => {
       </TextSettings>
 
       <View style={styles.selectionWrapper}>
-        <View style={styles.selectionTab}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.selectionTab,
+            { opacity: pressed ? 0.4 : 1 },
+            countIncludesChecked && styles.active,
+          ]}
+          onPress={() => (
+            setCountIncludesChecked(true), setCountIncludesChecked(true)
+          )}
+        >
           <TextSettings margin={{ textAlign: "center" }}>
             X/X items checked
           </TextSettings>
-        </View>
+        </Pressable>
 
-        <View style={[styles.selectionTab, { marginLeft: 15 }]}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.selectionTab,
+            { marginLeft: 15, opacity: pressed ? 0.4 : 1 },
+            !countIncludesChecked && styles.active,
+          ]}
+          onPress={() => (
+            setCountIncludesChecked(false), setCountIncludesChecked(false)
+          )}
+        >
           <TextSettings margin={{ textAlign: "center" }}>X items</TextSettings>
-        </View>
+        </Pressable>
       </View>
     </View>
   );
@@ -41,5 +67,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.border,
     borderRadius: 5,
+  },
+  active: {
+    backgroundColor: colors.primary,
   },
 });

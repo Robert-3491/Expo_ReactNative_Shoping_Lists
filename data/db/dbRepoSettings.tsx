@@ -67,11 +67,11 @@ export const setDefaultSectionName = (name: string): void => {
   settings.defaultSectionName = name;
 };
 
-export const toggleCountIncludesChecked = (): void => {
+export const setCountIncludesChecked = (val: boolean): void => {
   db.execSync(
-    `UPDATE settings SET countIncludesChecked = ${!settings.countIncludesChecked} WHERE id = 1`
+    `UPDATE settings SET countIncludesChecked = ${!val} WHERE id = 1`
   );
-  settings.countIncludesChecked = !settings.countIncludesChecked;
+  settings.countIncludesChecked = !val;
 };
 
 export const toggleSetOrderByChecked = (): void => {
