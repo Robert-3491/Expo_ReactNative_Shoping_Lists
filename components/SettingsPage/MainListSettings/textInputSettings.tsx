@@ -2,6 +2,7 @@ import { StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 import { getDefaultSectionName } from "@/data/db/dbRepoSettings";
+import { saveDefaultSectionTitleValidation } from "@/containers/settingsContainer";
 
 interface Props {
   title: string;
@@ -16,6 +17,7 @@ const TextInputSettings = ({ title, setTitle }: Props) => {
       onChangeText={(txt) => setTitle(txt)}
       selectTextOnFocus={true}
       onBlur={() => setTitle(getDefaultSectionName())}
+      onSubmitEditing={() => saveDefaultSectionTitleValidation(title)}
     />
   );
 };

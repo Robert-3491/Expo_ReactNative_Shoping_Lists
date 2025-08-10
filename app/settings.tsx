@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 import SettingsPage from "@/components/SettingsPage/settingsPage";

@@ -14,6 +14,12 @@ export const isTitleValidContainer = (title: string): boolean => {
 
 export const saveDefaultSectionTitle = (title: string) => {
   dbRepoSettings.setDefaultSectionName(capitalizeFirst(title));
-  showSuccess("Default section title updated");
   Keyboard.dismiss();
+  showSuccess("Default section title updated");
+};
+
+export const saveDefaultSectionTitleValidation = (title: string) => {
+  if (isTitleValidContainer(title)) {
+    saveDefaultSectionTitle(title);
+  } else Keyboard.dismiss();
 };
