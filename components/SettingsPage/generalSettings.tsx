@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import SwitchSettings from "./SharedCompSettings/switchSettings";

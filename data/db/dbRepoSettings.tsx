@@ -45,7 +45,7 @@ export const getCloseModalOnAdd = (): boolean => {
   return Boolean(settings.closeModalOnAdd);
 };
 
-//Setters
+//Setters & Toggles
 export const toggleSetOrderByNew = (): void => {
   db.execSync(
     `UPDATE settings SET orderByNew = ${!settings.orderByNew} WHERE id = 1`

@@ -3,10 +3,7 @@ import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import BlueText from "./SharedCompSettings/blueText";
 import { colors } from "@/assets/colors";
-import {
-  getCountIncludesChecked,
-  setCountIncludesChecked,
-} from "@/data/db/dbRepoSettings";
+import { getCountIncludesChecked } from "@/data/db/dbRepoSettings";
 
 const SectionSettings = () => {
   const [countIncludesChecked, setCountIncludesChecked] = useState(

@@ -3,7 +3,6 @@ import {
   Pressable,
   StyleSheet,
   ViewStyle,
-  TextStyle,
   View,
   LayoutChangeEvent,
 } from "react-native";
