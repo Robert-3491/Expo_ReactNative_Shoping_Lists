@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import SwitchSettings from "./SharedCompSettings/switchSettings";
 import BlueText from "./SharedCompSettings/blueText";
-import { getOrderByNew, toggleSetOrderByNew } from "@/data/db/dbRepoSettings";
+import { getOrderByNew } from "@/data/db/dbRepoSettings";
+import { toggleDisplayOrderContainer } from "@/containers/settingsContainer";
 
 const GeneralSettings = () => {
   const [orderByNew, setOrderByNew] = useState(getOrderByNew());
@@ -12,11 +13,11 @@ const GeneralSettings = () => {
     <View>
       <BlueText>General</BlueText>
       <View style={styles.container}>
-        <TextSettings>Order content by newest:</TextSettings>
+        <TextSettings>Order content by newest/oldest:</TextSettings>
         <SwitchSettings
           state={orderByNew}
           setState={setOrderByNew}
-          updateFunction={toggleSetOrderByNew}
+          updateFunction={toggleDisplayOrderContainer}
         />
       </View>
     </View>

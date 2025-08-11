@@ -65,30 +65,29 @@ export default function TopSection() {
       </View>
 
       {/* Control Main Lists dropdown visibility with styles */}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={[
-            styles.mainListsView,
-            {
-              height: windowHeight - dropdownHeight,
-              marginTop: dropdownHeight,
-            },
-            modalVisible ? styles.visibleContainer : styles.hiddenContainer,
-          ]}
-        >
-          {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
-          <GestureHandlerRootView>
-            {/* MainListsModalContents => the component that renders the lists */}
-            <MainListsView
-              setItemsViewVisible={toggleModal}
-              setActiveList={setActiveList}
-              setUpdateModalVisible={setUpdateModalVisible}
-              updateModalVisible={updateModalVisible}
-              setUpdatingMainList={setUpdatingMainList}
-            />
-          </GestureHandlerRootView>
-        </View>
-      </TouchableWithoutFeedback>
+
+      <View
+        style={[
+          styles.mainListsView,
+          {
+            height: windowHeight - dropdownHeight,
+            marginTop: dropdownHeight,
+          },
+          modalVisible ? styles.visibleContainer : styles.hiddenContainer,
+        ]}
+      >
+        {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
+        <GestureHandlerRootView>
+          {/* MainListsModalContents => the component that renders the lists */}
+          <MainListsView
+            setItemsViewVisible={toggleModal}
+            setActiveList={setActiveList}
+            setUpdateModalVisible={setUpdateModalVisible}
+            updateModalVisible={updateModalVisible}
+            setUpdatingMainList={setUpdatingMainList}
+          />
+        </GestureHandlerRootView>
+      </View>
 
       <BottomSection />
 

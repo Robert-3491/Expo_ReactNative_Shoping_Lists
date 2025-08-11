@@ -2,6 +2,7 @@ import { Item } from "@/data/models/item";
 import * as dbRepoItem from "@/data/db/dbRepoItem";
 import { updateSectionItemCount } from "@/containers/sectionListsContainer";
 import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
+import { getOrderByChecked, getOrderByNew } from "@/data/db/dbRepoSettings";
 
 let initialized = false;
 
@@ -36,14 +37,30 @@ export const setOnRefreshItemsCallback = (
 };
 
 export const getItems = (sectionId: number): Item[] => {
-  const filteredList = itemsList
-    .filter((item) => item.sectionListId === sectionId)
-    .sort((a, b) => Number(a.isChecked) - Number(b.isChecked));
+  let filteredList = itemsList.filter(
+    (item) => item.sectionListId === sectionId
+  );
 
   const checkedItemsCount = filteredList.filter(
     (item) => item.isChecked
   ).length;
+
   updateSectionItemCount(sectionId, filteredList.length, checkedItemsCount);
+
+  filteredList = filteredList.sort((a, b) => {
+    if (getOrderByNew()) {
+      return a.id - b.id; // ascending order
+    } else {
+      return b.id - a.id; // descending order
+    }
+  });
+
+  if (getOrderByChecked()) {
+    filteredList = filteredList.sort(
+      (a, b) => Number(a.isChecked) - Number(b.isChecked)
+    );
+  }
+
   return filteredList;
 };
 
@@ -72,6 +89,7 @@ export const deleteItem = (id: number, refreshData: () => void) => {
 };
 
 export const toggleIsChecked = (id: number, sectionId: number) => {
+  //debugger;
   dbRepoItem.toggleItemChecked(id);
 
   itemsList = itemsList.map((item) =>
@@ -95,6 +113,13 @@ export const updateItem = async (
     list.id === id ? { ...list, title: updateTitle, link } : list
   );
   await dbRepoItem.updateItem(id, updateTitle, link);
+  const callback = onRefreshItemsCallbacks.get(sectionId);
+  if (callback) {
+    callback();
+  }
+};
+
+export const refreshItemsForSection = (sectionId: number) => {
   const callback = onRefreshItemsCallbacks.get(sectionId);
   if (callback) {
     callback();

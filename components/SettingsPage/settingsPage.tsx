@@ -7,7 +7,6 @@ import {
 import React from "react";
 import HeaderSettings from "./headerSettings";
 import { colors } from "@/assets/colors";
-import SecondaryText from "./SharedCompSettings/secondaryText";
 import GeneralSettings from "./generalSettings";
 import MainListSettings from "./MainListSettings/mainListSettings";
 import SectionSettings from "./sectionSettings";
@@ -19,12 +18,6 @@ const SettingsPage = () => {
       <View style={{ flex: 1 }}>
         <View style={[styles.paddingLeft, styles.header]}>
           <HeaderSettings />
-        </View>
-
-        <View style={styles.paddingLeft}>
-          <SecondaryText>
-            *Please restart the app to see the changes
-          </SecondaryText>
         </View>
 
         <View style={[styles.border, styles.paddingHorizontal]}>

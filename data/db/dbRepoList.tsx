@@ -118,7 +118,23 @@ export const getActiveMainList = async (): Promise<MainList | null> => {
   }
 };
 
-// Add this function to your dbRepoList.tsx file
+export const getActiveMainListId = async (): Promise<number | null> => {
+  try {
+    const result = db.getFirstSync(
+      "SELECT id FROM mainlists WHERE isActive = 1"
+    ) as { id: number } | null;
+
+    if (!result) {
+      console.log("No active MainList found");
+      return null;
+    }
+
+    return result.id; // Extract the id property
+  } catch (error) {
+    console.error("Error getting active MainList:", error);
+    throw error;
+  }
+};
 
 export const getMainListContentCount = async (mainListId: number) => {
   try {

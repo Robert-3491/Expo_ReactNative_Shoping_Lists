@@ -44,7 +44,6 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
 
   const toggleIsChecked = (id: number) => {
     itemsContainer.toggleIsChecked(id, sectionId);
-    refreshData();
   };
 
   const renderItem = ({ item }: { item: Item }) => {

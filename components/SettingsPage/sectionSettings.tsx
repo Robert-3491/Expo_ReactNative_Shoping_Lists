@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import BlueText from "./SharedCompSettings/blueText";
 import { colors } from "@/assets/colors";
-import {
-  getCountIncludesChecked,
-  setCountIncludesChecked,
-} from "@/data/db/dbRepoSettings";
+import { getCountIncludesChecked } from "@/data/db/dbRepoSettings";
+import { changeCountIncludeCount } from "@/containers/settingsContainer";
 
 const SectionSettings = () => {
   const [countMode, setCountMode] = useState(getCountIncludesChecked());
@@ -25,7 +23,7 @@ const SectionSettings = () => {
             { opacity: pressed ? 0.4 : 1 },
             countMode && styles.active,
           ]}
-          onPress={() => (setCountIncludesChecked(true), setCountMode(true))}
+          onPress={() => changeCountIncludeCount(true, setCountMode)}
         >
           <TextSettings margin={{ textAlign: "center" }}>
             X/X items checked
@@ -38,7 +36,7 @@ const SectionSettings = () => {
             { marginLeft: 15, opacity: pressed ? 0.4 : 1 },
             !countMode && styles.active,
           ]}
-          onPress={() => (setCountIncludesChecked(false), setCountMode(false))}
+          onPress={() => changeCountIncludeCount(false, setCountMode)}
         >
           <TextSettings margin={{ textAlign: "center" }}>X items</TextSettings>
         </Pressable>

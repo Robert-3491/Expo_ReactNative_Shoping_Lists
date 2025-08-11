@@ -3,6 +3,7 @@ import * as dbRepoSectionLists from "@/data/db/dbRepoSectionLists";
 import * as dbMainList from "@/data/db/dbRepoList";
 import * as textFormating from "../Utilities/textFormating";
 import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
+import { getOrderByNew } from "@/data/db/dbRepoSettings";
 
 let sectionLists: SectionList[] = [];
 let activeMainListId = 0;
@@ -22,9 +23,18 @@ const dbActiveMainList = async () => {
 };
 
 export const getSectionLists = (): SectionList[] => {
-  return sectionLists.filter(
+  const filteredByActiveMainList = sectionLists.filter(
     (section) => section.mainListId === activeMainListId
   );
+
+  const sortedSections = filteredByActiveMainList.sort((a, b) => {
+    if (getOrderByNew()) {
+      return a.id - b.id; // ascending order
+    } else {
+      return b.id - a.id; // descending order
+    }
+  });
+  return sortedSections;
 };
 
 export const getSectionListsByMainListId = (id: number): SectionList[] => {

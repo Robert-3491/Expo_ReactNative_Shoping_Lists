@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import TextSettings from "./SharedCompSettings/textSettings";
 import SwitchSettings from "./SharedCompSettings/switchSettings";
 import BlueText from "./SharedCompSettings/blueText";
-import {
-  getOrderByChecked,
-  toggleSetOrderByChecked,
-} from "@/data/db/dbRepoSettings";
+import { getOrderByChecked } from "@/data/db/dbRepoSettings";
+import { toggleSetOrderByCheckedContainer } from "@/containers/settingsContainer";
 
 const ItemsSettings = () => {
   const [orderByChecked, setOrderByChecked] = useState(getOrderByChecked());
@@ -18,7 +16,7 @@ const ItemsSettings = () => {
         <SwitchSettings
           state={orderByChecked}
           setState={setOrderByChecked}
-          updateFunction={toggleSetOrderByChecked}
+          updateFunction={toggleSetOrderByCheckedContainer}
         />
       </View>
     </View>

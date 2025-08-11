@@ -1,9 +1,26 @@
+import { getCountIncludesChecked } from "@/data/db/dbRepoSettings";
 import { MainList } from "@/data/models/mainList";
 import { SectionList } from "@/data/models/sectionList";
 
 export const getSectionContentCount = (sectionList: SectionList): string => {
-  if (!sectionList.itemsCount) return "Empty section";
-  const formatedText = `${sectionList.checkedItemsCount}/${sectionList.itemsCount} items checked`;
+  let formatedText = "";
+  const itemFormating = (): string => {
+    if (sectionList.itemsCount === 1) {
+      return "item";
+    } else return "items";
+  };
+  if (!sectionList.itemsCount) {
+    formatedText = "Empty section";
+    return formatedText;
+  }
+
+  if (getCountIncludesChecked()) {
+    formatedText = `${sectionList.checkedItemsCount}/${
+      sectionList.itemsCount
+    } ${itemFormating()} checked`;
+  } else {
+    formatedText = `${sectionList.itemsCount} ${itemFormating()}`;
+  }
   return formatedText;
 };
 

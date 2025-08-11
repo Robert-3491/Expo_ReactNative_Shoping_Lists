@@ -5,6 +5,7 @@ import * as textFormating from "../Utilities/textFormating";
 import {
   getCreateDefaultSection,
   getDefaultSectionName,
+  getOrderByNew,
 } from "@/data/db/dbRepoSettings";
 
 let initialized = false;
@@ -39,7 +40,15 @@ export async function initializeMainLists() {
 }
 
 export const getMainLists = async (): Promise<MainList[]> => {
-  return await addContentCountsToMainLists(mainLists);
+  const sortedMainLists = mainLists.sort((a, b) => {
+    if (getOrderByNew()) {
+      return a.id - b.id; // ascending order
+    } else {
+      return b.id - a.id; // descending order
+    }
+  });
+
+  return await addContentCountsToMainLists(sortedMainLists);
 };
 
 export const updateMainListItemCount = (

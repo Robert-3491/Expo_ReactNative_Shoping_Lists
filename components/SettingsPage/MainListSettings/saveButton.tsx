@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
-import { saveDefaultSectionTitle } from "@/containers/settingsContainer";
+import { saveDefaultSectionTitleValidation } from "@/containers/settingsContainer";
 
 interface Props {
   editTitle: string;
@@ -14,7 +14,7 @@ const SaveButton = ({ editTitle }: Props) => {
         styles.pressable,
         { opacity: pressed ? 0.4 : 1 },
       ]}
-      onPress={() => saveDefaultSectionTitle(editTitle)}
+      onPress={() => saveDefaultSectionTitleValidation(editTitle)}
     >
       <Text style={styles.buttonText}>Save</Text>
     </Pressable>
