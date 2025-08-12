@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import SwitchSettings from "./SharedCompSettings/switchSettings";
+import SwitchSettings from "./switchSettings";
 import { getOrderByChecked } from "@/data/db/dbRepoSettings";
 import { toggleSetOrderByCheckedContainer } from "@/containers/settingsContainer";
 import TextDefault from "../SharedComponents/textDefault";

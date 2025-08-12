@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import SwitchSettings from "../SharedCompSettings/switchSettings";
+import SwitchSettings from "../switchSettings";
 import TextInputSettings from "./textInputSettings";
 import {
   getCreateDefaultSection,
