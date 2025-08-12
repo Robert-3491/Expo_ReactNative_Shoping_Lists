@@ -4,10 +4,14 @@ import { colors } from "@/assets/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
-const HeaderSettings = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const Header = ({ children }: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>App Settings</Text>
+      <Text style={styles.headerText}>{children}</Text>
       <Pressable
         style={({ pressed }) => [
           { opacity: pressed ? 0.4 : 1 },
@@ -21,12 +25,14 @@ const HeaderSettings = () => {
   );
 };
 
-export default HeaderSettings;
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
     width: "100%",
     flexDirection: "row",
+    backgroundColor: colors.card,
+    paddingLeft: 15,
   },
   headerText: {
     fontSize: 25,

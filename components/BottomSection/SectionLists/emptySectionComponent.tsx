@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "@/assets/colors";
 import TextInputModal from "../AddSectionItemsModal/TextInputModal/textInputModal";
-import AddModalButton from "../../SharedComponents/addModalButton";
+import CustomButton from "../../SharedComponents/customButton";
 import { getDefaultSectionName } from "@/data/db/dbRepoSettings";
 import { addSection } from "@/containers/sectionListsContainer";
 import { isMainListEmpty } from "@/containers/mainListsContainer";
@@ -32,7 +32,7 @@ const EmptySectionComponent = () => {
             addTitle={title}
             setAddTitle={setTitle}
           />
-          <AddModalButton
+          <CustomButton
             buttonText={"Add Section"}
             onPress={function (): void {
               addSection(title);

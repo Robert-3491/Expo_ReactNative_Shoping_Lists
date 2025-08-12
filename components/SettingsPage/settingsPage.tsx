@@ -5,22 +5,19 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import HeaderSettings from "./headerSettings";
+import Header from "../SharedComponents/header";
 import { colors } from "@/assets/colors";
 import GeneralSettings from "./generalSettings";
 import MainListSettings from "./MainListSettings/mainListSettings";
 import SectionSettings from "./sectionSettings";
 import ItemsSettings from "./itemsSettings";
-import AddModalButton from "../SharedComponents/addModalButton";
 import NavigationButtons from "./navigationButtons";
 
 const SettingsPage = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
-        <View style={[styles.paddingLeft, styles.header]}>
-          <HeaderSettings />
-        </View>
+        <Header>App Settings</Header>
 
         <View style={[styles.border, styles.paddingHorizontal]}>
           <GeneralSettings />
@@ -59,8 +56,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: colors.border,
     paddingVertical: 20,
-  },
-  header: {
-    backgroundColor: colors.card,
   },
 });

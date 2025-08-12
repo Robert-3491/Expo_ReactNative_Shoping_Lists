@@ -1,20 +1,19 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import TextSettings from "./SharedCompSettings/textSettings";
-import BlueText from "./SharedCompSettings/blueText";
 import { colors } from "@/assets/colors";
 import { getCountIncludesChecked } from "@/data/db/dbRepoSettings";
 import { changeCountIncludeCount } from "@/containers/settingsContainer";
+import TextDefault from "../SharedComponents/textDefault";
 
 const SectionSettings = () => {
   const [countMode, setCountMode] = useState(getCountIncludesChecked());
 
   return (
     <View>
-      <BlueText>Sections</BlueText>
-      <TextSettings margin={{ marginTop: 10 }}>
+      <TextDefault color={colors.primaryLight}>Sections</TextDefault>
+      <TextDefault margin={{ marginTop: 10 }}>
         Mode for displaying item count:
-      </TextSettings>
+      </TextDefault>
 
       <View style={styles.selectionWrapper}>
         <Pressable
@@ -25,9 +24,9 @@ const SectionSettings = () => {
           ]}
           onPress={() => changeCountIncludeCount(true, setCountMode)}
         >
-          <TextSettings margin={{ textAlign: "center" }}>
+          <TextDefault margin={{ textAlign: "center" }}>
             X/X items checked
-          </TextSettings>
+          </TextDefault>
         </Pressable>
 
         <Pressable
@@ -38,7 +37,7 @@ const SectionSettings = () => {
           ]}
           onPress={() => changeCountIncludeCount(false, setCountMode)}
         >
-          <TextSettings margin={{ textAlign: "center" }}>X items</TextSettings>
+          <TextDefault margin={{ textAlign: "center" }}>X items</TextDefault>
         </Pressable>
       </View>
     </View>

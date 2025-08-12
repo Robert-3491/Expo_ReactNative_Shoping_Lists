@@ -1,7 +1,5 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import BlueText from "../SharedCompSettings/blueText";
-import TextSettings from "../SharedCompSettings/textSettings";
 import SwitchSettings from "../SharedCompSettings/switchSettings";
 import TextInputSettings from "./textInputSettings";
 import {
@@ -11,6 +9,8 @@ import {
 } from "@/data/db/dbRepoSettings";
 import * as settingsContainer from "@/containers/settingsContainer";
 import SaveButton from "./saveButton";
+import { colors } from "@/assets/colors";
+import TextDefault from "../../SharedComponents/textDefault";
 
 const MainListSettings = () => {
   const [createDefaultSection, setCreateDefaultSection] = useState(
@@ -25,9 +25,9 @@ const MainListSettings = () => {
 
   return (
     <View>
-      <BlueText>Main Lists</BlueText>
+      <TextDefault color={colors.primaryLight}>Main Lists</TextDefault>
       <View style={[styles.container, styles.marginTop]}>
-        <TextSettings>Add a section after creating a list</TextSettings>
+        <TextDefault>Add a section after creating a list</TextDefault>
         <SwitchSettings
           state={createDefaultSection}
           setState={setCreateDefaultSection}
@@ -36,7 +36,7 @@ const MainListSettings = () => {
       </View>
 
       <View style={[styles.marginTop]}>
-        <TextSettings>Default section title:</TextSettings>
+        <TextDefault>Default section title:</TextDefault>
 
         <View style={styles.textInputWrapper}>
           <TextInputSettings title={title} setTitle={setTitle} />

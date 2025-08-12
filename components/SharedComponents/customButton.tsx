@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  ColorValue,
-  TextStyle,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, ColorValue } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 
@@ -16,7 +9,7 @@ interface Props {
   fontSize?: number;
 }
 
-const AddModalButton: React.FC<Props> = ({
+const CustomButton: React.FC<Props> = ({
   buttonText,
   onPress,
   backgroundColor,
@@ -53,4 +46,4 @@ const styles = StyleSheet.create({
   buttonText: { color: colors.text, textAlign: "center" },
 });
 
-export default AddModalButton;
+export default CustomButton;

@@ -4,7 +4,7 @@ import { colors } from "@/assets/colors";
 import ToggleAddingMode from "./toggleAddingMode";
 import AddingBehavior from "./addingBehavior";
 import AddingDestinationText from "./addingDestinationText";
-import AddModalButton from "../../SharedComponents/addModalButton";
+import CustomButton from "../../SharedComponents/customButton";
 import TextInputsWrapper from "./TextInputModal/textInputsWrapper";
 import { useState } from "react";
 import * as addModalContainer from "@/containers/addModalContainer";
@@ -103,7 +103,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
             addSection={addSection}
           />
 
-          <AddModalButton
+          <CustomButton
             buttonText={addingMode === "ITEM" ? "Add Item" : "Add Section"}
             onPress={addingMode === "ITEM" ? addItem : addSection}
             backgroundColor={
