@@ -4,7 +4,7 @@ import { colors } from "@/assets/colors";
 import ToggleAddingMode from "./toggleAddingMode";
 import AddingBehavior from "./addingBehavior";
 import AddingDestinationText from "./addingDestinationText";
-import AddModalButton from "./addModalButton";
+import AddModalButton from "../../SharedComponents/addModalButton";
 import TextInputsWrapper from "./TextInputModal/textInputsWrapper";
 import { useState } from "react";
 import * as addModalContainer from "@/containers/addModalContainer";

@@ -11,6 +11,8 @@ import GeneralSettings from "./generalSettings";
 import MainListSettings from "./MainListSettings/mainListSettings";
 import SectionSettings from "./sectionSettings";
 import ItemsSettings from "./itemsSettings";
+import AddModalButton from "../SharedComponents/addModalButton";
+import NavigationButtons from "./navigationButtons";
 
 const SettingsPage = () => {
   return (
@@ -34,6 +36,10 @@ const SettingsPage = () => {
 
         <View style={[styles.border, styles.paddingHorizontal]}>
           <ItemsSettings />
+        </View>
+
+        <View style={styles.paddingHorizontal}>
+          <NavigationButtons />
         </View>
       </View>
     </TouchableWithoutFeedback>

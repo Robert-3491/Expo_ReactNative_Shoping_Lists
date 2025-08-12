@@ -1,8 +1,8 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "@/assets/colors";
 import TextInputModal from "../AddSectionItemsModal/TextInputModal/textInputModal";
-import AddModalButton from "../AddSectionItemsModal/addModalButton";
+import AddModalButton from "../../SharedComponents/addModalButton";
 import { getDefaultSectionName } from "@/data/db/dbRepoSettings";
 import { addSection } from "@/containers/sectionListsContainer";
 import { isMainListEmpty } from "@/containers/mainListsContainer";

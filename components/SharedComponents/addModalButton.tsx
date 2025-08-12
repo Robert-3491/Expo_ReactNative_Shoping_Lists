@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Pressable, ColorValue } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ColorValue,
+  TextStyle,
+} from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 
@@ -6,12 +13,14 @@ interface Props {
   buttonText: string;
   onPress: () => void;
   backgroundColor: ColorValue;
+  fontSize?: number;
 }
 
 const AddModalButton: React.FC<Props> = ({
   buttonText,
   onPress,
   backgroundColor,
+  fontSize = 20,
 }) => {
   return (
     <View style={styles.container}>
@@ -23,7 +32,9 @@ const AddModalButton: React.FC<Props> = ({
           { opacity: pressed ? 0.4 : 1 },
         ]}
       >
-        <Text style={styles.buttonText}>{buttonText}</Text>
+        <Text style={[styles.buttonText, { fontSize: fontSize }]}>
+          {buttonText}
+        </Text>
       </Pressable>
     </View>
   );
@@ -39,7 +50,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  buttonText: { fontSize: 20, color: colors.text, textAlign: "center" },
+  buttonText: { color: colors.text, textAlign: "center" },
 });
 
 export default AddModalButton;

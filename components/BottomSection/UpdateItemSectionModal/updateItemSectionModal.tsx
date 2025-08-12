@@ -4,7 +4,7 @@ import { colors } from "@/assets/colors";
 import { SectionList } from "@/data/models/sectionList";
 import { Item } from "@/data/models/item";
 import UpdateInputsWrapper from "./updateInputsWrapper";
-import AddModalButton from "../AddSectionItemsModal/addModalButton";
+import AddModalButton from "../../SharedComponents/addModalButton";
 import * as updateModalContainer from "@/containers/updateModalContainer";
 import { isWhitespace } from "@/Utilities/textFormating";
 import { MainList } from "@/data/models/mainList";

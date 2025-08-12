@@ -40,13 +40,13 @@ export const copyToClipboard = async ({
 };
 
 const itemFormating = (item: Item): string => {
-  if (isWhitespace(item.link)) return `${item.title}`;
-  else return `${item.title} \n ${item.link}`;
+  if (isWhitespace(item.link)) return `<I>${item.title}</I>`;
+  else return `<I>${item.title}</I> \n <L>${item.link}</L>`;
 };
 
 const sectionFormating = (sectionList: SectionList): string | null => {
   const itemsArray = getItems(sectionList.id);
-  let sectionText = `${sectionList.title}\n -----------------------------`;
+  let sectionText = `<S>${sectionList.title}</S>\n`;
 
   if (itemsArray.length > 0) {
     itemsArray.forEach((item) => {
@@ -71,7 +71,7 @@ const mainListFormating = (mainList: MainList): string | null => {
     if (isWhitespace(mainListText)) return null;
 
     const mainListTitleUpped = mainList.title.toUpperCase();
-    const textWithMainList = `${mainListTitleUpped} \n ${mainListText}`;
+    const textWithMainList = `<L>${mainListTitleUpped}</L> \n ${mainListText}`;
     return textWithMainList;
   }
 
