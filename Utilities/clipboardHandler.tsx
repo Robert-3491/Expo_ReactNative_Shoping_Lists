@@ -1,7 +1,7 @@
 import { Item } from "@/data/models/item";
 import { MainList } from "@/data/models/mainList";
 import { SectionList } from "@/data/models/sectionList";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import { isWhitespace } from "./textFormating";
 import { getItems } from "@/containers/itemsContainer";
 import { getSectionListsByMainListId } from "@/containers/sectionListsContainer";
@@ -22,19 +22,19 @@ export const copyToClipboard = async ({
   sectionList,
   mainList,
 }: Params) => {
-  if (text) await Clipboard.setStringAsync(text);
+  if (text) await Clipboard.setString(text);
 
-  if (item) await Clipboard.setStringAsync(itemFormating(item));
+  if (item) await Clipboard.setString(itemFormating(item));
 
   if (sectionList) {
     const sectionText = sectionFormating(sectionList);
-    if (sectionText) await Clipboard.setStringAsync(sectionText);
+    if (sectionText) await Clipboard.setString(sectionText);
     else showError(`${sectionList.title} is empty.`);
   }
 
   if (mainList) {
     const mainListText = mainListFormating(mainList);
-    if (mainListText) await Clipboard.setStringAsync(mainListText);
+    if (mainListText) await Clipboard.setString(mainListText);
     else showError(`${mainList.title} is empty.`);
   }
 };

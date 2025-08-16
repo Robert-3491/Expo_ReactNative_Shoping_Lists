@@ -4,22 +4,33 @@ import Header from "../SharedComponents/header";
 import TextDefault from "../SharedComponents/textDefault";
 import CustomButton from "../SharedComponents/customButton";
 import { colors } from "@/assets/colors";
-import { handlePasteFromClipboard } from "@/containers/importContentContainer";
+import { getClipboardText } from "@/containers/importContentContainer";
+import ImportInput from "./importInput";
+import { useClipboard } from "@react-native-clipboard/clipboard";
 
 const ImportContentWrapper = () => {
+  const [inputText, setInputText] = useClipboard(); // it's actualy the fucking clipboard, setInputText changes the fucking clipboard..wow
+
   return (
     <View style={{ flex: 1 }}>
       <Header>Import content</Header>
       <View style={{ paddingHorizontal: 15 }}>
-        <TextDefault margin={{ marginVertical: 15 }}>
-          Add your content by pasting it below or using the paste button:
+        <TextDefault
+          color={colors.textSecondary}
+          margin={{ marginVertical: 10 }}
+        >
+          Press the Paste button to replace the input content with your
+          clipboard content.{`\n`}Long press to add. Multiple lists are allowed.
         </TextDefault>
 
         <CustomButton
-          buttonText="Paste content from Clipboard"
+          buttonText="Paste from Clipboard"
+          fontSize={18}
           backgroundColor={colors.primaryLight}
-          onPress={() => handlePasteFromClipboard()}
+          onPress={async () => setInputText(await getClipboardText())}
         ></CustomButton>
+
+        <ImportInput inputText={inputText} setInputText={setInputText} />
       </View>
     </View>
   );
