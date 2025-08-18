@@ -5,6 +5,7 @@ import { colors } from "@/assets/colors";
 interface Props {
   buttonText: string;
   onPress: () => void;
+  onLongPress?: () => void;
   backgroundColor: ColorValue;
   fontSize?: number;
 }
@@ -12,6 +13,7 @@ interface Props {
 const CustomButton: React.FC<Props> = ({
   buttonText,
   onPress,
+  onLongPress,
   backgroundColor,
   fontSize = 20,
 }) => {
@@ -19,6 +21,7 @@ const CustomButton: React.FC<Props> = ({
     <View style={styles.container}>
       <Pressable
         onPress={onPress}
+        onLongPress={onLongPress}
         style={({ pressed }) => [
           styles.buttonStyle,
           { backgroundColor: backgroundColor },

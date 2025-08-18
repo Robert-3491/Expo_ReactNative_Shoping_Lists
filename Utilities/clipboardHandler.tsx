@@ -71,7 +71,7 @@ const mainListFormating = (mainList: MainList): string | null => {
     if (isWhitespace(mainListText)) return null;
 
     const mainListTitleUpped = mainList.title.toUpperCase();
-    const textWithMainList = `<L>${mainListTitleUpped}</L> \n ${mainListText}`;
+    const textWithMainList = `<M>${mainListTitleUpped}</M> \n ${mainListText}`;
     return textWithMainList;
   }
 
