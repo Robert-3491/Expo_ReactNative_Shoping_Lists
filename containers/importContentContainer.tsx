@@ -58,16 +58,13 @@ const updateLastItem = (element: string) => {
 };
 
 const sectionOrItemContentStart = async (contentArray: string[]) => {
-  // in case it starts with a section
+  // in case it starts with a section, create a List
   if (!hasMainListTag(contentArray[0])) {
     importMainList("Import");
   }
-  // in case it starts with an item
-  if (hasSectionTag(contentArray[0])) {
-    importSection(
-      extractTagContent(contentArray[0]),
-      await getLastInsertMainListId()
-    );
+  // in case it starts with an item, create a Section
+  if (hasItemTag(contentArray[0])) {
+    importSection(extractTagContent("Import"), await getLastInsertMainListId());
   }
 };
 
