@@ -160,3 +160,17 @@ export const getMainListContentCount = async (mainListId: number) => {
     throw error;
   }
 };
+
+export const getLastInsertMainListId = async (): Promise<number> => {
+  try {
+    const result = (await db.getFirstSync(
+      "SELECT last_insert_rowid() as id"
+    )) as {
+      id: number;
+    };
+    return result.id;
+  } catch (error) {
+    console.error("Error getting last insert ID:", error);
+    throw error;
+  }
+};

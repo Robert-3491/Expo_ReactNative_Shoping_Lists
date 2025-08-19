@@ -134,7 +134,6 @@ const MainListsView: React.FC<IProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
     height: "auto",
     maxHeight: "100%",
   },

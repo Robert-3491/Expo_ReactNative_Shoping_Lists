@@ -1,10 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { colors } from "../../assets/colors";
 import { useState, useEffect } from "react";
 import MainListsView from "./mainListsView";

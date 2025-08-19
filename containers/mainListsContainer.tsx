@@ -67,7 +67,6 @@ export const getActiveMainList = async (): Promise<MainList | undefined> => {
   const activeList = mainLists.find((list) => list.isActive);
   if (!activeList) return undefined;
 
-  // Use the helper method to get updated content counts
   const [updatedActiveList] = await addContentCountsToMainLists([activeList]);
   return updatedActiveList;
 };
@@ -78,7 +77,7 @@ export const isMainListEmpty = (): boolean => {
 
 export function SetInactiveLists() {
   mainLists.forEach((list) => {
-    list.isActive = false; // Set all local lists to inactive
+    list.isActive = false;
   });
 }
 
@@ -99,11 +98,23 @@ export const addMainList = async (
   mainLists = [...mainLists, newList]; //This will make the update re-render
 
   reloadMainList();
-  setActiveList(newList); // Set the active list Title
+  setActiveList(newList);
   sectionListsContainer.setActiveMainList(newList.id);
 
   if (getCreateDefaultSection()) {
     sectionListsContainer.addSection(getDefaultSectionName());
+  }
+};
+
+export const importMainList = async (title: string) => {
+  const titleUpped = textFormating.capitalizeFirst(title.trim());
+  const newList = new MainList(titleUpped, false); // Create a new MainList instance
+  newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
+
+  mainLists = [...mainLists, newList];
+
+  if (onRefreshCallback) {
+    onRefreshCallback();
   }
 };
 
@@ -114,7 +125,7 @@ export const deleteMainList = (id: number) => {
 export const updateMainList = (id: number, updatedList: MainList) => {
   const index = mainLists.findIndex((list) => list.id === id);
   if (index !== -1) {
-    mainLists[index] = updatedList; // Update the list in the local state
+    mainLists[index] = updatedList;
   }
 };
 
@@ -133,12 +144,12 @@ export const handleMainListPress = (
     setModalVisible(false);
   }
 
-  SetInactiveLists(); // Set all lists to inactive
+  SetInactiveLists();
   dbRepoList.setActiveMainList(item.id); // Update the database to set this list as active
   sectionListsContainer.setActiveMainList(item.id);
 
   setMainListActive(item.id);
-  setActiveList(item); // Set the active list title
+  setActiveList(item);
   setModalVisible(false); // Close the modal after selecting a list
 };
 
@@ -176,7 +187,7 @@ export const handleDeleteList = (
     } else {
       sectionListsContainer.setActiveMainList(0);
       setActiveList(undefined);
-    } // Clear active list if no lists are left
+    }
   }
   return undefined;
 };

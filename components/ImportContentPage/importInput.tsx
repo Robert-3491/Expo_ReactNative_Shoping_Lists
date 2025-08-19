@@ -16,6 +16,7 @@ const ImportInput = ({ inputText, setInputText }: Props) => {
         style={styles.inputStyle}
         multiline={true}
         autoCorrect={false}
+        selectTextOnFocus={true}
       />
     </View>
   );
