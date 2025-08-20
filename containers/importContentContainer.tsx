@@ -3,9 +3,7 @@ import { isWhitespace } from "@/Utilities/textFormating";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { importMainList } from "./mainListsContainer";
 import { importSection } from "./sectionListsContainer";
-import { getLastInsertMainListId } from "@/data/db/dbRepoList";
 import { addItem, updateItemLink } from "./itemsContainer";
-import { getLastInsertSectionId } from "@/data/db/dbRepoSectionLists";
 import {
   arrayHasItemTag,
   hasMainListTag,

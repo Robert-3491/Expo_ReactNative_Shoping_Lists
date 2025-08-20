@@ -42,13 +42,9 @@ const ItemsFlatList: React.FC<Props> = ({ sectionId }) => {
     }
   };
 
-  const toggleIsChecked = (id: number) => {
-    itemsContainer.toggleIsChecked(id, sectionId);
-  };
-
   const renderItem = ({ item }: { item: Item }) => {
     // Render individual list items
-    return <RenderItem item={item} toggleIsChecked={toggleIsChecked} />;
+    return <RenderItem item={item} />;
   };
 
   // Open UpdateModal for Edit action on selected SectionList

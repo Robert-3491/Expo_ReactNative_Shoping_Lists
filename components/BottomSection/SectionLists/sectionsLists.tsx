@@ -38,10 +38,6 @@ export default function SectionsLists() {
     }
   };
 
-  const toggleItemVisibility = (id: number) => {
-    sectionListsContainer.toggleItemVisibility(id);
-  };
-
   // Render individual list sectionLists
   const renderItem = ({ item }: { item: SectionList }) => {
     return (
@@ -50,7 +46,7 @@ export default function SectionsLists() {
           <DropdownPressable
             text={item.title}
             isOpen={item.isVisible}
-            onPress={() => toggleItemVisibility(item.id)}
+            onPress={() => sectionListsContainer.toggleSectionVisibility(item)}
             textStyle={{ fontSize: 22 }}
             sectionList={item}
           />

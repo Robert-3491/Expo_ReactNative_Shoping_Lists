@@ -8,13 +8,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { isNotWhitespace } from "@/Utilities/textFormating";
 import { ensureHttps } from "@/containers/addModalContainer";
 import { copyToClipboard } from "@/Utilities/clipboardHandler";
+import { toggleIsChecked } from "@/containers/itemsContainer";
 
 interface Props {
   item: Item;
-  toggleIsChecked: (id: number) => void;
 }
 
-const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
+const RenderItem: React.FC<Props> = ({ item }) => {
   // componenent start
 
   return (
@@ -23,12 +23,12 @@ const RenderItem: React.FC<Props> = ({ item, toggleIsChecked }) => {
         style={styles.checkbox}
         value={Boolean(item.isChecked)}
         color={colors.primaryLight}
-        onValueChange={() => toggleIsChecked(item.id)}
+        onValueChange={() => toggleIsChecked(item)}
       />
 
       <Pressable
         style={({ pressed }) => [{ flex: 1 }, { opacity: pressed ? 0.4 : 1 }]}
-        onPress={() => toggleIsChecked(item.id)}
+        onPress={() => toggleIsChecked(item)}
         onLongPress={() => copyToClipboard({ item })}
       >
         <Text

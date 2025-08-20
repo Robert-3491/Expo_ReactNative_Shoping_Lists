@@ -60,18 +60,6 @@ export const deleteMainList = async (id: number): Promise<void> => {
   }
 };
 
-export const getMainListById = async (id: number): Promise<any | null> => {
-  try {
-    const result = db.getFirstSync("SELECT * FROM mainlists WHERE id = ?", [
-      id,
-    ]);
-    return result || null;
-  } catch (error) {
-    console.error("Error getting MainList by ID:", error);
-    throw error;
-  }
-};
-
 export const setAllInactive = async (): Promise<void> => {
   try {
     db.runSync("UPDATE mainlists SET isActive = 0");
@@ -128,8 +116,7 @@ export const getActiveMainListId = async (): Promise<number | null> => {
       console.log("No active MainList found");
       return null;
     }
-
-    return result.id; // Extract the id property
+    return result.id;
   } catch (error) {
     console.error("Error getting active MainList:", error);
     throw error;
@@ -157,20 +144,6 @@ export const getMainListContentCount = async (mainListId: number) => {
     };
   } catch (error) {
     console.error("Error getting MainList summary:", error);
-    throw error;
-  }
-};
-
-export const getLastInsertMainListId = async (): Promise<number> => {
-  try {
-    const result = (await db.getFirstSync(
-      "SELECT last_insert_rowid() as id"
-    )) as {
-      id: number;
-    };
-    return result.id;
-  } catch (error) {
-    console.error("Error getting last insert ID:", error);
     throw error;
   }
 };

@@ -38,34 +38,6 @@ export const getAllSectionLists = async (): Promise<SectionList[]> => {
   }
 };
 
-export const getSectionListsByMainListId = async (
-  mainListId: number
-): Promise<SectionList[]> => {
-  try {
-    const result = db.getAllSync(
-      "SELECT * FROM sectionlists WHERE mainListId = ? ORDER BY id ASC",
-      [mainListId]
-    );
-    return result.map((row: any) => {
-      const sectionList = new SectionList(
-        row.title,
-        row.isVisible,
-        row.mainListId
-      );
-      sectionList.id = row.id;
-      console.log(
-        "SectionList retrieved for mainListId:",
-        mainListId,
-        sectionList
-      );
-      return sectionList;
-    });
-  } catch (error) {
-    console.error("Error getting SectionLists by mainListId:", error);
-    throw error;
-  }
-};
-
 export const updateSectionList = async (
   title: string,
   id: number
@@ -89,99 +61,22 @@ export const deleteSectionList = async (id: number): Promise<void> => {
   }
 };
 
-export const getSectionListById = async (id: number): Promise<any | null> => {
-  try {
-    const result = db.getFirstSync("SELECT * FROM sectionlists WHERE id = ?", [
-      id,
-    ]);
-    return result || null;
-  } catch (error) {
-    console.error("Error getting SectionList by ID:", error);
-    throw error;
-  }
-};
-
-export const setAllSectionListsInvisible = async (
-  mainListId: number
+export const toggleSectionListVisibility = async (
+  section: SectionList
 ): Promise<void> => {
   try {
-    db.runSync("UPDATE sectionlists SET isVisible = 0 WHERE mainListId = ?", [
-      mainListId,
+    db.runSync("UPDATE sectionlists SET isVisible = ? WHERE id = ?", [
+      !section.isVisible,
+      section.id,
     ]);
     console.log(
-      "All SectionLists set to invisible for mainListId:",
-      mainListId
+      "SectionList visibility toggled:",
+      section.id,
+      "to",
+      !section.isVisible
     );
-  } catch (error) {
-    console.error("Error setting all section lists invisible:", error);
-    throw error;
-  }
-};
-
-export const setVisibleSectionList = async (id: number): Promise<void> => {
-  console.log("Setting visible SectionList:", id);
-
-  try {
-    // Get the mainListId for this section list
-    const sectionList = await getSectionListById(id);
-    if (!sectionList) {
-      throw new Error("SectionList not found");
-    }
-
-    // Then set the specific one as visible
-    db.runSync("UPDATE sectionlists SET isVisible = 1 WHERE id = ?", [id]);
-    console.log("SectionList set as visible:", id);
-  } catch (error) {
-    console.error("Error setting visible SectionList:", error);
-    throw error;
-  }
-};
-
-export const toggleSectionListVisibility = async (
-  id: number
-): Promise<void> => {
-  try {
-    const sectionList = await getSectionListById(id);
-    if (!sectionList) {
-      throw new Error("SectionList not found");
-    }
-
-    const newVisibility = !sectionList.isVisible;
-    db.runSync("UPDATE sectionlists SET isVisible = ? WHERE id = ?", [
-      newVisibility,
-      id,
-    ]);
-    console.log("SectionList visibility toggled:", id, "to", newVisibility);
   } catch (error) {
     console.error("Error toggling SectionList visibility:", error);
-    throw error;
-  }
-};
-
-export const getVisibleSectionList = async (
-  mainListId: number
-): Promise<SectionList | null> => {
-  try {
-    const result = db.getFirstSync(
-      "SELECT * FROM sectionlists WHERE mainListId = ? AND isVisible = 1",
-      [mainListId]
-    ) as any;
-
-    if (!result) {
-      console.log("No visible SectionList found for mainListId:", mainListId);
-      return null;
-    }
-
-    const sectionList = new SectionList(
-      result.title,
-      result.isVisible === 1,
-      result.mainListId
-    );
-    sectionList.id = result.id;
-    console.log("Visible SectionList retrieved:", sectionList);
-    return sectionList;
-  } catch (error) {
-    console.error("Error getting visible SectionList:", error);
     throw error;
   }
 };
@@ -192,20 +87,6 @@ export const toggleSectionVisibilityTrue = async (id: number) => {
     console.log("SectionList set to visible:", id);
   } catch (error) {
     console.error("Error toggling SectionList visibility to true:", error);
-    throw error;
-  }
-};
-
-export const getLastInsertSectionId = async (): Promise<number> => {
-  try {
-    const result = (await db.getFirstSync(
-      "SELECT last_insert_rowid() as id"
-    )) as {
-      id: number;
-    };
-    return result.id;
-  } catch (error) {
-    console.error("Error getting last insert ID:", error);
     throw error;
   }
 };

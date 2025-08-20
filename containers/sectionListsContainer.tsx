@@ -64,11 +64,13 @@ export const refreshCallback = () => {
 };
 // end
 
-export const toggleItemVisibility = (itemId: number) => {
-  sectionLists = sectionLists.map((item) =>
-    item.id === itemId ? { ...item, isVisible: !item.isVisible } : item
+export const toggleSectionVisibility = (section: SectionList) => {
+  sectionLists = sectionLists.map((element) =>
+    element.id === section.id
+      ? { ...element, isVisible: !element.isVisible }
+      : element
   );
-  dbRepoSectionLists.toggleSectionListVisibility(itemId);
+  dbRepoSectionLists.toggleSectionListVisibility(section);
   refreshCallback();
 };
 

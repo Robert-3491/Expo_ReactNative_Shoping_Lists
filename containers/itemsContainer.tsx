@@ -89,15 +89,16 @@ export const deleteItem = (id: number, refreshData: () => void) => {
   refreshData();
 };
 
-export const toggleIsChecked = (id: number, sectionId: number) => {
-  //debugger;
-  dbRepoItem.toggleItemChecked(id);
+export const toggleIsChecked = (item: Item) => {
+  dbRepoItem.toggleItemChecked(item);
 
-  itemsList = itemsList.map((item) =>
-    item.id === id ? { ...item, isChecked: !item.isChecked } : item
+  itemsList = itemsList.map((element) =>
+    element.id === item.id
+      ? { ...element, isChecked: !element.isChecked }
+      : element
   );
 
-  const callback = onRefreshItemsCallbacks.get(sectionId);
+  const callback = onRefreshItemsCallbacks.get(item.sectionListId);
   if (callback) {
     callback();
   }
