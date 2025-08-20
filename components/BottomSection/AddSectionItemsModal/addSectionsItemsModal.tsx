@@ -112,6 +112,7 @@ const AddSectionsItemsModal: React.FC<Props> = ({
           />
         </View>
       </View>
+      <Toast config={toastConfig} />
     </Modal>
   );
 };

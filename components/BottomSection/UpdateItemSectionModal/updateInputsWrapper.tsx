@@ -1,9 +1,8 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import React, { useRef } from "react";
 import TextInputModal from "../AddSectionItemsModal/TextInputModal/textInputModal";
 import { colors } from "@/assets/colors";
 import { Item } from "@/data/models/item";
-import { SectionList } from "@/data/models/sectionList";
 
 interface Props {
   updateTitle: string;
@@ -65,5 +64,3 @@ const UpdateInputsWrapper: React.FC<Props> = ({
 };
 
 export default UpdateInputsWrapper;
-
-const styles = StyleSheet.create({});

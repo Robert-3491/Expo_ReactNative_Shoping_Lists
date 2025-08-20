@@ -22,14 +22,20 @@ let currentMainListId: number;
 let currentSectionId: number;
 let currentItemId: number;
 
-export const importContentController = async (content: string) => {
+export const importContentController = async (
+  content: string,
+  setIsLoading: (val: boolean) => void
+) => {
+  setIsLoading(true);
   if (isWhitespace(content)) {
     showError("Empty import field");
+    setIsLoading(false);
     return;
   }
   const contentArray: string[] = content.match(/<[MSIL]>.*?<\/[MSIL]>/g) || [];
   if (!arrayHasItemTag(contentArray)) {
     showError("At least one item required");
+    setIsLoading(false);
     return;
   }
 
@@ -52,6 +58,7 @@ export const importContentController = async (content: string) => {
       await updateLastItem(element);
     }
   }
+  setIsLoading(false);
 };
 
 //Import functions

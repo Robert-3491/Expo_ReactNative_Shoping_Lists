@@ -16,7 +16,7 @@ const AddingBehavior: React.FC<Props> = ({ modalClosingBehaviour }) => {
   const [isEnabled, setIsEnabled] = useState(getCloseModalOnAdd);
 
   const toggleSwitch = () => {
-    toggleCloseModalOnAdd(isEnabled);
+    toggleCloseModalOnAdd();
     setIsEnabled(!isEnabled);
   };
   return (

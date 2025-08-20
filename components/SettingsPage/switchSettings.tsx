@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { GestureHandlerRootView, Switch } from "react-native-gesture-handler";
 
@@ -22,5 +21,3 @@ const SwitchSettings = ({ state, setState, updateFunction }: Props) => {
 };
 
 export default SwitchSettings;
-
-const styles = StyleSheet.create({});

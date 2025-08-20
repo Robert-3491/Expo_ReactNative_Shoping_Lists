@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
-import { Ionicons } from "@expo/vector-icons";
 
 const EmptyItemListComponent = () => {
   return (

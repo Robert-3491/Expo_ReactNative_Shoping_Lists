@@ -1,4 +1,4 @@
-import { ColorValue, StyleSheet, Text, TextStyle, View } from "react-native";
+import { ColorValue, Text, TextStyle, View } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
 

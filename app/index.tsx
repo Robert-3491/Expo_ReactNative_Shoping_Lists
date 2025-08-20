@@ -8,7 +8,7 @@ import { initializeSettings } from "@/data/db/dbRepoSettings";
 import { initializeMainLists } from "@/containers/mainListsContainer";
 import { initializeSectionLists } from "@/containers/sectionListsContainer";
 import { initializeItemLists } from "@/containers/itemsContainer";
-import LoadingSpinner from "@/components/loadingSpinner";
+import LoadingSpinner from "@/Utilities/loadingSpinner";
 
 export default function Index() {
   const [isInitialized, setIsInitialized] = useState(false);

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import CustomButton from "../SharedComponents/customButton";
 import { colors } from "@/assets/colors";
@@ -26,5 +26,3 @@ const NavigationButtons = () => {
 };
 
 export default NavigationButtons;
-
-const styles = StyleSheet.create({});

@@ -8,10 +8,7 @@ import {
   toggleSetOrderByNew,
 } from "@/data/db/dbRepoSettings";
 import { externalRefreshCallbackMainLists } from "@/containers/mainListsContainer";
-import {
-  getSectionListsByMainListId,
-  refreshCallback,
-} from "./sectionListsContainer";
+import { getSectionListsByMainListId } from "./sectionListsContainer";
 import { getActiveMainListId } from "@/data/db/dbRepoList";
 import { refreshItemsForSection } from "./itemsContainer";
 
