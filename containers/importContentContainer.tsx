@@ -1,94 +1,93 @@
-//import * as Clipboard from "expo-clipboard";
 import { showError } from "@/Utilities/messages";
 import { isWhitespace } from "@/Utilities/textFormating";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { importMainList } from "./mainListsContainer";
 import { importSection } from "./sectionListsContainer";
 import { getLastInsertMainListId } from "@/data/db/dbRepoList";
+import { addItem, updateItemLink } from "./itemsContainer";
+import { getLastInsertSectionId } from "@/data/db/dbRepoSectionLists";
+import {
+  arrayHasItemTag,
+  hasMainListTag,
+  hasSectionTag,
+  hasItemTag,
+  hasLinkTag,
+  extractTagContent,
+} from "@/Utilities/importPageFormating";
+import { getDefaultSectionName } from "@/data/db/dbRepoSettings";
 
 export const getClipboardText = async () => {
   return await Clipboard.getString();
 };
 
-export const importContentController = (content: string) => {
+let currentMainListId: number;
+let currentSectionId: number;
+let currentItemId: number;
+
+export const importContentController = async (content: string) => {
   if (isWhitespace(content)) {
     showError("Empty import field");
     return;
   }
-
   const contentArray: string[] = content.match(/<[MSIL]>.*?<\/[MSIL]>/g) || [];
-
   if (!arrayHasItemTag(contentArray)) {
     showError("At least one item required");
     return;
   }
 
-  sectionOrItemContentStart(contentArray);
+  await sectionOrItemImportStart(contentArray);
 
-  contentArray.forEach((element) => {
+  for (const element of contentArray) {
     if (hasMainListTag(element)) {
-      executeImportMainList(element);
+      await executeImportMainList(element);
     }
+
     if (hasSectionTag(element)) {
-      executeImportSection(element);
+      await executeImportSection(element);
     }
+
     if (hasItemTag(element)) {
-      executeImportItem(element);
+      await executeImportItem(element);
     }
+
     if (hasLinkTag(element)) {
-      updateLastItem(element);
+      await updateLastItem(element);
     }
-  });
+  }
 };
 
-const executeImportMainList = (element: string) => {
+//Import functions
+const executeImportMainList = async (element: string) => {
   const title = extractTagContent(element);
-  importMainList(title);
+  currentMainListId = await importMainList(title);
 };
+
 const executeImportSection = async (element: string) => {
   const title = extractTagContent(element);
-  importSection(extractTagContent(title), await getLastInsertMainListId());
+  currentSectionId = await importSection(title, currentMainListId);
 };
 
-const executeImportItem = (element: string) => {
+const executeImportItem = async (element: string) => {
   const title = extractTagContent(element);
+  currentItemId = await addItem(title, currentSectionId, "");
 };
-const updateLastItem = (element: string) => {
+
+const updateLastItem = async (element: string) => {
   const link = extractTagContent(element);
+  await updateItemLink(currentItemId, link);
 };
 
-const sectionOrItemContentStart = async (contentArray: string[]) => {
-  // in case it starts with a section, create a List
+//Special Import start
+const sectionOrItemImportStart = async (contentArray: string[]) => {
+  // in case the import starts without a Main List
   if (!hasMainListTag(contentArray[0])) {
-    importMainList("Import");
+    currentMainListId = await importMainList("Import");
   }
-  // in case it starts with an item, create a Section
+  // in case the import starts with an item, create a section
   if (hasItemTag(contentArray[0])) {
-    importSection(extractTagContent("Import"), await getLastInsertMainListId());
+    currentSectionId = await importSection(
+      getDefaultSectionName(),
+      currentMainListId
+    );
   }
-};
-
-const hasMainListTag = (content: string) => {
-  return content.startsWith("<M>");
-};
-
-const hasSectionTag = (content: string) => {
-  return content.startsWith("<S>");
-};
-
-const hasItemTag = (content: string) => {
-  return content.startsWith("<I>");
-};
-
-const arrayHasItemTag = (contentArray: string[]) => {
-  return contentArray.some((item) => item.startsWith("<I>"));
-};
-
-const hasLinkTag = (content: string) => {
-  return content.startsWith("<L>");
-};
-
-export const extractTagContent = (element: string): string => {
-  const content = element.match(/<[^>]+>(.*?)<\/[^>]+>/);
-  return content ? content[1] : element;
 };

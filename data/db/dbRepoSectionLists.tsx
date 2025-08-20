@@ -195,3 +195,17 @@ export const toggleSectionVisibilityTrue = async (id: number) => {
     throw error;
   }
 };
+
+export const getLastInsertSectionId = async (): Promise<number> => {
+  try {
+    const result = (await db.getFirstSync(
+      "SELECT last_insert_rowid() as id"
+    )) as {
+      id: number;
+    };
+    return result.id;
+  } catch (error) {
+    console.error("Error getting last insert ID:", error);
+    throw error;
+  }
+};

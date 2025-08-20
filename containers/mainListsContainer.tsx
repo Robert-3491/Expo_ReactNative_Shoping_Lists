@@ -106,7 +106,7 @@ export const addMainList = async (
   }
 };
 
-export const importMainList = async (title: string) => {
+export const importMainList = async (title: string): Promise<number> => {
   const titleUpped = textFormating.capitalizeFirst(title.trim());
   const newList = new MainList(titleUpped, false); // Create a new MainList instance
   newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
@@ -116,6 +116,7 @@ export const importMainList = async (title: string) => {
   if (onRefreshCallback) {
     onRefreshCallback();
   }
+  return newList.id;
 };
 
 export const deleteMainList = (id: number) => {

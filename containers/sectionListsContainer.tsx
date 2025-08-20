@@ -96,12 +96,17 @@ export const addSection = async (
   return newSection;
 };
 
-export const importSection = async (title: string, mainListId: number) => {
+export const importSection = async (
+  title: string,
+  mainListId: number
+): Promise<number> => {
   let newSection = new SectionList(title, true, mainListId);
   newSection.id = await dbRepoSectionLists.addSectionList(newSection);
   sectionLists = [...sectionLists, newSection];
   externalRefreshCallbackMainLists();
   refreshCallback();
+
+  return newSection.id;
 };
 
 //For after adding a new item
