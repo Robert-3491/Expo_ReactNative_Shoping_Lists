@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { forwardRef, useEffect, useState } from "react";
 import { colors } from "@/assets/colors";
+import ClipboardPasteButton from "./clipboardPasteButton";
 
 interface Props {
   placeholder: string;
@@ -19,6 +20,7 @@ interface Props {
   addLink?: string;
   setAddLink?: (addLink: string) => void;
   style?: TextStyle;
+  copyFromClipboard?: boolean;
 }
 
 const TextInputModal = forwardRef<TextInput, Props>(
@@ -34,6 +36,7 @@ const TextInputModal = forwardRef<TextInput, Props>(
       setAddTitle,
       setAddLink,
       style,
+      copyFromClipboard,
     },
     ref?
   ) => {
@@ -44,7 +47,6 @@ const TextInputModal = forwardRef<TextInput, Props>(
     useEffect(() => {
       if (autofocus) {
         setTimeout(() => {
-          // Type guard to check if ref is a RefObject
           if (ref && typeof ref === "object" && "current" in ref) {
             ref.current?.focus();
           }
@@ -65,7 +67,6 @@ const TextInputModal = forwardRef<TextInput, Props>(
           ref={ref}
           onSubmitEditing={onSubmitEditing}
           selectTextOnFocus={selectTextOnFocus}
-          //autoFocus={autofocus}
           value={addTitle ? addTitle : addLink}
           onChangeText={(text) =>
             setAddTitle
@@ -75,6 +76,9 @@ const TextInputModal = forwardRef<TextInput, Props>(
               : null
           }
         />
+        {copyFromClipboard && (setAddTitle || setAddLink) && (
+          <ClipboardPasteButton setText={setAddTitle || setAddLink!} />
+        )}
       </View>
     );
   }
@@ -82,13 +86,14 @@ const TextInputModal = forwardRef<TextInput, Props>(
 TextInputModal.displayName = "TextInputModal";
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 10 },
+  container: { marginBottom: 10, flexDirection: "row" },
   textInput: {
     borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.textSecondary,
     color: colors.text,
     fontSize: 18,
+    flex: 1,
   },
   activeBorder: { borderColor: colors.primaryLight, borderWidth: 2 },
 });

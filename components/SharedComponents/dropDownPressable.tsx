@@ -56,7 +56,7 @@ const DropdownPressable: React.FC<Props> = ({
       ]}
     >
       <Ionicons
-        name={isOpen ? "caret-up-outline" : "caret-down-outline"}
+        name={isOpen ? "caret-down-outline" : "caret-up-outline"}
         style={[styles.dropdownIcon, styles.pressSectionElements, iconStyle]}
       />
       <View style={{ flex: 1 }}>

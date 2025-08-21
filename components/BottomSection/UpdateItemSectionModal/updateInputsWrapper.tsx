@@ -44,6 +44,7 @@ const UpdateInputsWrapper: React.FC<Props> = ({
         addTitle={updateTitle}
         setAddTitle={setUpdateTitle}
         ref={titleInputRef}
+        copyFromClipboard={true}
       />
 
       {item && (
@@ -57,6 +58,7 @@ const UpdateInputsWrapper: React.FC<Props> = ({
           setAddLink={setUpdateLink}
           autofocus={false}
           ref={linkInputRef}
+          copyFromClipboard={true}
         />
       )}
     </View>

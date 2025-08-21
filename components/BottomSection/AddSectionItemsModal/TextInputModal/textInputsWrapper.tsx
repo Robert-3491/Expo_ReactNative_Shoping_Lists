@@ -42,6 +42,7 @@ const TextInputsWrapper: React.FC<Props> = ({
         addTitle={addTitle}
         setAddTitle={setAddTitle}
         ref={titleInputRef}
+        copyFromClipboard={true}
       />
 
       {addingMode === "ITEM" && (
@@ -54,6 +55,7 @@ const TextInputsWrapper: React.FC<Props> = ({
           addLink={addLink}
           setAddLink={setAddLink}
           autofocus={false}
+          copyFromClipboard={true}
         />
       )}
     </View>
