@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
   mainListText: {
     color: colors.text,
     fontSize: 22,
-
     width: "100%",
   },
 });

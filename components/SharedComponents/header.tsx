@@ -6,12 +6,29 @@ import { router } from "expo-router";
 
 interface Props {
   children: React.ReactNode;
+  showHome?: boolean;
 }
 
-const Header = ({ children }: Props) => {
+const Header = ({ children, showHome }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>{children}</Text>
+
+      {showHome && (
+        <Pressable
+          style={({ pressed }) => [
+            { opacity: pressed ? 0.4 : 1 },
+            styles.iconWrapper,
+          ]}
+          onPress={() => {
+            router.back();
+            router.back();
+          }}
+        >
+          <Ionicons style={styles.homeIcon} name="home" />
+        </Pressable>
+      )}
+
       <Pressable
         style={({ pressed }) => [
           { opacity: pressed ? 0.4 : 1 },
@@ -46,6 +63,10 @@ const styles = StyleSheet.create({
   },
   returnIcon: {
     fontSize: 45,
+    color: colors.text,
+  },
+  homeIcon: {
+    fontSize: 38,
     color: colors.text,
   },
 });

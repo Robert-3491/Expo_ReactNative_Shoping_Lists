@@ -1,6 +1,8 @@
-import { StyleSheet, Text, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import { colors } from "@/assets/colors";
+import TextDefault from "../SharedComponents/textDefault";
+import { importInputPlaceholder } from "@/Utilities/importPageFormating";
 
 interface Props {
   inputText: string;
@@ -10,7 +12,7 @@ interface Props {
 const ImportInput = ({ inputText, setInputText }: Props) => {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.textStyle}>{inputText || "No content"}</Text>
+      <TextDefault>{inputText || importInputPlaceholder}</TextDefault>
     </ScrollView>
   );
 };
@@ -24,9 +26,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     padding: 5,
-  },
-  textStyle: {
-    color: colors.text,
-    fontSize: 18,
   },
 });

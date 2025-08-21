@@ -64,7 +64,7 @@ export default function TopSection() {
         style={[
           styles.mainListsView,
           {
-            height: windowHeight - dropdownHeight,
+            height: windowHeight - dropdownHeight - 50,
             marginTop: dropdownHeight,
           },
           modalVisible ? styles.visibleContainer : styles.hiddenContainer,

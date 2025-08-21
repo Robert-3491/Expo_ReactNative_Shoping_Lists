@@ -10,6 +10,7 @@ import {
 } from "@/containers/importContentContainer";
 import ImportInput from "./importInput";
 import LoadingSpinner from "@/Utilities/loadingSpinner";
+import { showSuccess } from "@/Utilities/messages";
 
 const ImportContentWrapper = () => {
   const [inputText, setInputText] = useState("");
@@ -22,13 +23,18 @@ const ImportContentWrapper = () => {
     loadClipboard();
   }, []);
 
+  const longPress = async () => {
+    setInputText(`${inputText}\n${await getClipboardText()}`);
+    showSuccess("Content added");
+  };
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
   return (
     <View style={styles.container}>
-      <Header>Import content</Header>
+      <Header showHome={true}>Import content</Header>
       <View style={styles.content}>
         <TextDefault
           color={colors.textSecondary}
@@ -43,9 +49,7 @@ const ImportContentWrapper = () => {
           fontSize={18}
           backgroundColor={colors.primaryLight}
           onPress={async () => setInputText(await getClipboardText())}
-          onLongPress={async () =>
-            setInputText(`${inputText}\n${await getClipboardText()}`)
-          }
+          onLongPress={() => longPress()}
         />
 
         <ImportInput inputText={inputText} setInputText={setInputText} />
@@ -54,7 +58,9 @@ const ImportContentWrapper = () => {
           buttonText="Import"
           fontSize={18}
           backgroundColor={colors.successToast}
-          onPress={() => importContentController(inputText, setIsLoading)}
+          onPress={() =>
+            importContentController(inputText, setIsLoading, setInputText)
+          }
         />
       </View>
     </View>

@@ -1,4 +1,4 @@
-import { showError } from "@/Utilities/messages";
+import { showError, showSuccess } from "@/Utilities/messages";
 import { isWhitespace } from "@/Utilities/textFormating";
 import Clipboard from "@react-native-clipboard/clipboard";
 import { importMainList } from "./mainListsContainer";
@@ -24,17 +24,20 @@ let currentItemId: number;
 
 export const importContentController = async (
   content: string,
-  setIsLoading: (val: boolean) => void
+  setIsLoading: (val: boolean) => void,
+  setInputText: (val: string) => void
 ) => {
   setIsLoading(true);
   if (isWhitespace(content)) {
-    showError("Empty import field");
+    showError("Empty import");
+    setInputText("");
     setIsLoading(false);
     return;
   }
   const contentArray: string[] = content.match(/<[MSIL]>.*?<\/[MSIL]>/g) || [];
   if (!arrayHasItemTag(contentArray)) {
     showError("At least one item required");
+    setInputText("");
     setIsLoading(false);
     return;
   }
@@ -58,6 +61,8 @@ export const importContentController = async (
       await updateLastItem(element);
     }
   }
+  setInputText("Import successful");
+  showSuccess("Import successful");
   setIsLoading(false);
 };
 

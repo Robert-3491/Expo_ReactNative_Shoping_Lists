@@ -9,6 +9,7 @@ import { initializeMainLists } from "@/containers/mainListsContainer";
 import { initializeSectionLists } from "@/containers/sectionListsContainer";
 import { initializeItemLists } from "@/containers/itemsContainer";
 import LoadingSpinner from "@/Utilities/loadingSpinner";
+import { StatusBar } from "expo-status-bar";
 
 export default function Index() {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -31,6 +32,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" translucent={true} />
       <TopSection />
     </SafeAreaView>
   );
