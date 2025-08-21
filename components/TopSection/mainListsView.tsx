@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import SwipeableFlatList from "rn-gesture-swipeable-flatlist";
-import { Pressable } from "react-native-gesture-handler";
 import { colors } from "@/assets/colors";
 import * as mainListsContainer from "@/containers/mainListsContainer";
 import { MainList } from "@/data/models/mainList";
