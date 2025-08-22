@@ -59,12 +59,11 @@ export default function TopSection() {
       </View>
 
       {/* Control Main Lists dropdown visibility with styles */}
-
       <View
         style={[
           styles.mainListsView,
           {
-            height: windowHeight - dropdownHeight - 50,
+            height: windowHeight - dropdownHeight,
             marginTop: dropdownHeight,
           },
           modalVisible ? styles.visibleContainer : styles.hiddenContainer,
@@ -72,7 +71,7 @@ export default function TopSection() {
       >
         {/* GestureHandlerRootView is used to handle gestures in the modal - required HERE*/}
         <GestureHandlerRootView>
-          {/* MainListsModalContents => the component that renders the lists */}
+          {/* MainListsView => the component that renders the lists */}
           <MainListsView
             setItemsViewVisible={toggleModal}
             setActiveList={setActiveList}
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
   },
   hiddenContainer: {
     opacity: 0,
-    pointerEvents: "none", // Disable touch events when hidden
+    pointerEvents: "none", // Disable touch events when hidden!!!
     overflow: "hidden",
   },
 });

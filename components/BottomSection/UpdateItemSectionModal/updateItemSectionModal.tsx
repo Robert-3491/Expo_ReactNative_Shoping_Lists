@@ -8,6 +8,7 @@ import CustomButton from "../../SharedComponents/customButton";
 import * as updateModalContainer from "@/containers/updateModalContainer";
 import { isWhitespace } from "@/Utilities/textFormating";
 import { MainList } from "@/data/models/mainList";
+import DropDownUpdate from "@/components/SharedComponents/dropDownUpdate";
 
 interface Props {
   sectionList?: SectionList;
@@ -127,6 +128,8 @@ const UpdateAllListsModal: React.FC<Props> = ({
               modalUpdateItem={modalUpdateItem}
               modalUpdateSection={modalUpdateSection}
             />
+
+            {(item || sectionList) && <DropDownUpdate />}
 
             <CustomButton
               buttonText={buttonText()}
