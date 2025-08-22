@@ -31,15 +31,18 @@ const UpdateAllListsModal: React.FC<Props> = ({
 
   const [updateTitle, setUpdateTitle] = useState("");
   const [updateLink, setUpdateLink] = useState("");
+  const [relationId, setRelationId] = useState(0); // used to update the SectionList placement of items, and Mainlist for Sections
 
   // Update state when props change
   useEffect(() => {
     if (item) {
       setUpdateTitle(item.title ?? "");
       setUpdateLink(item.link ?? "");
+      setRelationId(item.sectionListId);
     }
     if (sectionList) {
       setUpdateTitle(sectionList.title ?? "");
+      setRelationId(sectionList.mainListId);
     }
     if (mainList) {
       setUpdateTitle(mainList.title ?? "");
@@ -129,7 +132,13 @@ const UpdateAllListsModal: React.FC<Props> = ({
               modalUpdateSection={modalUpdateSection}
             />
 
-            {(item || sectionList) && <DropDownUpdate />}
+            {(item || sectionList) && (
+              <DropDownUpdate
+                setRelationId={setRelationId}
+                item={item}
+                sectionList={sectionList}
+              />
+            )}
 
             <CustomButton
               buttonText={buttonText()}

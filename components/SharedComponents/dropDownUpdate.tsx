@@ -1,35 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import TextDefault from "./textDefault";
 import { colors } from "@/assets/colors";
+import { Item } from "@/data/models/item";
+import { SectionList } from "@/data/models/sectionList";
+import { MainList } from "@/data/models/mainList";
+import { getSectionLists } from "@/containers/sectionListsContainer";
+import { getMainLists } from "@/containers/mainListsContainer";
 
-// Define the type for dropdown items
-interface DropdownItem {
-  label: string;
-  value: string;
+interface Props {
+  setRelationId: (id: number) => void;
+  item?: Item;
+  sectionList?: SectionList;
 }
 
-const data: DropdownItem[] = [
-  { label: "Item 1", value: "1" },
-  { label: "Item 2", value: "2" },
-  { label: "Item 3", value: "3" },
-  { label: "Item 4", value: "4" },
-  { label: "Item 5", value: "5" },
-  { label: "Item 6", value: "6" },
-  { label: "Item 7", value: "7" },
-  { label: "Item 8", value: "8" },
-];
-
-const DropDownUpdate = () => {
+const DropDownUpdate = ({ setRelationId, item, sectionList }: Props) => {
+  const [data, setData] = useState<MainList[] | SectionList[]>([]);
   const [value, setValue] = useState<string | null>(null);
 
-  const renderItem = (item: DropdownItem) => {
+  useEffect(() => {
+    if (item) {
+      const sectionLists = getSectionLists();
+      setData(sectionLists);
+      const initialSectionList = sectionLists.find(
+        (element) => element.id === item.sectionListId
+      );
+      if (initialSectionList) {
+        setValue(initialSectionList.title);
+      }
+    }
+    const setMainlists = async () => {
+      const mainLists = await getMainLists();
+      setData(mainLists);
+      if (sectionList) {
+        const initialMainList = mainLists.find(
+          (element) => element.id === sectionList.mainListId
+        );
+        if (initialMainList) {
+          setValue(initialMainList.title);
+        }
+      }
+    };
+    if (sectionList) {
+      setMainlists();
+    }
+  }, [item, sectionList]);
+
+  const renderItem = (item: MainList | SectionList) => {
     return (
       <View>
         <View style={styles.item}>
-          <Text style={styles.textItem}>{item.label}</Text>
+          <Text style={styles.textItem}>{item.title}</Text>
         </View>
         <View style={styles.separator} />
       </View>
@@ -45,16 +67,17 @@ const DropDownUpdate = () => {
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}
       data={data}
-      maxHeight={300}
-      labelField="label"
-      valueField="value"
-      placeholder="Select item"
-      searchPlaceholder="Search..."
+      labelField="title"
+      valueField="title"
+      placeholder="Select"
       value={value}
-      onChange={(item: DropdownItem) => {
-        setValue(item.value);
+      onChange={(selectedItem: MainList | SectionList) => {
+        setValue(selectedItem.title);
+        setRelationId(selectedItem.id);
       }}
-      renderLeftIcon={() => <TextDefault>Section: </TextDefault>}
+      renderLeftIcon={() => (
+        <TextDefault>{item ? "Section: " : "List: "}</TextDefault>
+      )}
       renderItem={renderItem}
     />
   );
