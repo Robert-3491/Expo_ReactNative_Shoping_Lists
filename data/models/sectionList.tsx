@@ -3,7 +3,6 @@ export class SectionList {
   mainListId: number;
   title: string;
   isVisible: boolean;
-  isEditing: boolean = false; // Flag to indicate if the list is being edited
   itemsCount: number = 0;
   checkedItemsCount: number = 0;
 

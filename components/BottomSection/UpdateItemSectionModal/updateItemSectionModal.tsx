@@ -38,11 +38,9 @@ const UpdateAllListsModal: React.FC<Props> = ({
     if (item) {
       setUpdateTitle(item.title ?? "");
       setUpdateLink(item.link ?? "");
-      setRelationId(item.sectionListId);
     }
     if (sectionList) {
       setUpdateTitle(sectionList.title ?? "");
-      setRelationId(sectionList.mainListId);
     }
     if (mainList) {
       setUpdateTitle(mainList.title ?? "");
@@ -53,6 +51,7 @@ const UpdateAllListsModal: React.FC<Props> = ({
     setUpdateModalVisible(!updateModalVisible);
     setUpdateTitle(item?.title ?? sectionList?.title ?? mainList?.title ?? "");
     setUpdateLink(item?.link ?? "");
+    setRelationId(0);
   };
 
   const modalUpdateItem = () => {
@@ -61,7 +60,8 @@ const UpdateAllListsModal: React.FC<Props> = ({
         item,
         updateTitle,
         updateLink,
-        modalClosingBehaviour
+        modalClosingBehaviour,
+        relationId
       );
   };
 
@@ -69,7 +69,8 @@ const UpdateAllListsModal: React.FC<Props> = ({
     updateModalContainer.modalUpdateSection(
       sectionList?.id ?? 0,
       updateTitle,
-      modalClosingBehaviour
+      modalClosingBehaviour,
+      relationId
     );
   };
 

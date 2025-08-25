@@ -40,14 +40,22 @@ export const getAllItems = async (): Promise<Item[]> => {
 export const updateItem = async (
   id: number,
   title: string,
-  link: string
+  link: string,
+  sectionId?: number
 ): Promise<void> => {
   try {
-    db.runSync("UPDATE items SET title = ?, link = ? WHERE id = ?", [
-      title,
-      link,
-      id,
-    ]);
+    if (sectionId !== undefined) {
+      db.runSync(
+        "UPDATE items SET title = ?, link = ?, sectionListId = ? WHERE id = ?",
+        [title, link, sectionId, id]
+      );
+    } else {
+      db.runSync("UPDATE items SET title = ?, link = ? WHERE id = ?", [
+        title,
+        link,
+        id,
+      ]);
+    }
     console.log("Item updated:", id);
   } catch (error) {
     console.error("Error updating Item:", error);

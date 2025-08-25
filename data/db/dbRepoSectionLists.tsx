@@ -40,10 +40,19 @@ export const getAllSectionLists = async (): Promise<SectionList[]> => {
 
 export const updateSectionList = async (
   title: string,
-  id: number
+  id: number,
+  relationId: number
 ): Promise<void> => {
   try {
-    db.runSync("UPDATE sectionlists SET title = ? WHERE id = ?", [title, id]);
+    if (relationId === 0) {
+      db.runSync("UPDATE sectionlists SET title = ? WHERE id = ?", [title, id]);
+    } else {
+      db.runSync(
+        "UPDATE sectionlists SET title = ?, mainListId = ? WHERE id = ?",
+        [title, relationId, id]
+      );
+    }
+
     console.log("SectionList updated:", id);
   } catch (error) {
     console.error("Error updating SectionList:", error);

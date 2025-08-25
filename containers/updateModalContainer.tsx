@@ -9,25 +9,32 @@ export const modalUpdateItem = (
   item: Item,
   title: string,
   link: string,
-  modalClosingBehaviour: () => void
+  modalClosingBehaviour: () => void,
+  relationId: number
 ) => {
   if (textFormating.isWhitespace(title)) {
     return;
   }
-  updateItem(item.id, title, link, item.sectionListId);
+  updateItem(
+    item.id,
+    title,
+    link,
+    relationId === 0 ? item.sectionListId : relationId
+  );
   modalClosingBehaviour();
 };
 
 export const modalUpdateSection = (
   sectionId: number,
   title: string,
-  modalClosingBehaviour: () => void
+  modalClosingBehaviour: () => void,
+  relationId: number
 ) => {
   if (textFormating.isWhitespace(title)) {
     return;
   }
   title = textFormating.capitalizeFirst(title);
-  updateSection(sectionId, title);
+  updateSection(sectionId, title, relationId);
   modalClosingBehaviour();
 };
 

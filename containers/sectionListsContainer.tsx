@@ -124,12 +124,23 @@ export const toggleSectionVisibilityTrue = async (itemId: number) => {
   }
 };
 
-export const updateSection = async (id: number, title: string) => {
-  sectionLists = sectionLists.map((list) =>
-    list.id === id ? { ...list, title } : list
-  );
-  await dbRepoSectionLists.updateSectionList(title, id);
+export const updateSection = async (
+  id: number,
+  title: string,
+  relationId: number
+) => {
+  sectionLists = sectionLists.map((list) => {
+    if (list.id === id) {
+      if (relationId === 0) return { ...list, title };
+      else {
+        return { ...list, title, mainListId: relationId };
+      }
+    }
+    return list;
+  });
+  await dbRepoSectionLists.updateSectionList(title, id, relationId);
   refreshCallback();
+  externalRefreshCallbackMainLists(); // to reset item & section count for Mainlists
 };
 
 export const updateSectionItemCount = async (

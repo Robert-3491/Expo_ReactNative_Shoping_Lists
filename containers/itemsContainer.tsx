@@ -108,24 +108,38 @@ export const updateItem = async (
   id: number,
   title: string,
   link: string,
-  sectionId: number
+  updateSectionId: number
 ) => {
   const updateTitle = title.trim();
-  itemsList = itemsList.map((list) =>
-    list.id === id ? { ...list, title: updateTitle, link } : list
-  );
-  await dbRepoItem.updateItem(id, updateTitle, link);
-  const callback = onRefreshItemsCallbacks.get(sectionId);
+  let initialSectionListId = 0;
+
+  itemsList = itemsList.map((list) => {
+    if (list.id === id) {
+      initialSectionListId = list.sectionListId;
+      return {
+        ...list,
+        title: updateTitle,
+        link,
+        sectionListId: updateSectionId,
+      };
+    }
+    return list;
+  });
+  await dbRepoItem.updateItem(id, updateTitle, link, updateSectionId);
+  const callback = onRefreshItemsCallbacks.get(initialSectionListId);
   if (callback) {
     callback();
   }
+
+  if (initialSectionListId !== updateSectionId) {
+    const callback = onRefreshItemsCallbacks.get(updateSectionId);
+    if (callback) {
+      callback();
+    }
+  }
 };
 
-export const updateItemLink = async (
-  id: number,
-  link: string,
-  sectionId?: number
-) => {
+export const updateItemLink = async (id: number, link: string) => {
   let title = "";
   itemsList = itemsList.map((list) => {
     if (list.id === id) {
