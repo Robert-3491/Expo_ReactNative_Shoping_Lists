@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import TextDefault from "./textDefault";
+import TextDefault from "../../SharedComponents/textDefault";
 import { colors } from "@/assets/colors";
 import { Item } from "@/data/models/item";
 import { SectionList } from "@/data/models/sectionList";
@@ -17,7 +17,7 @@ interface Props {
 
 const DropDownUpdate = ({ setRelationId, item, sectionList }: Props) => {
   const [data, setData] = useState<MainList[] | SectionList[]>([]);
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<number | null>(null);
 
   useEffect(() => {
     if (item) {
@@ -27,7 +27,7 @@ const DropDownUpdate = ({ setRelationId, item, sectionList }: Props) => {
         (element) => element.id === item.sectionListId
       );
       if (initialSectionList) {
-        setValue(initialSectionList.title);
+        setValue(initialSectionList.id);
       }
     }
     const setMainlists = async () => {
@@ -38,7 +38,7 @@ const DropDownUpdate = ({ setRelationId, item, sectionList }: Props) => {
           (element) => element.id === sectionList.mainListId
         );
         if (initialMainList) {
-          setValue(initialMainList.title);
+          setValue(initialMainList.id);
         }
       }
     };
@@ -68,11 +68,11 @@ const DropDownUpdate = ({ setRelationId, item, sectionList }: Props) => {
       selectedTextStyle={styles.selectedTextStyle}
       data={data}
       labelField="title"
-      valueField="title"
+      valueField="id"
       placeholder="Select"
       value={value}
       onChange={(selectedItem: MainList | SectionList) => {
-        setValue(selectedItem.title);
+        setValue(selectedItem.id);
         setRelationId(selectedItem.id);
       }}
       renderLeftIcon={() => (

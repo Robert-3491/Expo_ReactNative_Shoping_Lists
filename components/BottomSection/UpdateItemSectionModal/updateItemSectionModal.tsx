@@ -8,7 +8,7 @@ import CustomButton from "../../SharedComponents/customButton";
 import * as updateModalContainer from "@/containers/updateModalContainer";
 import { isWhitespace } from "@/Utilities/textFormating";
 import { MainList } from "@/data/models/mainList";
-import DropDownUpdate from "@/components/SharedComponents/dropDownUpdate";
+import DropDownUpdate from "@/components/BottomSection/UpdateItemSectionModal/dropDownUpdate";
 
 interface Props {
   sectionList?: SectionList;
