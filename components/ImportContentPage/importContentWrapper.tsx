@@ -34,7 +34,9 @@ const ImportContentWrapper = () => {
 
   return (
     <View style={styles.container}>
-      <Header showHome={true}>Import content</Header>
+      <Header showHome={true} showBack={true}>
+        Import content
+      </Header>
       <View style={styles.content}>
         <TextDefault
           color={colors.textSecondary}

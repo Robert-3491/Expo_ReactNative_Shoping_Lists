@@ -6,10 +6,11 @@ import { router } from "expo-router";
 
 interface Props {
   children: React.ReactNode;
+  showBack?: boolean;
   showHome?: boolean;
 }
 
-const Header = ({ children, showHome }: Props) => {
+const Header = ({ children, showBack, showHome }: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>{children}</Text>
@@ -29,15 +30,17 @@ const Header = ({ children, showHome }: Props) => {
         </Pressable>
       )}
 
-      <Pressable
-        style={({ pressed }) => [
-          { opacity: pressed ? 0.4 : 1 },
-          styles.iconWrapper,
-        ]}
-        onPress={() => router.back()}
-      >
-        <Ionicons style={styles.returnIcon} name="arrow-back-circle" />
-      </Pressable>
+      {showBack && (
+        <Pressable
+          style={({ pressed }) => [
+            { opacity: pressed ? 0.4 : 1 },
+            styles.iconWrapper,
+          ]}
+          onPress={() => router.back()}
+        >
+          <Ionicons style={styles.returnIcon} name="arrow-back-circle" />
+        </Pressable>
+      )}
     </View>
   );
 };

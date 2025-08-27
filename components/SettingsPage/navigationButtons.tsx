@@ -9,16 +9,18 @@ const NavigationButtons = () => {
     <View>
       <View style={{ marginTop: 10 }} />
       <CustomButton
-        buttonText="Import Content"
-        onPress={() => router.navigate("/importContent")}
+        buttonText="Show Tutorial"
+        onPress={() => router.navigate("./tutorial")}
         backgroundColor={colors.primaryLight}
         fontSize={18}
       />
+
       <View style={{ marginTop: 5 }} />
+
       <CustomButton
-        buttonText="Show Tutorial"
-        onPress={() => console.log("Works")}
-        backgroundColor={colors.primaryLight}
+        buttonText="Import Content"
+        onPress={() => router.navigate("/importContent")}
+        backgroundColor={colors.successToast}
         fontSize={18}
       />
     </View>

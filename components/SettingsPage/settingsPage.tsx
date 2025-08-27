@@ -17,7 +17,7 @@ const SettingsPage = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
-        <Header>App Settings</Header>
+        <Header showBack={true}>App Settings</Header>
 
         <View style={[styles.border, styles.paddingHorizontal]}>
           <GeneralSettings />
