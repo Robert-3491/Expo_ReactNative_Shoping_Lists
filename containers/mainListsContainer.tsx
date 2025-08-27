@@ -29,11 +29,20 @@ const addContentCountsToMainLists = async (
 };
 
 export async function initializeMainLists() {
-  if (!initialized) {
-    const basicMainLists = (await dbRepoList.getAllMainLists()).map((list) => {
+  const getMainListsFromDb = async () => {
+    const dbLists = await dbRepoList.getAllMainLists();
+    return dbLists.map((list) => {
       return new MainList(list.title, list.isActive, list.id);
     });
+  };
+  let basicMainLists;
+  if (!initialized) {
+    basicMainLists = await getMainListsFromDb();
 
+    if (!basicMainLists.length) {
+      await createMainListForEmptyInitialization();
+      basicMainLists = await getMainListsFromDb();
+    }
     mainLists = await addContentCountsToMainLists(basicMainLists);
     initialized = true;
   }
@@ -117,6 +126,17 @@ export const importMainList = async (title: string): Promise<number> => {
     onRefreshCallback();
   }
   return newList.id;
+};
+
+export const createMainListForEmptyInitialization = async () => {
+  const newList = new MainList("List", true); // Create a new MainList instance
+  newList.id = await dbRepoList.addMainList(newList); // Add the new list to the database
+
+  mainLists = [...mainLists, newList];
+
+  if (onRefreshCallback) {
+    onRefreshCallback();
+  }
 };
 
 export const deleteMainList = (id: number) => {
