@@ -6,6 +6,7 @@ export class Settings {
   orderByChecked: boolean;
   orderByNew: boolean;
   countIncludesChecked: boolean;
+  tutorialShown: boolean;
 
   constructor(
     id: number,
@@ -14,7 +15,8 @@ export class Settings {
     closeModalOnAdd: boolean,
     orderByChecked: boolean,
     orderByNew: boolean,
-    countIncludesChecked: boolean
+    countIncludesChecked: boolean,
+    tutorialShown: boolean
   ) {
     this.id = id;
     this.defaultSectionName = defaultSectionName;
@@ -23,5 +25,6 @@ export class Settings {
     this.orderByChecked = orderByChecked;
     this.orderByNew = orderByNew;
     this.countIncludesChecked = countIncludesChecked;
+    this.tutorialShown = tutorialShown;
   }
 }

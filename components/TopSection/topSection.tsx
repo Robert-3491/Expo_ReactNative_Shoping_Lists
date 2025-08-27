@@ -23,9 +23,9 @@ export default function TopSection() {
   // Load active list on component mount
   useEffect(() => {
     const loadActiveList = async () => {
-      const activeMainList = mainListsContainer.getActiveMainList();
+      const activeMainList = await mainListsContainer.getActiveMainList();
       if (activeMainList) {
-        setActiveList(await activeMainList);
+        setActiveList(activeMainList);
       }
     };
 

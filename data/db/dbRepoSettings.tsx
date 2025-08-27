@@ -7,8 +7,8 @@ let settings: Settings;
 
 export const initializeSettings = async () => {
   await db.execAsync(`
-    INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked, orderByNew, countIncludesChecked) 
-    VALUES (1, 'Section', 1, 0, 1, 1, 1)
+    INSERT OR IGNORE INTO settings (id, defaultSectionName, createDefaultSection, closeModalOnAdd, orderByChecked, orderByNew, countIncludesChecked, tutorialShown) 
+    VALUES (1, 'Section', 1, 0, 1, 1, 1, 0)
   `);
   settings = (await db.getFirstAsync(
     "SELECT * FROM settings WHERE id = 1"
@@ -43,6 +43,10 @@ export const getOrderByChecked = (): boolean => {
 
 export const getCloseModalOnAdd = (): boolean => {
   return Boolean(settings.closeModalOnAdd);
+};
+
+export const getTutorialShown = (): boolean => {
+  return Boolean(settings.tutorialShown);
 };
 
 //Setters & Toggles
@@ -84,4 +88,9 @@ export const toggleCloseModalOnAdd = (): void => {
     `UPDATE settings SET closeModalOnAdd = ${!settings.closeModalOnAdd} WHERE id = 1`
   );
   settings.closeModalOnAdd = !settings.closeModalOnAdd;
+};
+
+export const setTrueTutorialShown = (): void => {
+  db.execSync(`UPDATE settings SET tutorialShown = ${true} WHERE id = 1`);
+  settings.tutorialShown = true;
 };

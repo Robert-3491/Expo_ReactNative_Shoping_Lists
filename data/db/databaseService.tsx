@@ -21,7 +21,7 @@ export const initializeDatabase = async () => {
     CREATE TABLE IF NOT EXISTS mainlists (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
-      isActive INTEGER DEFAULT 0
+      isActive INTEGER
     );
   `);
 
@@ -58,7 +58,8 @@ export const initializeDatabase = async () => {
       closeModalOnAdd INTEGER,
       orderByChecked INTEGER,
       orderByNew INTEGER,
-      countIncludesChecked INTEGER
+      countIncludesChecked INTEGER,
+      tutorialShown INTEGER
     );
   `);
 };
