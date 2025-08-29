@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Shoping_Lists_Project",
-    "slug": "Shoping_Lists_Project",
+    "name": "Nested Lists",
+    "slug": "nested-lists",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "shopinglistsproject",
-    "userInterfaceStyle": "automatic",
+    "scheme": "nestedlists",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
@@ -18,7 +18,7 @@
       },
       "edgeToEdgeEnabled": true,
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.anonymous.Shoping_Lists_Project"
+      "package": "com.anonymous.nested_lists"
     },
     "web": {
       "bundler": "metro",
@@ -31,9 +31,9 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 400,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000000"
         }
       ],
       "expo-sqlite"

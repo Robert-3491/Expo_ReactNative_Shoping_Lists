@@ -47,7 +47,7 @@ const TextInputsWrapper: React.FC<Props> = ({
 
       {addingMode === "ITEM" && (
         <TextInputModal
-          placeholder="Link - optional"
+          placeholder="Link (optional)"
           selectionColor={colors.primaryLight}
           ref={linkInputRef}
           selectTextOnFocus={true}
