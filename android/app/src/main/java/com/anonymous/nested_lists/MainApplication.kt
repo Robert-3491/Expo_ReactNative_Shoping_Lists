@@ -1,4 +1,4 @@
-package com.anonymous.Shoping_Lists_Project
+package com.anonymous.nested_lists
 
 import android.app.Application
 import android.content.res.Configuration

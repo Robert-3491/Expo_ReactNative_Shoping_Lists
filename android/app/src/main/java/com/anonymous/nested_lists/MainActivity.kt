@@ -1,4 +1,4 @@
-package com.anonymous.Shoping_Lists_Project
+package com.anonymous.nested_lists
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

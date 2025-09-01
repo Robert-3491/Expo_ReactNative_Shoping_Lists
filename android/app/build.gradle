@@ -87,9 +87,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.Shoping_Lists_Project'
+    namespace 'com.anonymous.nested_lists'
     defaultConfig {
-        applicationId 'com.anonymous.Shoping_Lists_Project'
+        applicationId 'com.anonymous.nested_lists'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
